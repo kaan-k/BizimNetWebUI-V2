@@ -1,0 +1,112 @@
+
+<nav class="hk-nav">
+    <div class="nicescroll-bar">
+        <div class="navbar-nav-wrap">
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/']">
+                        <span class="feather-icon"><i class="fa-solid fa-table-columns"></i></span>
+                        <span class="nav-link-text">{{lang.dashboard}}</span>
+                    </a>
+                </li>
+            </ul>
+            <hr class="nav-separator" class="nav-link-text"> 
+           
+            <ul class="navbar-nav flex-column">
+              
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/user']" >
+                        <span class="feather-icon"><i class="fa-solid fa-users"></i></span>
+                        <span class="nav-link-text">{{lang.users}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/offer']" >
+                        <span class="feather-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="nav-link-text">{{lang.offers}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/document-file']" >
+                        <span class="feather-icon"><i class="fa-solid fa-file"></i></span>
+                        <span class="nav-link-text">{{lang.documentFiles}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/installation-request']" >
+                        <span class="feather-icon"><i class="fa-solid fa-code-pull-request"></i></span>
+                        <span class="nav-link-text">{{lang.installationRequests}}</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="languages">
+                <a (click)="changeLanguage('tr')" class="language">
+                    <img src="/assets/img/turkey.png" alt="">
+                </a>
+                <a (click)="changeLanguage('en')" class="language" style="margin-left: 1rem;">
+                    <img src="/assets/img/united-kingdom.png" alt="">
+                </a>
+                <a (click)="changeLanguage('de')" class="language" style="margin-left: 1rem;">
+                    <img src="/assets/img/germany.png" alt="">
+                </a>
+                <a (click)="changeLanguage('fr')" class="language" style="margin-left: 1rem;">
+                    <img src="/assets/img/france.png" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+
+
+
+  
+
+  <div class="offcanvas offcanvas-start canvas-style" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header" >
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    
+    <div class="offcanvas-body">
+        <a class="navbar-brand font-weight-700"  [routerLink]="['/']">
+            <div class="navbar-logo">
+                <img src="assets/img/noimage.jpg" alt="user" class="avatar-img ">
+            </div>
+        </a>
+
+        <div class="languages">
+            <a (click)="changeLanguage('tr')" class="language">
+                <img src="/assets/img/turkey.png" alt="">
+            </a>
+            <a (click)="changeLanguage('en')" class="language" style="margin-left: 1rem;">
+                <img src="/assets/img/united-kingdom.png" alt="">
+            </a>
+            <a (click)="changeLanguage('de')" class="language" style="margin-left: 1rem;">
+                <img src="/assets/img/germany.png" alt="">
+            </a>
+            <a (click)="changeLanguage('fr')" class="language" style="margin-left: 1rem;">
+                <img src="/assets/img/france.png" alt="">
+            </a>
+        </div>
+        <ul class="navbar-nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/']">
+                    <span class="feather-icon"><i class="fa-solid fa-table-columns"></i></span>
+                    <span class="nav-link-text">{{lang.dashboard}}</span>
+                </a>
+            </li>
+        </ul>
+        <hr class="nav-separator" class="nav-link-text"> 
+       
+        <ul class="navbar-nav flex-column">
+            <li class="nav-item" >
+                <a class="nav-link" [routerLink]="['/user']" >
+                    <span class="feather-icon"><i class="fa-solid fa-users"></i></span>
+                    <span class="nav-link-text">{{lang.users}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+  </div>

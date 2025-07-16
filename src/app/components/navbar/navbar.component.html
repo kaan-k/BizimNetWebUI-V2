@@ -1,0 +1,48 @@
+
+<nav class="navbar navbar-expand-xl navbar-light fixed-tops hk-navbar">
+    <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover nav-canvas"href="#offcanvasExample" data-bs-toggle="offcanvas" aria-controls="offcanvasExample" >
+        <span class="feather-icon"> <i class="fa-solid fa-bars"></i> </span>
+      </a>
+
+      <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover nav-click" style="cursor: pointer; margin-right: 1rem;" (click)="SidebarShow()">
+        <span class="feather-icon"> <i class="fa-solid fa-bars"></i> </span>
+      </a>
+
+    <a class="navbar-brand font-weight-700 d-flex justify-content-center"  [routerLink]="['/']" >
+        <div class="navbar-logo">
+            <img src="assets/img/noimage.jpg" alt="logo" class="avatar-img ">
+        </div>
+    </a>
+  
+    <ul class="navbar-nav hk-navbar-content" >
+        <li class="nav-item dropdown dropdown-notifications">
+            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="readNotification()" >
+                <span class="feather-icon"> <i id="bell"  class="fa-solid fa-bell"></i>  </span>
+            </a>
+        </li>
+        
+
+        <li class="nav-item dropdown dropdown-authentication">
+            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-bs-toggle="dropdown" data-bs-target="#userDropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="media">
+                    <div class="media-img-wrap">
+                        <div class="avatar">
+                            <img [src]="getImagePath()" alt="user" class="avatar-img rounded-circle">
+                        </div>
+                        <span class="badge badge-success badge-indicator"></span>
+                    </div>
+                    <div class="media-body">
+
+                        <span class="user-name"> {{userName}}</span>
+
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX" id="userDropdown">
+                <a class="dropdown-item" (click)="Logout()"><i class="fa-solid fa-right-from-bracket"></i><span>{{lang.logout}}</span></a>
+            </div>
+        </li>
+        
+    </ul>
+</nav>

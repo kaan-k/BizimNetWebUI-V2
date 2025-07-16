@@ -1,0 +1,72 @@
+<div class="modal fade" id="offerUpdateModal" tabindex="-1" aria-labelledby="offerUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="offerUpdateModalLabel"> <i class="fa-solid fa-user-plus"></i>
+                    {{lang.addNewOffer}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="offerForm">
+                <form [formGroup]="offerForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-house icon-spacing icon-spacing"></i>
+                                {{lang.status}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="customerId" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseCustomers}}</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
+                                </option>
+                            </select>
+                        </div> 
+                         <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"> <i class="fa-solid fa-code-branch"></i>
+                                {{lang.status}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="status" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseStatus}}</option>
+                                <option value="Pending"> Beklemede</option>
+                                <option value="Approved"> Onaylandı</option>
+                                <option value="Rejected"> Reddedildi</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{lang.employeeName}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="employeeId" style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{lang.offerTitle}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="offerTitle" style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
+                                {{lang.offerDetails}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="offerDetails" style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
+                                {{lang.rejectionReason}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="rejectionReason" style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
+                                {{lang.totalAmount}}</label>
+                            <input type="number" class="modal-input addClass" class="form-control"
+                                formControlName="totalAmount" style="margin-bottom: 0px !important;">
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-location mt-5">
+                    <button class="button-37" (click)="updateOffer()" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-user-plus"></i> {{lang.addNewOffer}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

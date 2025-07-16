@@ -1,0 +1,67 @@
+.login-title {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10%;
+}
+
+body {
+  background: linear-gradient(to bottom, #020812, #537895);
+  color: #fff;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: space-around;
+  margin-bottom: 5%;
+}
+
+.container {
+  height: 100vh;
+}
+
+.text-center {
+  margin-top: 50px;
+}
+
+.form-control {
+  width: 300px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.custom-btn {
+  padding: 3px;
+  width: 120px;
+}
+
+.text-muted {
+  text-align: center;
+  color: #fff !important;
+}
+
+.options-panel {
+  display: flex;
+  padding-bottom: 25px;
+  padding-top: 3px;
+  justify-content: center;
+  margin-left: 2rem;
+}
+
+.options-panel a {
+  margin-right: 17%;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+}
+
+.password-button a {
+  color: white;
+  text-decoration: none;
+}
+
+.language {
+  cursor: pointer;
+}

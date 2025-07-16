@@ -1,0 +1,15 @@
+.breadcrumb {
+
+    border-bottom: 1px solid;
+    border-radius: 0;
+    padding: 12px 15px;
+    border-color: rgba(50, 65, 72, 0.05);
+}
+
+.breadcrumb-item {
+    font-size: 14px;
+}
+
+.breadcrumb-item > a {
+    color: rgba(50, 65, 72, 0.5);
+}

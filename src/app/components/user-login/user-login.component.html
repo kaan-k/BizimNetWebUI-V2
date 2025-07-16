@@ -1,0 +1,36 @@
+<body>
+  <div class="container-login d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+      <div>
+      </div> 
+      <div class="options-panel">
+        <h2>{{lang.personelLogin}} </h2>
+      </div>
+      <div class="languages">
+        <a (click)="changeLanguage('tr')" class="language">
+          <img src="/assets/img/turkey.png" alt="">
+        </a>
+        <a (click)="changeLanguage('en')" class="language" style="margin-left: 1rem;">
+          <img src="/assets/img/united-kingdom.png" alt="">
+        </a>
+        <a (click)="changeLanguage('de')" class="language" style="margin-left: 1rem;">
+          <img src="/assets/img/germany.png" alt="">
+        </a>
+        <a (click)="changeLanguage('fr')" class="language" style="margin-left: 1rem;">
+          <img src="/assets/img/france.png" alt="">
+      </a>
+      </div>
+      <form [formGroup]="loginForm">
+        <input type="email" id="inputEmail" formControlName="email" class="form-control mb-2"
+          placeholder="{{lang.email}}" required autofocus>
+        <input type="password" id="inputPassword" class="form-control mb-3" placeholder="{{lang.password}}" required
+          formControlName="password">
+        <div class="button-group">
+          <button class="button-37" type="submit" (click)="login()">{{lang.signIn}}</button>
+
+        </div>
+      </form>
+      <p class="mt-5 mb-3 text-muted">&copy; BizimNet</p>
+    </div>
+  </div>
+</body>

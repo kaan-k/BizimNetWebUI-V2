@@ -1,0 +1,13 @@
+.modalSelect{
+    padding-left: 0px !important;
+}
+.chooseLabel{
+    font-weight: bold !important;
+}
+.chooseSelect{
+    border: none !important;
+    border-bottom:1px solid black !important ;
+}
+.modal-right{
+    padding-right: 0px !important;
+}

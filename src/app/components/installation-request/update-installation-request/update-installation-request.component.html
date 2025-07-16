@@ -1,0 +1,68 @@
+<div class="modal fade" id="installationRequestUpdateModal" tabindex="-1" aria-labelledby="installationRequestUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="installationRequestUpdateModalLabel"> <i class="fa-solid fa-user-plus"></i>
+                    {{lang.updateInstallationRequest}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="installationRequestForm">
+                <form [formGroup]="installationRequestForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-person"></i>
+                                {{lang.status}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="customerId" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseCustomers}}</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{lang.status}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="offerId" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseOffer}}</option>
+                                <option *ngFor="let offer of offers" [value]="offer.id"> {{offer.offerTitle}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
+                                {{lang.assignedEmployeeName}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="assignedEmployeeId" style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-comment"></i>
+                                {{lang.installationNote}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="installationNote" style="margin-bottom: 0px !important;">
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel">{{lang.isAssigned}}</label><br>
+                            <label class="switch">
+                                <input type="checkbox" formControlName="isAssigned">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel">{{lang.isCompleted}}</label><br>
+                            <label class="switch">
+                                <input type="checkbox" formControlName="isCompleted">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-location mt-5">
+                    <button class="button-37" (click)="updateInstallationRequest()" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-user-plus"></i> {{lang.updateInstallationRequest}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
