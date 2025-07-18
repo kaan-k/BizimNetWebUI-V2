@@ -1,4 +1,24 @@
 export interface ILanguage {
+  DeviceUpdate: string;
+  updateServicing:string
+addNewServicing: any;
+  trackingId: string;
+  lastAction: string;
+  servicingName: string;
+chooseEmployee: any;
+    servicings: any;
+  servicingTitle: string;
+  servicingDetails: string;
+  markAsCompleted: string;
+  markAsInProgress: string;
+    devices: any;
+chooseDeviceType: any;
+  addNewDevice: string;
+  updateDevice: string;
+  deviceName: string;
+  deviceType: string;
+  anyDeskId: string;
+  publicIp: string;
 chooseOffer: any;
   updateInstallationRequest: string;
 addNewInstallationReqest: any;

@@ -1,0 +1,55 @@
+<div class="modal fade" id="servicingDeviceAddModal" tabindex="-1" aria-labelledby="servicingDeviceAddModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="servicingDeviceAddModalLabel"> <i class="fa-solid fa-user-plus"></i>
+                    {{lang.updateDevice}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="serviceForm">
+                <form [formGroup]="serviceForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect mb-3">
+                            <label class="chooseLabel">
+                                <i class="fa-solid fa-microchip"></i> {{lang.devices}}
+                            </label>
+                            <select class="form-select chooseSelect" style="font: small-caption !important;"
+                                formControlName="deviceIds">
+                                <option value="" disabled selected>{{lang.chooseDeviceType}}</option>
+                                <option *ngFor="let device of devices" [value]="device.id">
+                                    {{device.name}}
+                                </option>
+                            </select>
+                        </div>
+                         <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect"
+                                style="margin-top: 24px;">
+                                <button class="btn btn-sm" type="button" (click)="addDeviceId()"><i
+                                        class="fa-solid fa-server"></i> {{lang.addNewDevice}}
+                                </button>
+                            </div>
+
+                        <div class="col-lg-6 col-md-6 col-xl-6" *ngFor="let device of selectedDevices; let i=index">
+                            <div class="task-number">
+                                <button class="delete-btn" type="button" (click)="removeDeviceId(device.id)">
+                                    <div class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </div>
+                                </button>
+                                <div class="name">
+                                    <label class="chooseLabel"><i class="fa-solid fa-server"></i>
+                                        {{device.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-location mt-4">
+                    <button type="button" class="button-4" data-bs-dismiss="modal">{{lang.cancel}}</button>
+                    <a (click)="updateDevice()" class="button-20"><i class="fa-regular fa-pen-to-square"></i>
+                        {{lang.update}} </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="modal fade" id="servicingAddModal" tabindex="-1" aria-labelledby="servicingAddModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="servicingAddModalLabel"> <i class="fa-solid fa-user-plus"></i>
+                    {{lang.addNewServicing}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="servicingForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-house icon-spacing icon-spacing"></i>
+                                {{lang.customerName}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                (change)="onCustomerChange($event)" formControlName="customerId"
+                                style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseCustomers}}</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"> <i class="fa-solid fa-code-branch"></i>
+                                {{lang.status}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="status" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseStatus}}</option>
+                                <option value="Pending"> Pending</option>
+                                <option value="IProgress"> IProgress</option>
+                                <option value="Completed"> Completed</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2 left">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{lang.servicingName}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control" formControlName="name"
+                                style="margin-bottom: 0px !important;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect mb-3">
+                            <label class="chooseLabel">
+                                <i class="fa-solid fa-microchip"></i> {{lang.devices}}
+                            </label>
+                            <select class="form-select chooseSelect" style="font: small-caption !important;"
+                                formControlName="deviceIds">
+                                <option value="" disabled selected>{{lang.chooseDeviceType}}</option>
+                                <option *ngFor="let device of devices" [value]="device.id">
+                                    {{device.name}}
+                                </option>
+                            </select>
+                            <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect"
+                                style="margin-top: 24px;">
+                                <button class="btn btn-sm" type="button" (click)="addDeviceId()"><i class="fa-solid fa-server"></i> {{lang.addNewDevice}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-xl-6" *ngFor="let device of selectDevices; let i=index">
+                            <div class="task-number">
+                                <button class="delete-btn" type="button" (click)="removeDeviceId(device.id)">
+                                    <div class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </div>
+                                </button>
+                                <div class="name">
+                                    <label class="chooseLabel"><i class="fa-solid fa-server"></i> {{device.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-location mt-5">
+                    <button class="button-37" (click)="addServicing()" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-user-plus"></i> {{lang.addNewServicing}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

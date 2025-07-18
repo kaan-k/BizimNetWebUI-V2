@@ -1,6 +1,26 @@
 import { ILanguage } from "./ILanguage";
 
 export class EN  implements ILanguage {
+    DeviceUpdate: string= "Device Update";
+    updateServicing: string = "Update Servicing";
+    addNewServicing: any = "Add New Servicing";
+    trackingId: string = "Tracking ID";
+    lastAction: string = "Last Action";
+    servicingName: string = "Servicing Name";
+    chooseEmployee: any = "Choose Employee";
+    servicings: any= "Servicings";
+    servicingTitle: string= "Servicing Title";
+    servicingDetails: string= "Servicing Details";
+    markAsCompleted: string= "Mark As Completed";
+    markAsInProgress: string= "Mark As In Progress";
+    devices: any= "Devices";
+    chooseDeviceType: any= "Choose Device Type";
+    addNewDevice: string= "Add New Device";
+    updateDevice: string= "Update Device";
+    deviceName: string= "Device Name";
+    deviceType: string= "Device Type";
+    anyDeskId: string= "AnyDesk ID";
+    publicIp: string= "Public IP";
     chooseOffer: any= "Choose Offer";
     updateInstallationRequest: string= "Update Installation Request";
     addNewInstallationReqest: any= "Add New Installation Request";
