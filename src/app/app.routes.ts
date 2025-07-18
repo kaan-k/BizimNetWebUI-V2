@@ -5,11 +5,14 @@ import { UserLoginComponent } from './components/user-login/user-login.component
 import { loginGuard } from './guards/login.guard';
 import { ILanguage } from '../assets/locales/ILanguage';
 import { Languages } from '../assets/locales/language';
-import { LayoutComponent } from './components/layout/layout.component';
+import {LayoutComponent } from './components/layout/layout.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { OfferComponent } from './components/offer/offer.component';
 import { DocumentFileComponent } from './components/document-file/document-file.component';
 import { InstallationRequestComponent } from './components/installation-request/installation-request.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DeviceComponent } from './components/device/device.component';
+import { ServicingComponent } from './components/servicing/servicing.component';
 
 var lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
 
@@ -21,6 +24,9 @@ if (lang == undefined) {
 const authRoutes = [
     { path: "user-login", component: UserLoginComponent },
 ];
+const dashboardRoutes = [
+    { path: "", component: DashboardComponent, canActivate: [loginGuard],data:{breadcrumb:lang.dashboard} },
+];
 
 
 const humanRoutes =[
@@ -29,6 +35,8 @@ const humanRoutes =[
     { path: "offer", component: OfferComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.offers}},
     { path: "document-file", component: DocumentFileComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.documentFiles}},
     { path: "installation-request", component: InstallationRequestComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.installationRequests}},
+    { path: "device", component: DeviceComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.devices}},
+    { path: "servicing", component: ServicingComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.servicings}},
 ]
 
 
@@ -43,6 +51,7 @@ export const routes: Routes = [
         path: "",
         component: LayoutComponent,
         children: [
+            ...dashboardRoutes,
             ...humanRoutes,
         ],
     },

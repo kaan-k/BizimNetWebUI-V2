@@ -9,4 +9,5 @@ export interface InstallationRequest{
     isAssigned:boolean
     isCompleted:boolean
     installationNote:string
+    date:Date
 } 

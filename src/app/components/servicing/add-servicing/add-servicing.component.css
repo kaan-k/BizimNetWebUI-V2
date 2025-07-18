@@ -1,0 +1,30 @@
+ 
+.task-number {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .delete-btn, .name {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .delete-btn {
+    background: none;
+    border: none;
+  }
+  
+  .delete-btn .icon {
+    color: #333;
+    font-size: 20px;
+    transition: color 0.3s ease; 
+  }
+  
+  .delete-btn:hover .icon {
+    color: red; 
+  } 
+  
+  .delete-btn {
+    display: flex;
+    align-items: center; 
+  }
