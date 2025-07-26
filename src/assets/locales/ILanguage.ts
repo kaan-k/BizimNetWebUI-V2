@@ -1,4 +1,8 @@
 export interface ILanguage {
+addNewDocumentFile: any;
+pleaseenterpdftypefile: any;
+docuentName: any;
+chooseDepartments: any;
   DeviceUpdate: string;
   updateServicing:string
 addNewServicing: any;

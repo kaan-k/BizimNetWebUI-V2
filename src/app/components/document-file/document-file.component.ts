@@ -8,11 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { CellClickedEvent, ColDef, ColGroupDef, GridOptions, GridReadyEvent, SideBarDef } from 'ag-grid-community';
 import { DocumentFile } from '../../models/documentFiles/documentFile';
 import { AgGridModule } from 'ag-grid-angular';
+import { NavbarDocumentFileComponent } from './navbar-document-file/navbar-document-file.component';
+import { AddDocumentFileComponent } from './add-document-file/add-document-file.component';
+import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
 
 @Component({
   selector: 'app-document-file',
   standalone: true,
-  imports: [CommonModule,AgGridModule],
+  imports: [CommonModule,AgGridModule,NavbarDocumentFileComponent,AddDocumentFileComponent,UpdateDocumentFileComponent],
   templateUrl: './document-file.component.html',
   styleUrl: './document-file.component.css'
 })
@@ -29,10 +32,8 @@ protected gridOptions: GridOptions = {
   
     public columnDefs: (ColDef | ColGroupDef)[] = [
       { field: 'offerId', headerName: this.lang.offerName, unSortIcon: true, },
-      { field: 'personeId', headerName: this.lang.personName, unSortIcon: true, },
       { field: 'departmentId', headerName: this.lang.departmentName, unSortIcon: true },
-      { field: 'documentName', headerName: this.lang.documentName, unSortIcon: true },
-      { field: 'documentFullName', headerName: this.lang.documentFullName, unSortIcon: true },
+      { field: 'documentName', headerName: this.lang.documentName, unSortIcon: true }, 
       { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
       { field: 'lastModifiedAt', headerName: this.lang.lastModifiedAt, unSortIcon: true },
       {
@@ -60,7 +61,7 @@ protected gridOptions: GridOptions = {
           return 'Update';
         },
         cellRenderer: () => {
-          return `<i class="fa-solid fa-pen"style="cursor:pointer;opacity:0.7; font-size:20px;" data-bs-toggle="modal" data-bs-target="#updateModal"></i>`;
+          return `<i class="fa-solid fa-pen"style="cursor:pointer;opacity:0.7; font-size:20px;" data-bs-toggle="modal" data-bs-target="#documentFileUpdateModal"></i>`;
         },
         onCellClicked: (event: CellClickedEvent) => {
           this.getById(event.data.id)
@@ -106,14 +107,12 @@ protected gridOptions: GridOptions = {
   }
 
   deleteDocumentFile(id: string) {
-    if (this.documentFileDelete) {
       this.openDialog().afterClosed().subscribe(async result => {
         if (!result) {
           return
         }
         this.documentFileComponentService.deleteDocumentFile(id, () => { this.getAllDocumentFile() })
       })
-    }
   }
   openDialog() {
     return this.dialog.open(DocumentFileDeleteTemplate, {

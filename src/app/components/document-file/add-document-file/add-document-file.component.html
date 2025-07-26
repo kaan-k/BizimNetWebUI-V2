@@ -1,1 +1,53 @@
-<p>add-document-file works!</p>
+<div class="modal fade" id="documentFileAddModal" tabindex="-1" aria-labelledby="documentFileAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="documentFileAddModalLabel"> <i class="fa-solid fa-file"></i>
+                    {{lang.addNewDocumentFile}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="documentFileForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-building"></i>
+                                {{lang.departmentName}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="departmentId" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseDepartments}}</option>
+                                <option *ngFor="let department of departments" [value]="department.id">
+                                    {{department.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{lang.offerName}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="offerId" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{lang.chooseOffer}}</option>
+                                <option *ngFor="let offer of offers" [value]="offer.id"> {{offer.offerTitle}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2 left">
+                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
+                                {{lang.docuentName}}</label>
+                            <input type="text" class="modal-input addClass" class="form-control"
+                                formControlName="documentName" style="margin-bottom: 0px !important;">
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper mt-4" style="margin-top: 0px !important;">
+                            <label class="chooseLabel">{{lang.pleaseenterpdftypefile}}</label>
+                            <input type="file" style="height: 40px !important" class="form-control-file" name="file"
+                                (change)="onFileSelected($event)" required>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-location mt-5">
+                    <button class="button-37" (click)="onSubmit()" data-bs-dismiss="modal"><i class="fa-solid fa-file"></i> {{lang.addNewDocumentFile}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
