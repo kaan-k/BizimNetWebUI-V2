@@ -30,8 +30,13 @@ export class DocumentFileComponentService {
       this.toastrService.error(error.error)
     })
   }
-  async addDocumentFile(DocumentFile: DocumentFile, callBackfunction?: () => void) {
-    const observable = await this.documentFileService.addDocumentFile(DocumentFile)
+  async addDocumentFile(documentFile: DocumentFile, callBackfunction?: () => void) {
+    const formData = new FormData();
+    formData.append('offerId', documentFile.offerId);
+    formData.append('documentName', documentFile.documentName);
+    formData.append('departmentId', documentFile.departmentId);
+    formData.append('file', documentFile.file);
+    const observable = await this.documentFileService.addDocumentFile(formData)
     const promiseData = firstValueFrom(observable)
     promiseData.then(response => {
       this.toastrService.success(response.message)
@@ -40,8 +45,15 @@ export class DocumentFileComponentService {
       this.toastrService.error(error.error)
     })
   }
-  async updateDocumentFile(DocumentFile: DocumentFile, callBackfunction?: () => void) {
-    const observable = await this.documentFileService.updateDocumentFile(DocumentFile)
+  async updateDocumentFile(documentFile: DocumentFile, callBackfunction?: () => void) {
+    const formData = new FormData();
+    formData.append('id', documentFile.id);
+    formData.append('offerId', documentFile.offerId);
+    formData.append('documentName', documentFile.documentName);
+    formData.append('documentPath', documentFile.documentPath);
+    formData.append('departmentId', documentFile.departmentId);
+    formData.append('file', documentFile.file);
+    const observable = await this.documentFileService.updateDocumentFile(formData)
     const promiseData = firstValueFrom(observable)
     promiseData.then(response => {
       this.toastrService.success(response.message)

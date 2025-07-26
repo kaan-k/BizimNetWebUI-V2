@@ -1,6 +1,10 @@
 import { ILanguage } from "./ILanguage";
 
 export class TR implements ILanguage {
+    addNewDocumentFile: any= "Yeni Belge Ekle";
+    pleaseenterpdftypefile: any= "Lütfen PDF türü dosyası girin";
+    docuentName: any= "Belge Adı";
+    chooseDepartments: any= "Departmanları Seçin";
     DeviceUpdate: string= "Cihaz Güncelle";
     updateServicing: string = "Servisi Güncelle";
     addNewServicing: any = "Yeni Servis Ekle";

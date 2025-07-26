@@ -12,12 +12,12 @@ import { SingleResponseModel } from '../../models/singleResponseModel';
 export class DocumentFileService extends BizimNetHttpClientService {
   private _controller = "DocumentFileUpload";
 
-  addDocumentFile(DocumentFile: DocumentFile) {
+  addDocumentFile(DocumentFile: any) {
     const observable = this.post<ResponseModel | DocumentFile>({ controller: this._controller, action: "Add" }, DocumentFile) as Observable<ResponseModel>
     return observable
   }
 
-  updateDocumentFile(DocumentFile: DocumentFile) {
+  updateDocumentFile(DocumentFile: any) {
     const observable = this.post<ResponseModel | DocumentFile>({ controller: this._controller, action: "Update" }, DocumentFile) as Observable<ResponseModel>
     return observable
   }
@@ -29,7 +29,7 @@ export class DocumentFileService extends BizimNetHttpClientService {
     return this.get<ListResponseModel<DocumentFile>>({ controller: this._controller, action: "GetAll" })
   }
   getById(id: string) {
-    return this.get<SingleResponseModel<DocumentFile>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })
+    return this.get<SingleResponseModel<DocumentFile>>({ controller: this._controller, action: "GetByDocument", queryString: `id=${id}` })
   }
   downloadDocument(id: string): Observable<Blob> {
     const observable=this.get<Blob>({controller:this._controller,action:"DownloadDocument/"+`${id}`,responseType:'blob'})

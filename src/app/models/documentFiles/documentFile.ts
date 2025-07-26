@@ -1,12 +1,9 @@
 export interface DocumentFile{
     id:string
-    offerId:string
-    personeId:string
-    departmentId:string
-    downloaderIds:string[]
+    offerId:string 
+    departmentId:string 
     documentName:string
-    documentPath:string
-    documentFullName:string
+    documentPath:string 
     createdAt:Date
     lastModifiedAt:Date
     file:File

@@ -1,6 +1,10 @@
 import { ILanguage } from "./ILanguage";
 
 export class EN  implements ILanguage {
+    addNewDocumentFile: any= "Add New Document File";
+    pleaseenterpdftypefile: any= "Please enter PDF type file";
+    docuentName: any= "Document Name";
+    chooseDepartments: any= "Choose Departments";
     DeviceUpdate: string= "Device Update";
     updateServicing: string = "Update Servicing";
     addNewServicing: any = "Add New Servicing";
