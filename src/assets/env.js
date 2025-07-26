@@ -6,10 +6,10 @@
   
       // window["env"]["allowedDomains"] = [window.location.hostname +":2083"];
 
-    var apiImageUrl = "https://localhost:7129/"
-    window["env"]["apiUrl"] = "https://localhost:7129/api/";
+    var apiImageUrl = "https://localhost:44391/"
+    window["env"]["apiUrl"] = "https://localhost:44391/api/";
   
-    window["env"]["allowedDomains"] = ["localhost:7129"];
+    window["env"]["allowedDomains"] = ["localhost:44391"];
 
 
 
