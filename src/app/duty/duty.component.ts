@@ -13,8 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { DutyComponentService } from '../services/component/duty-component.service';
 import { MatButtonModule } from '@angular/material/button';
 
-// ✅ Import UpdateDutyComponent (standalone)
 import { UpdateDutyComponent } from './update-duty/update-duty.component';
+import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component'; 
+import { AddDutyComponent } from './add-duty/add-duty.component';
 
 @Component({
   selector: 'app-duty',
@@ -27,7 +28,9 @@ import { UpdateDutyComponent } from './update-duty/update-duty.component';
     MatFormFieldModule,
     MatDialogModule,
     MatButtonModule,
-    UpdateDutyComponent // ✅ Added here
+    NavbarDutyComponent, // ✅ Added here
+    UpdateDutyComponent,
+    AddDutyComponent
   ],
   templateUrl: './duty.component.html',
   styleUrl: './duty.component.css'

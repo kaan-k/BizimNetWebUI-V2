@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form [formGroup]="dutyForm">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                        <!-- <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
                             <label class="chooseLabel"><i class="fa-solid fa-house icon-spacing icon-spacing"></i>
                                 {{lang.status}}</label>
                             <select class="form-select chooseSelect" aria-label="Default select example"
@@ -18,7 +18,7 @@
                                 <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
                                 </option>
                             </select>
-                        </div> 
+                        </div>  -->
                          <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
                             <label class="chooseLabel"> <i class="fa-solid fa-code-branch"></i>
                                 {{lang.status}}</label>
@@ -63,7 +63,7 @@
                     </div>
                 </form>
                 <div class="btn-location mt-5">
-                    <button class="button-37" (click)="addOffer()" data-bs-dismiss="modal"><i
+                    <button class="button-37" (click)="addDuty()" data-bs-dismiss="modal"><i
                             class="fa-solid fa-user-plus"></i> {{lang.addNewOffer}}</button>
                 </div>
             </div>
