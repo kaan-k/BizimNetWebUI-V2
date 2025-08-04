@@ -1,5 +1,7 @@
 export interface ILanguage {
 addNewDocumentFile: any;
+name: any;
+description: any;
 pleaseenterpdftypefile: any;
 docuentName: any;
 chooseDepartments: any;

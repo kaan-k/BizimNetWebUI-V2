@@ -1,6 +1,8 @@
 import { ILanguage } from "./ILanguage";
 
 export class TR implements ILanguage {
+    name: "İsim";
+    description: "Açıklama";
     addNewDocumentFile: any= "Yeni Belge Ekle";
     pleaseenterpdftypefile: any= "Lütfen PDF türü dosyası girin";
     docuentName: any= "Belge Adı";

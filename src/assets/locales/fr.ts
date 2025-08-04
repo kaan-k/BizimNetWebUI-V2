@@ -1,6 +1,8 @@
 import { ILanguage } from "./ILanguage";
 
 export class FR implements ILanguage{
+    name: "any";
+    description: "any";
     addNewDocumentFile: any= "Ajouter un nouveau fichier de document";
     pleaseenterpdftypefile: any= "Veuillez entrer le type de fichier PDF";
     docuentName: any= "Nom du document";

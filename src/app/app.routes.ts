@@ -13,6 +13,7 @@ import { InstallationRequestComponent } from './components/installation-request/
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DeviceComponent } from './components/device/device.component';
 import { ServicingComponent } from './components/servicing/servicing.component';
+import { DutyComponent } from './duty/duty.component';
 
 var lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
 
@@ -37,6 +38,8 @@ const humanRoutes =[
     { path: "installation-request", component: InstallationRequestComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.installationRequests}},
     { path: "device", component: DeviceComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.devices}},
     { path: "servicing", component: ServicingComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.servicings}},
+    { path: "duty", component: DutyComponent, canActivate: [loginGuard] ,data:{breadcrumb:lang.servicings}},
+
 ]
 
 

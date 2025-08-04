@@ -26,6 +26,12 @@
                         <span class="nav-link-text">{{lang.offers}}</span>
                     </a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/duty']" >
+                        <span class="feather-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="nav-link-text">{{lang.offers}}</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" [routerLink]="['/document-file']" >
                         <span class="feather-icon"><i class="fa-solid fa-file"></i></span>
@@ -118,13 +124,52 @@
         </ul>
         <hr class="nav-separator" class="nav-link-text"> 
        
-        <ul class="navbar-nav flex-column">
-            <li class="nav-item" >
-                <a class="nav-link" [routerLink]="['/user']" >
-                    <span class="feather-icon"><i class="fa-solid fa-users"></i></span>
-                    <span class="nav-link-text">{{lang.users}}</span>
-                </a>
-            </li>
-        </ul>
+         <ul class="navbar-nav flex-column">
+              
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/user']" >
+                        <span class="feather-icon"><i class="fa-solid fa-users"></i></span>
+                        <span class="nav-link-text">{{lang.users}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/offer']" >
+                        <span class="feather-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="nav-link-text">{{lang.offers}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/document-file']" >
+                        <span class="feather-icon"><i class="fa-solid fa-file"></i></span>
+                        <span class="nav-link-text">{{lang.documentFiles}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/installation-request']" >
+                        <span class="feather-icon"><i class="fa-solid fa-code-pull-request"></i></span>
+                        <span class="nav-link-text">{{lang.installationRequests}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/customer']" >
+                        <span class="feather-icon"><i class="fa-solid fa-users"></i></span>
+                        <span class="nav-link-text">{{lang.customers}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/device']" >
+                        <span class="feather-icon"><i class="fa-solid fa-server"></i></span>
+                        <span class="nav-link-text">{{lang.devices}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/servicing']" >
+                        <span class="feather-icon"><i class="fa-solid fa-server"></i></span>
+                        <span class="nav-link-text">{{lang.servicings}}</span>
+                    </a>
+                </li>
+            </ul>
+
+
     </div>
   </div>
