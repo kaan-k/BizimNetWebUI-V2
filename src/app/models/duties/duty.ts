@@ -3,6 +3,7 @@ export interface Duty {
     name:string
     description:string
     customerId:string
+    priortiy:string
     status:string
     lastUpdated:Date
     deadline:Date

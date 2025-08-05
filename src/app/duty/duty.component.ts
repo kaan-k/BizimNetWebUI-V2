@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UpdateDutyComponent } from './update-duty/update-duty.component';
 import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component'; 
 import { AddDutyComponent } from './add-duty/add-duty.component';
+import { NavbarComponent } from "../components/navbar/navbar.component";
 
 @Component({
   selector: 'app-duty',
@@ -30,8 +31,9 @@ import { AddDutyComponent } from './add-duty/add-duty.component';
     MatButtonModule,
     NavbarDutyComponent, // ✅ Added here
     UpdateDutyComponent,
-    AddDutyComponent
-  ],
+    AddDutyComponent,
+    NavbarComponent
+],
   templateUrl: './duty.component.html',
   styleUrl: './duty.component.css'
 })
@@ -52,9 +54,13 @@ export class DutyComponent {
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true },
     { field: 'name', headerName: this.lang.name, unSortIcon: true },
     { field: 'description', headerName: this.lang.description, unSortIcon: true },
+    { field: 'deadline', headerName: this.lang.deadline, unSortIcon: true },
+    { field: 'priority', headerName: this.lang.priority, unSortIcon: true },
+
+
     {
       field: 'Update', headerName: this.lang.update, filter: false, valueGetter: () => 'Update',
-      cellRenderer: () => `<i class="fa-solid fa-pen" style="cursor:pointer;opacity:0.7;font-size:20px;" data-bs-toggle="modal" data-bs-target="#offerUpdateModal"></i>`,
+      cellRenderer: () => `<i class="fa-solid fa-pen" style="cursor:pointer;opacity:0.7;font-size:20px;" data-bs-toggle="modal" data-bs-target="#dutyUpdateModal"></i>`,
       onCellClicked: (event: CellClickedEvent) => this.getById(event.data.id)
     },
     {

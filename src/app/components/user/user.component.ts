@@ -14,11 +14,13 @@ import { UserComponentService } from '../../services/component/user/user-compone
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { changeDataTableHeight } from '../../../assets/js/main';
+import { NavbarCustomerComponent } from "../customer/navbar-customer/navbar-customer.component";
+import { NavbarUserComponent } from './navbar-user/navbar-user.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, AddUserComponent, UpdateUserComponent, AgGridModule],
+  imports: [CommonModule, AddUserComponent, UpdateUserComponent, AgGridModule,NavbarUserComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -55,8 +57,8 @@ export class UserComponent {
   };
 
   public columnDefs: (ColDef | ColGroupDef)[] = [
-    { field: 'companyName', headerName: this.lang.companyName, unSortIcon: true, },
-    { field: 'companyAddress', headerName: this.lang.companyAddress, unSortIcon: true, },
+    { field: 'firstName', headerName: this.lang.firstName, unSortIcon: true, },
+    { field: 'lastName', headerName: this.lang.lastName, unSortIcon: true, },
     { field: 'email', headerName: this.lang.email, unSortIcon: true },
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {

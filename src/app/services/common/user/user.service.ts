@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../../models/user/user';
+import { UserDto } from '../../../models/user/userDto';
 import { ResponseModel } from '../../../models/responseModel';
 import { Observable } from 'rxjs';
 import { ListResponseModel } from '../../../models/listResponseModel';
@@ -16,6 +17,12 @@ import { UserTokenModel } from '../../../models/user/userTokenModel';
 export class UserService extends BizimNetHttpClientService {
 
   private _controller = "BusinessUser"
+
+
+    Add(userDto: UserDto, p0: () => void) {
+      const observable = this.post<any>({ controller: this._controller, action: "Add" }, userDto) as Observable<ResponseModel>
+      return observable
+    }
 
   updateUser(user: User) {
     const observable = this.post<ResponseModel | User>({ controller: this._controller, action: "Update" }, user) as Observable<ResponseModel>

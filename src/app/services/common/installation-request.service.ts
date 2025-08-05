@@ -27,7 +27,7 @@ export class InstallationRequestService extends BizimNetHttpClientService {
       return observable
     }
     getAll() {
-      return this.get<ListResponseModel<InstallationRequest>>({ controller: this._controller, action: "GetAll" })
+      return this.get<ListResponseModel<InstallationRequest>>({ controller: this._controller, action: "GetAllInstallationRequestDetails" })
     }
     getById(id: string) {
       return this.get<SingleResponseModel<InstallationRequest>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })

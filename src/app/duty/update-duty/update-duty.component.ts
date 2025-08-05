@@ -7,6 +7,7 @@ import { Customer } from '../../models/customers/cusotmers';
 import { DutyComponentService } from '../../services/component/duty-component.service'; 
 import { CommonModule } from '@angular/common';
 import { CustomerComponentService } from '../../services/component/customer-component.service';
+import { create } from 'domain';
 
 @Component({
   selector: 'app-update-duty',
@@ -36,7 +37,10 @@ export class UpdateDutyComponent {
         customerId: [value.customerId],
         description: [value.description],
         id: [value.id],
-        status: [value.status]
+        priority: [value.priority],
+        name: [value.name],
+        deadline: [value.deadline],
+
       });
     }
 
