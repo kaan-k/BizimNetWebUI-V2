@@ -1,15 +1,27 @@
 import { ILanguage } from "./ILanguage";
 
 export class TR implements ILanguage {
-    name: "İsim";
-    description: "Açıklama";
-    addNewDocumentFile: any= "Yeni Belge Ekle";
-    pleaseenterpdftypefile: any= "Lütfen PDF türü dosyası girin";
-    docuentName: any= "Belge Adı";
-    chooseDepartments: any= "Departmanları Seçin";
-    DeviceUpdate: string= "Cihaz Güncelle";
-    updateServicing: string = "Servisi Güncelle";
-    addNewServicing: any = "Yeni Servis Ekle";
+    firstName: string = "İsim";
+    lastName: string = "Soyisim";
+    title: string = "Ünvan";
+    phonenumber: string = "Telefon Numarası";
+    addNewUser: string = "Yeni Kullanıcı Ekle"; // Matches the button in the navbar
+duties: string = "Görevler"; // Matches the title in the sidebar
+priority: string = "Öncelik";
+addNewDuty: string = "Yeni Görev Ekle"; // Matches the button in the navbar
+updateDuty: string = "Görevi Güncelle"; // Matches update button
+customer: string = "Müşteri"; // For customer label
+chooseCustomer: string = "Müşteri Seçin"; // Dropdown placeholder
+deadline: string = "Bitiş Tarihi"; // Deadline label
+name: string = "İsim";
+description: string = "Açıklama";
+addNewDocumentFile: string = "Yeni Belge Ekle";
+pleaseenterpdftypefile: string = "Lütfen PDF türü dosyası girin";
+docuentName: string = "Belge Adı";
+chooseDepartments: string = "Departmanları Seçin";
+DeviceUpdate: string = "Cihaz Güncelle";
+updateServicing: string = "Servisi Güncelle";
+addNewServicing: string = "Yeni Servis Ekle";
     trackingId: string = "Takip Numarası";
     lastAction: string = "Son İşlem";
     servicingName: string = "Servis Adı";

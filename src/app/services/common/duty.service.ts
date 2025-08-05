@@ -27,7 +27,7 @@ export class DutyService extends BizimNetHttpClientService {
         return observable
     }
     getAll() {
-      return this.get<ListResponseModel<Duty>>({ controller: this._controller, action: "GetAll" })
+      return this.get<ListResponseModel<Duty>>({ controller: this._controller, action: "GetAllDetails" })
     }
     getById(id: string) {
       return this.get<SingleResponseModel<Duty>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })

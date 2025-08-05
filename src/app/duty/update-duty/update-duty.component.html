@@ -2,69 +2,65 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-6" id="dutyUpdateModalLabel"> <i class="fa-solid fa-user-plus"></i>
-                    {{lang.addNewOffer}}</h1>
+                <h1 class="modal-title fs-6" id="dutyUpdateModalLabel">
+                    <i class="fa-solid fa-pen-to-square"></i> {{ lang.updateDuty }}
+                </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" *ngIf="dutyForm">
                 <form [formGroup]="dutyForm">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
-                            <label class="chooseLabel"><i class="fa-solid fa-house icon-spacing icon-spacing"></i>
-                                {{lang.status}}</label>
-                            <select class="form-select chooseSelect" aria-label="Default select example"
-                                formControlName="customerId" style="font: small-caption !important;">
-                                <option value="" disabled selected>{{lang.chooseCustomers}}</option>
-                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
-                                </option>
+
+                        <!-- Name -->
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-file-signature"></i>
+                                {{ lang.name }}</label>
+                            <input type="text" class="form-control modal-input" formControlName="name">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-align-left"></i>
+                                {{ lang.description }}</label>
+                            <input type="text" class="form-control modal-input" formControlName="description">
+                        </div>
+
+                        <!-- Customer -->
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user"></i>
+                                {{ lang.customer }}</label>
+                            <select class="form-select" formControlName="customerId">
+                                <option value="" disabled selected>{{ lang.chooseCustomer }}</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name }}</option>
                             </select>
-                        </div> 
-                         <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
-                            <label class="chooseLabel"> <i class="fa-solid fa-code-branch"></i>
-                                {{lang.status}}</label>
-                            <select class="form-select chooseSelect" aria-label="Default select example"
-                                formControlName="status" style="font: small-caption !important;">
-                                <option value="" disabled selected>{{lang.chooseStatus}}</option>
-                                <option value="Pending"> Beklemede</option>
-                                <option value="Approved"> Onaylandı</option>
-                                <option value="Rejected"> Reddedildi</option>
+                        </div>
+
+                        <!-- Deadline -->
+                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-calendar-day"></i>
+                                {{ lang.deadline }}</label>
+                            <input type="date" class="form-control modal-input" formControlName="deadline">
+                        </div>
+
+                        
+                        <div class="col-lg-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-align-left"></i> {{ lang.priority
+                                }}</label>
+                            <select class="form-select" formControlName="priority">
+                                <option value="" disabled selected>Öncelik Seçin</option>
+                                <option value="Düşük">Düşük</option>
+                                <option value="Orta">Orta</option>
+                                <option value="Yüksek">Yüksek</option>
+                                <option value="Acil">Acil</option>
                             </select>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                                {{lang.employeeName}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="employeeId" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                                {{lang.offerTitle}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="offerTitle" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                                {{lang.offerDetails}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="offerDetails" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                                {{lang.rejectionReason}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="rejectionReason" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                                {{lang.totalAmount}}</label>
-                            <input type="number" class="modal-input addClass" class="form-control"
-                                formControlName="totalAmount" style="margin-bottom: 0px !important;">
-                        </div>
+
                     </div>
                 </form>
-                <div class="btn-location mt-5">
-                    <button class="button-37" (click)="updateDuty()" data-bs-dismiss="modal"><i
-                            class="fa-solid fa-user-plus"></i> {{lang.addNewOffer}}</button>
+                <div class="btn-location mt-4">
+                    <button class="button-37" (click)="updateDuty()" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-save"></i> {{ lang.updateDuty }}
+                    </button>
                 </div>
             </div>
         </div>

@@ -6,6 +6,8 @@ import { Languages } from '../../../assets/locales/language';
 import { DutyComponentService } from '../../services/component/duty-component.service';
 import { ToastrService } from 'ngx-toastr';
 import { Duty } from '../../models/duties/duty'; 
+import { CustomerComponentService } from '../../services/component/customer-component.service'; 
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-add-duty',
@@ -17,17 +19,28 @@ import { Duty } from '../../models/duties/duty';
 export class AddDutyComponent {
   lang:ILanguage=Languages.lngs.get(localStorage.getItem("lng")); 
   dutyForm:FormGroup
+  customers: any[] = [];
   @Output() dutyEvent = new EventEmitter<any>();
-  constructor(private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder) {}
+  constructor(private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder, private customerComponentService: CustomerComponentService) {}
 
   ngOnInit() {
     this.createDutyForm();
+    this.getCustomers();
+  }
+
+   async getCustomers() {
+    return this.customers = await this.customerComponentService.getAllCustomer();
   }
   createDutyForm() {
     this.dutyForm = this.formBuilder.group({
+      name: [''],
+      companyName: [''],
+      description: [''],
       customerId: [''],
+      deadline: [''],
       details: [''],
-      status: [''], 
+      status: [''],
+      priority: [''],
     });
   }
 
@@ -35,10 +48,10 @@ export class AddDutyComponent {
     if(this.dutyForm.valid){
       const model = Object.assign({}, this.dutyForm.value)
       console.log(model);
-      if(model.details.trim() == ''){
-        this.toastrService.error(this.lang.pleaseFillİnformation)
-        return
-      }
+      // if(model.details.trim() == ''){
+      //   this.toastrService.error(this.lang.pleaseFillİnformation)
+      //   return
+      // }
       this.dutyComponentService.addDuty(model,()=>{
         this.dutyEvent.emit(true)
         this.createDutyForm()

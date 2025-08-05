@@ -1,4 +1,16 @@
 export interface ILanguage {
+firstName:any;
+lastName:any;
+title:any;
+phonenumber:any;
+addNewUser: any;
+duties:any;
+updateDuty:any;
+priority: any;
+customer:any;
+chooseCustomer: any;
+deadline: any;
+addNewDuty:any;
 addNewDocumentFile: any;
 name: any;
 description: any;

@@ -27,7 +27,7 @@
                             <select class="form-select chooseSelect" aria-label="Default select example"
                                 formControlName="customerId" style="font: small-caption !important;">
                                 <option value="" disabled selected>{{lang.chooseCustomers}}</option>
-                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.name}}
+                                <option *ngFor="let customer of customers" [value]="customer.id"> {{customer.companyName}}
                                 </option>
                             </select>
                         </div> 

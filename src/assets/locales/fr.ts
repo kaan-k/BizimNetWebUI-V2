@@ -1,6 +1,18 @@
 import { ILanguage } from "./ILanguage";
 
 export class FR implements ILanguage{
+    firstName: any;
+    lastName: any;
+    title: any;
+    phonenumber: any;
+    addNewUser: any;
+    duties: any;
+    priority: any;
+    addNewDuty: any;
+    updateDuty: any;
+    customer: any;
+    chooseCustomer: any;
+    deadline: any;
     name: "any";
     description: "any";
     addNewDocumentFile: any= "Ajouter un nouveau fichier de document";
