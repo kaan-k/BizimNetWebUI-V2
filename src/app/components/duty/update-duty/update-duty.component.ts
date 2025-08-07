@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ILanguage } from '../../../assets/locales/ILanguage'; 
-import { Languages } from '../../../assets/locales/language'; 
-import { Customer } from '../../models/customers/cusotmers'; 
-import { DutyComponentService } from '../../services/component/duty-component.service'; 
+import { ILanguage } from '../../../../assets/locales/ILanguage'; 
+import { Languages } from '../../../../assets/locales/language'; 
+import { Customer } from '../../../models/customers/cusotmers';
+import { DutyComponentService } from '../../../services/component/duty-component.service';  
 import { CommonModule } from '@angular/common';
-import { CustomerComponentService } from '../../services/component/customer-component.service';
+import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { create } from 'domain';
 
 @Component({

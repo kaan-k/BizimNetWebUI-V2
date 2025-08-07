@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ILanguage } from '../../../assets/locales/ILanguage'; 
-import { Languages } from '../../../assets/locales/language';
-import { DutyComponentService } from '../../services/component/duty-component.service';
+import { ILanguage } from '../../../../assets/locales/ILanguage';
+import { Languages } from '../../../../assets/locales/language';
+import { DutyComponentService } from '../../../services/component/duty-component.service'; 
 import { ToastrService } from 'ngx-toastr';
-import { Duty } from '../../models/duties/duty'; 
-import { CustomerComponentService } from '../../services/component/customer-component.service'; 
+import { Duty } from '../../../models/duties/duty'; 
+import { CustomerComponentService } from '../../../services/component/customer-component.service'; 
 import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
@@ -39,7 +39,7 @@ export class AddDutyComponent {
       customerId: [''],
       deadline: [''],
       details: [''],
-      status: [''],
+      status: ['Tamamlanmamış'],
       priority: [''],
     });
   }

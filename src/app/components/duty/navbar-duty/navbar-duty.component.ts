@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ILanguage } from '../../../assets/locales/ILanguage'; 
-import { Languages } from '../../../assets/locales/language'; 
+import { ILanguage } from '../../../../assets/locales/ILanguage'; 
+import { Languages } from '../../../../assets/locales/language'; 
 
 @Component({
   selector: 'app-navbar-duty',

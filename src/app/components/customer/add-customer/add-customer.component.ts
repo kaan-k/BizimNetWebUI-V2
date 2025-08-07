@@ -31,7 +31,7 @@ export class AddCustomerComponent {
       email: [''],
       phoneNumber: [''],
       address: [''],
-      country: [''],
+      country: ['Türkiye'],
       city: [''],
       customerField: [''],
       status: [''],

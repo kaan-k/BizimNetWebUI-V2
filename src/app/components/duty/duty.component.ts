@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ILanguage } from '../../assets/locales/ILanguage';
-import { Languages } from '../../assets/locales/language';
-import { Duty } from '../models/duties/duty';
+import { ILanguage } from '../../../assets/locales/ILanguage'; 
+import { Languages } from '../../../assets/locales/language'; 
+import { Duty } from '../../models/duties/duty'; 
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { GridOptions, ColDef, ColGroupDef, CellClickedEvent, SideBarDef, GridReadyEvent } from 'ag-grid-community';
-import { changeDataTableHeight } from '../../assets/js/main';
+import { changeDataTableHeight } from '../../../assets/js/main'; 
 import { AgGridAngular } from 'ag-grid-angular';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DutyComponentService } from '../services/component/duty-component.service';
+import { DutyComponentService } from '../../services/component/duty-component.service'; 
 import { MatButtonModule } from '@angular/material/button';
 
 import { UpdateDutyComponent } from './update-duty/update-duty.component';
 import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component'; 
 import { AddDutyComponent } from './add-duty/add-duty.component';
-import { NavbarComponent } from "../components/navbar/navbar.component";
+import { NavbarComponent } from '../navbar/navbar.component'; 
+import { ViewDutyComponent } from './viewDutyComponent'; 
 
 @Component({
   selector: 'app-duty',
@@ -29,10 +30,11 @@ import { NavbarComponent } from "../components/navbar/navbar.component";
     MatFormFieldModule,
     MatDialogModule,
     MatButtonModule,
-    NavbarDutyComponent, // ✅ Added here
+    NavbarDutyComponent,
     UpdateDutyComponent,
     AddDutyComponent,
-    NavbarComponent
+    ViewDutyComponent,
+
 ],
   templateUrl: './duty.component.html',
   styleUrl: './duty.component.css'
@@ -56,13 +58,32 @@ export class DutyComponent {
     { field: 'description', headerName: this.lang.description, unSortIcon: true },
     { field: 'deadline', headerName: this.lang.deadline, unSortIcon: true },
     { field: 'priority', headerName: this.lang.priority, unSortIcon: true },
+    { field: 'status', headerName: this.lang.status, unSortIcon: true },
 
-
+    {
+      field: 'markAsCompleted', headerName: this.lang.markAsCompleted, filter: false, valueGetter: (params) => {
+        return 'markAsCompleted';
+      },
+      cellRenderer: () => {
+        return `<i class="fa-solid fa-thumbs-up"style="cursor:pointer;opacity:0.7; font-size:20px;"></i>`;
+      },
+      onCellClicked: (event: CellClickedEvent) =>
+        this.markAsCompleted(event.data.id),
+    },
     {
       field: 'Update', headerName: this.lang.update, filter: false, valueGetter: () => 'Update',
       cellRenderer: () => `<i class="fa-solid fa-pen" style="cursor:pointer;opacity:0.7;font-size:20px;" data-bs-toggle="modal" data-bs-target="#dutyUpdateModal"></i>`,
       onCellClicked: (event: CellClickedEvent) => this.getById(event.data.id)
     },
+    {
+  field: 'View',
+  headerName: this.lang.view,
+  filter: false,
+  valueGetter: () => 'View',
+  cellRenderer: () =>
+    `<i class="fa-solid fa-eye" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
+  onCellClicked: (event: CellClickedEvent) => this.openViewDialog(event.data),
+},
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: () => 'Delete',
       cellRenderer: () => `<i class="fa-solid fa-trash-can" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
@@ -109,7 +130,10 @@ export class DutyComponent {
   async getById(id: string) {
     this.duty = await this.dutyComponentService.getById(id);
   }
-
+  async markAsCompleted(id: string) {
+    await this.dutyComponentService.markAsCompleted(id);
+    this.getAllDuty();
+  }
   deleteDuty(id: string) {
     this.openDialog().afterClosed().subscribe(async result => {
       if (!result) return;
@@ -123,9 +147,15 @@ export class DutyComponent {
       panelClass: 'matdialog-delete',
     });
   }
+  openViewDialog(duty: Duty) {
+  this.dialog.open(ViewDutyComponent, {
+    width: '600px',
+    data: duty,
+    panelClass: 'matdialog-view'
+  });
 }
 
-// ✅ Dialog Component for Delete Confirmation
+}
 @Component({
   selector: 'offer-delete-template',
   template: `
@@ -148,7 +178,6 @@ export class DutyDeleteTemplate {
   constructor(public dialogRef: MatDialogRef<DutyDeleteTemplate>) {}
 }
 
-// ✅ Dialog Component for Reject Reason
 @Component({
   selector: 'reject-reason-dialog',
   template: `
