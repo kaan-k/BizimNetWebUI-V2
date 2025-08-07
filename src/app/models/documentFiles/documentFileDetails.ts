@@ -1,5 +1,4 @@
-export interface DocumentFile{
-    id:string
+export interface DocumentFileDetails{
     offerId:string 
     departmentId:string 
     documentName:string

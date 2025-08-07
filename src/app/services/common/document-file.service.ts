@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ListResponseModel } from '../../models/listResponseModel';
 import { ResponseModel } from '../../models/responseModel';
 import { SingleResponseModel } from '../../models/singleResponseModel';
+import { DocumentFileDetails } from '../../models/documentFiles/documentFileDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,14 @@ export class DocumentFileService extends BizimNetHttpClientService {
     return observable
   }
   getAll() {
-    return this.get<ListResponseModel<DocumentFile>>({ controller: this._controller, action: "GetAll" })
+    return this.get<ListResponseModel<DocumentFile>>({ controller: this._controller, action: "GetAllDocumentDetails" })
   }
+
+
+  getAllDetails(){
+    return this.get<ListResponseModel<DocumentFileDetails>>({ controller: this._controller, action: "GetAllDocumentDetails" })
+  }
+
   getById(id: string) {
     return this.get<SingleResponseModel<DocumentFile>>({ controller: this._controller, action: "GetByDocument", queryString: `id=${id}` })
   }

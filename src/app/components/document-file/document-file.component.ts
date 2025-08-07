@@ -31,9 +31,10 @@ protected gridOptions: GridOptions = {
     };
   
     public columnDefs: (ColDef | ColGroupDef)[] = [
-      { field: 'offerId', headerName: this.lang.offerName, unSortIcon: true, },
-      { field: 'departmentId', headerName: this.lang.departmentName, unSortIcon: true },
       { field: 'documentName', headerName: this.lang.documentName, unSortIcon: true }, 
+      { field: 'documentType', headerName: "Belge Tipi", unSortIcon: true }, 
+      { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true }, 
+
       { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
       { field: 'lastModifiedAt', headerName: this.lang.lastModifiedAt, unSortIcon: true },
       {
@@ -98,6 +99,9 @@ protected gridOptions: GridOptions = {
     }
     async getAllDocumentFile() {
       this.rowData=await this.documentFileComponentService.getAllDocumentFile()
+    }
+    async getAllDocumentDetails() {
+      this.rowData=await this.documentFileComponentService.getAllDocumentFileDetails()
     }
     async getById(id: string) {
       this.documentFile = await this.documentFileComponentService.getById(id);

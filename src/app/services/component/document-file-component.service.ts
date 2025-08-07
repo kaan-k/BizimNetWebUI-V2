@@ -16,6 +16,11 @@ export class DocumentFileComponentService {
     const response = await firstValueFrom(observable)
     return response.data
   }
+    async getAllDocumentFileDetails() {
+    const observable = this.documentFileService.getAllDetails()
+    const response = await firstValueFrom(observable)
+    return response.data
+  }
   async getById(id: string) {
     const observable = this.documentFileService.getById(id)
     return (await firstValueFrom(observable)).data
