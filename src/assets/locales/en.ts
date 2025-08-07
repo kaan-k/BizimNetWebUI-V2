@@ -1,6 +1,7 @@
 import { ILanguage } from "./ILanguage";
 
 export class EN  implements ILanguage {
+    view: any;
     firstName: any;
     lastName: any;
     title: any;

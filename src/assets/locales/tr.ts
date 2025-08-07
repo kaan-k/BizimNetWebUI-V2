@@ -1,6 +1,7 @@
 import { ILanguage } from "./ILanguage";
 
 export class TR implements ILanguage {
+    view: string = "Görüntüle"; // Matches the button in the navbar
     firstName: string = "İsim";
     lastName: string = "Soyisim";
     title: string = "Ünvan";

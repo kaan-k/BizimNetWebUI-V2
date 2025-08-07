@@ -23,7 +23,10 @@ export class DutyComponentService {
     const response = await firstValueFrom(observable)
     return response.data
   }
-
+  async markAsCompleted(id: string) {
+    const observable = this.dutyService.markAsCompleted(id)
+    return (await firstValueFrom(observable)).data
+  }
   async deleteDuty(id:string, callBackfunction?: () => void){
     const observable = await this.dutyService.deleteDuty(id)
     const promiseData = firstValueFrom(observable)

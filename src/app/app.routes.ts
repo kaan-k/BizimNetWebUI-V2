@@ -13,7 +13,7 @@ import { InstallationRequestComponent } from './components/installation-request/
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DeviceComponent } from './components/device/device.component';
 import { ServicingComponent } from './components/servicing/servicing.component';
-import { DutyComponent } from './duty/duty.component';
+import { DutyComponent } from './components/duty/duty.component'; 
 
 var lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
 

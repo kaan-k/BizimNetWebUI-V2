@@ -5,6 +5,7 @@ title:any;
 phonenumber:any;
 addNewUser: any;
 duties:any;
+view: any;
 updateDuty:any;
 priority: any;
 customer:any;
