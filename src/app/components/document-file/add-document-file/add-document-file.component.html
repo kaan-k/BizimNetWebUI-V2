@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form [formGroup]="documentFileForm">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                        <!-- <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
                             <label class="chooseLabel"><i class="fa-solid fa-building"></i>
                                 {{lang.departmentName}}</label>
                             <select class="form-select chooseSelect" aria-label="Default select example"
@@ -19,8 +19,8 @@
                                     {{department.name}}
                                 </option>
                             </select>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                        </div> -->
+                        <!-- <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
                             <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
                                 {{lang.offerName}}</label>
                             <select class="form-select chooseSelect" aria-label="Default select example"
@@ -28,6 +28,17 @@
                                 <option value="" disabled selected>{{lang.chooseOffer}}</option>
                                 <option *ngFor="let offer of offers" [value]="offer.id"> {{offer.offerTitle}}
                                 </option>
+                            </select>
+                        </div> -->
+                         <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
+                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
+                                {{"Belge Tipi"}}</label>
+                            <select class="form-select chooseSelect" aria-label="Default select example"
+                                formControlName="documentType" style="font: small-caption !important;">
+                                <option value="" disabled selected>{{"Belge Tipi Seçin"}}</option>
+                                <option> {{"Teklif"}}</option>
+                                <option> {{"Servis"}}</option>
+                                <option> {{"Fatura"}}</option>
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xl-6 mb-2 left">
