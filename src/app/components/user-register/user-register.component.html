@@ -1,0 +1,35 @@
+<div class="container-login d-flex align-items-center justify-content-center vh-100">
+  <div class="text-center">
+    <div class="options-panel">
+      <h2>{{"Personel Kayıt"}}</h2>
+    </div>
+
+    <div class="languages">
+      <a (click)="changeLanguage('tr')" class="language">
+        <img src="/assets/img/turkey.png" alt="">
+      </a>
+      <a (click)="changeLanguage('en')" class="language" style="margin-left: 1rem;">
+        <img src="/assets/img/united-kingdom.png" alt="">
+      </a>
+      <a (click)="changeLanguage('de')" class="language" style="margin-left: 1rem;">
+        <img src="/assets/img/germany.png" alt="">
+      </a>
+      <a (click)="changeLanguage('fr')" class="language" style="margin-left: 1rem;">
+        <img src="/assets/img/france.png" alt="">
+      </a>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <input formControlName="email" type="email" class="form-control mb-2" placeholder="Email">
+      <input formControlName="password" type="password" class="form-control mb-2" placeholder="Şifre">
+      <input formControlName="firstName" class="form-control mb-2" placeholder="Ad">
+      <input formControlName="lastName" class="form-control mb-3" placeholder="Soyad">
+
+      <div class="button-group">
+        <button class="button-37" type="submit">{{"Kayıt Ol"}}</button>
+      </div>
+    </form>
+
+    <p class="mt-5 mb-3 text-muted">&copy; BizimNet</p>
+  </div>
+</div>

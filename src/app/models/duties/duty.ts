@@ -8,4 +8,6 @@ export interface Duty {
     lastUpdated:Date
     deadline:Date
     createdAt:Date
+    createdBy:string
+    completedBy:string
 }

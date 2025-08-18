@@ -59,6 +59,8 @@ export class DutyComponent {
     { field: 'deadline', headerName: this.lang.deadline, unSortIcon: true },
     { field: 'priority', headerName: this.lang.priority, unSortIcon: true },
     { field: 'status', headerName: this.lang.status, unSortIcon: true },
+    { field: 'createdBy', headerName: "Oluşturan", unSortIcon: true },
+    { field: 'completedBy', headerName: "Tamamlayan", unSortIcon: true },
 
     {
       field: 'markAsCompleted', headerName: this.lang.markAsCompleted, filter: false, valueGetter: (params) => {

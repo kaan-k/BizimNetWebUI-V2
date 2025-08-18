@@ -14,6 +14,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DeviceComponent } from './components/device/device.component';
 import { ServicingComponent } from './components/servicing/servicing.component';
 import { DutyComponent } from './components/duty/duty.component'; 
+import { UserRegisterComponent } from './components/user-register/user-register.component';
 
 var lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
 
@@ -24,6 +25,7 @@ if (lang == undefined) {
 
 const authRoutes = [
     { path: "user-login", component: UserLoginComponent },
+    { path: "user-register", component: UserRegisterComponent },
 ];
 const dashboardRoutes = [
     { path: "", component: DashboardComponent, canActivate: [loginGuard],data:{breadcrumb:lang.dashboard} },

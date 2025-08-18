@@ -1,0 +1,87 @@
+/* Container styling */
+.container-login {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(to bottom, #020812, #537895);
+  color: #fff;
+}
+
+/* Centering and spacing */
+.text-center {
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* Language icons */
+.languages {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.language {
+  cursor: pointer;
+}
+
+/* Input fields */
+.form-control {
+  width: 300px;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Input focus effect */
+.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 5%;
+}
+
+/* Register button styling */
+.button-37 {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-37:hover {
+  background-color: #0b5ed7;
+}
+
+/* Heading and text */
+.options-panel {
+  display: flex;
+  padding-bottom: 25px;
+  padding-top: 3px;
+  justify-content: center;
+  margin-left: 2rem;
+}
+
+.options-panel h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.text-muted {
+  text-align: center;
+  color: #fff !important;
+}
