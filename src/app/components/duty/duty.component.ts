@@ -1,23 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ILanguage } from '../../../assets/locales/ILanguage'; 
-import { Languages } from '../../../assets/locales/language'; 
-import { Duty } from '../../models/duties/duty'; 
+import { ILanguage } from '../../../assets/locales/ILanguage';
+import { Languages } from '../../../assets/locales/language';
+import { Duty } from '../../models/duties/duty';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { GridOptions, ColDef, ColGroupDef, CellClickedEvent, SideBarDef, GridReadyEvent } from 'ag-grid-community';
-import { changeDataTableHeight } from '../../../assets/js/main'; 
+import { changeDataTableHeight } from '../../../assets/js/main';
 import { AgGridAngular } from 'ag-grid-angular';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DutyComponentService } from '../../services/component/duty-component.service'; 
+import { DutyComponentService } from '../../services/component/duty-component.service';
 import { MatButtonModule } from '@angular/material/button';
-
+import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom } from 'rxjs';
 import { UpdateDutyComponent } from './update-duty/update-duty.component';
-import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component'; 
+import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component';
 import { AddDutyComponent } from './add-duty/add-duty.component';
-import { NavbarComponent } from '../navbar/navbar.component'; 
-import { ViewDutyComponent } from './viewDutyComponent'; 
+import { NavbarComponent } from '../navbar/navbar.component';
+import { ViewDutyComponent } from './viewDutyComponent';
 
 @Component({
   selector: 'app-duty',
@@ -35,7 +36,7 @@ import { ViewDutyComponent } from './viewDutyComponent';
     AddDutyComponent,
     ViewDutyComponent,
 
-],
+  ],
   templateUrl: './duty.component.html',
   styleUrl: './duty.component.css'
 })
@@ -45,7 +46,7 @@ export class DutyComponent {
   dutyDelete: boolean = false;
   dataLoaded: boolean = false;
 
-  constructor(private dutyComponentService: DutyComponentService, private dialog: MatDialog) {}
+  constructor(private dutyComponentService: DutyComponentService, private toastrService: ToastrService, private dialog: MatDialog) { }
 
   protected gridOptions: GridOptions = {
     pagination: true,
@@ -56,7 +57,44 @@ export class DutyComponent {
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true },
     { field: 'name', headerName: this.lang.name, unSortIcon: true },
     { field: 'description', headerName: this.lang.description, unSortIcon: true },
-    { field: 'deadline', headerName: this.lang.deadline, unSortIcon: true },
+{
+  field: 'deadline',
+  headerName: this.lang.deadline,
+  unSortIcon: true,
+  valueFormatter: params => {
+    if (!params.value) return '';
+    return new Date(params.value).toLocaleDateString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+},  {
+  field: 'createdAt',
+  headerName: "Oluşturulma Tarihi",
+  unSortIcon: true,
+  valueFormatter: params => {
+    if (!params.value) return '';
+    return new Date(params.value).toLocaleDateString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+},
+    {
+  field: 'completedAt',
+  headerName: "Tamamlanma Tarihi",
+  unSortIcon: true,
+  valueFormatter: params => {
+    if (!params.value) return '';
+    return new Date(params.value).toLocaleDateString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+},
     { field: 'priority', headerName: this.lang.priority, unSortIcon: true },
     { field: 'status', headerName: this.lang.status, unSortIcon: true },
     { field: 'createdBy', headerName: "Oluşturan", unSortIcon: true },
@@ -78,14 +116,14 @@ export class DutyComponent {
       onCellClicked: (event: CellClickedEvent) => this.getById(event.data.id)
     },
     {
-  field: 'View',
-  headerName: this.lang.view,
-  filter: false,
-  valueGetter: () => 'View',
-  cellRenderer: () =>
-    `<i class="fa-solid fa-eye" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
-  onCellClicked: (event: CellClickedEvent) => this.openViewDialog(event.data),
-},
+      field: 'View',
+      headerName: this.lang.view,
+      filter: false,
+      valueGetter: () => 'View',
+      cellRenderer: () =>
+        `<i class="fa-solid fa-eye" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
+      onCellClicked: (event: CellClickedEvent) => this.openViewDialog(event.data),
+    },
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: () => 'Delete',
       cellRenderer: () => `<i class="fa-solid fa-trash-can" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
@@ -133,16 +171,19 @@ export class DutyComponent {
     this.duty = await this.dutyComponentService.getById(id);
   }
   async markAsCompleted(id: string) {
-    await this.dutyComponentService.markAsCompleted(id);
+  try {
+    const res = await this.dutyComponentService.markAsCompleted(id);
+    if (res.success) this.toastrService.success(res.message);
+    else this.toastrService.error(res.message);
     this.getAllDuty();
-  }
+  } catch { this.toastrService.error('Bu görev zaten tamamlanmış.'); }
+}
   deleteDuty(id: string) {
     this.openDialog().afterClosed().subscribe(async result => {
       if (!result) return;
       this.dutyComponentService.deleteDuty(id, () => this.getAllDuty());
     });
   }
-
   openDialog() {
     return this.dialog.open(DutyDeleteTemplate, {
       width: '550px',
@@ -150,12 +191,12 @@ export class DutyComponent {
     });
   }
   openViewDialog(duty: Duty) {
-  this.dialog.open(ViewDutyComponent, {
-    width: '600px',
-    data: duty,
-    panelClass: 'matdialog-view'
-  });
-}
+    this.dialog.open(ViewDutyComponent, {
+      width: '600px',
+      data: duty,
+      panelClass: 'matdialog-view'
+    });
+  }
 
 }
 @Component({
@@ -177,7 +218,7 @@ export class DutyComponent {
 })
 export class DutyDeleteTemplate {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  constructor(public dialogRef: MatDialogRef<DutyDeleteTemplate>) {}
+  constructor(public dialogRef: MatDialogRef<DutyDeleteTemplate>) { }
 }
 
 @Component({
@@ -212,5 +253,5 @@ export class DutyDeleteTemplate {
 export class RejectReasonDialog {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem('lng'));
   reason: string = '';
-  constructor(public dialogRef: MatDialogRef<RejectReasonDialog>) {}
+  constructor(public dialogRef: MatDialogRef<RejectReasonDialog>) { }
 }
