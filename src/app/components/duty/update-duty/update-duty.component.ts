@@ -40,6 +40,9 @@ export class UpdateDutyComponent {
         priority: [value.priority],
         name: [value.name],
         deadline: [value.deadline],
+        createdBy: [value.createdBy],
+        completedBy: [value.completedBy],
+
 
       });
     }
