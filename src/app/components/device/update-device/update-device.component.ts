@@ -31,6 +31,7 @@ lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
   updateDeviceForm(value?:any) {
     this.deviceForm = this.formBuilder.group({
       name: [value.name],
+      id: [value.id],
       deviceType: [value.deviceType],
       customerId: [value.customerId],
       anyDeskId: [value.anyDeskId],
