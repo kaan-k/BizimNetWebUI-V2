@@ -15,6 +15,11 @@ import { DeviceComponent } from './components/device/device.component';
 import { ServicingComponent } from './components/servicing/servicing.component';
 import { DutyComponent } from './components/duty/duty.component'; 
 import { UserRegisterComponent } from './components/user-register/user-register.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+
 
 var lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
 
