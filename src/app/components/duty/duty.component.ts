@@ -57,6 +57,7 @@ export class DutyComponent {
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true },
     { field: 'name', headerName: this.lang.name, unSortIcon: true },
     { field: 'description', headerName: this.lang.description, unSortIcon: true },
+    { field: 'assignedEmployeeId', headerName: "Atanan Kişi", unSortIcon: true },
 {
   field: 'deadline',
   headerName: this.lang.deadline,

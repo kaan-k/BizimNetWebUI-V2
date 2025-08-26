@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ILanguage } from '../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../assets/locales/language';
 import { DutyComponentService } from '../../../services/component/duty-component.service'; 
+import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { ToastrService } from 'ngx-toastr';
 import { Duty } from '../../../models/duties/duty'; 
 import { CustomerComponentService } from '../../../services/component/customer-component.service'; 
@@ -20,18 +21,23 @@ export class AddDutyComponent {
   lang:ILanguage=Languages.lngs.get(localStorage.getItem("lng")); 
   dutyForm:FormGroup
   customers: any[] = [];
+  employees: any[] = [];
   @Output() dutyEvent = new EventEmitter<any>();
-  constructor(private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder, private customerComponentService: CustomerComponentService) {}
+  constructor(private userComponentService:UserComponentService,private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder, private customerComponentService: CustomerComponentService) {}
 
   ngOnInit() {
     this.createDutyForm();
     this.getCustomers();
+    this.getEmployees();
   }
 
    async getCustomers() {
     return this.customers = await this.customerComponentService.getAllCustomer();
   }
-  createDutyForm() {
+  async getEmployees() {
+    return this.employees = await this.userComponentService.getAllUser();
+  }
+    createDutyForm() {
     this.dutyForm = this.formBuilder.group({
       name: [''],
       companyName: [''],
@@ -40,6 +46,7 @@ export class AddDutyComponent {
       deadline: [''],
       details: [''],
       status: ['Tamamlanmamış'],
+      assignedEmployeeId: [''],
       priority: [''],
     });
   }
