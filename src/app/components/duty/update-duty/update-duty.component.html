@@ -41,6 +41,14 @@
                                 {{ lang.deadline }}</label>
                             <input type="date" class="form-control modal-input" formControlName="deadline">
                         </div>
+                        <div class="col-lg-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user"></i> {{ "Atanacak Personel" }}</label>
+                            <select class="form-select" formControlName="assignedEmployeeId">
+                                <option value="" disabled selected>{{ "Personel Seç" }}</option>
+                                <option *ngFor="let employee of employees" [value]="employee.id">{{ employee.firstName }}
+                                </option>
+                            </select>
+                        </div>
 
                         
                         <div class="col-lg-6 mb-2">

@@ -7,6 +7,7 @@ import { Customer } from '../../../models/customers/cusotmers';
 import { DutyComponentService } from '../../../services/component/duty-component.service';  
 import { CommonModule } from '@angular/common';
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
+import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { create } from 'domain';
 
 @Component({
@@ -25,11 +26,14 @@ export class UpdateDutyComponent {
       this.updateDutyForm(value);
     }
     customers:Customer[];
+    employees: any[] = [];
+
     @Output() dutyEvent = new EventEmitter<any>();
-    constructor(private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder,private customerComponentService:CustomerComponentService) {}
+    constructor(private userComponentService:UserComponentService,private dutyComponentService:DutyComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder,private customerComponentService:CustomerComponentService) {}
   
     ngOnInit() {
       this.getAllCustomers();
+      this.getEmployees();
     }
 
     updateDutyForm(value:any){
@@ -63,6 +67,9 @@ export class UpdateDutyComponent {
         this.toastrService.info(this.lang.pleaseFillİnformation, this.lang.error)
       }
     }
+    async getEmployees() {
+    return this.employees = await this.userComponentService.getAllUser();
+  }
   
     async getAllCustomers(){
       return this.customers= await this.customerComponentService.getAllCustomer();
