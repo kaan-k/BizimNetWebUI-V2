@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container py-3 calendar-container">
 
   <div class="d-flex align-items-center mb-3 gap-2">
     <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" class="btn">&lt;</button>
@@ -6,12 +6,14 @@
     <button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" class="btn">&gt;</button>
 
     <div class="ms-auto btn-group">
-      <button class="btn" (click)="setView(CalendarView.Month)">Ay</button>
-      <button class="btn" (click)="setView(CalendarView.Week)">Hafta</button>
-      <button class="btn" (click)="setView(CalendarView.Day)">Gün</button>
+      <button class="button-4" (click)="setView(CalendarView.Month)">Ay</button>
+      <button class="button-4" (click)="setView(CalendarView.Week)">Hafta</button>
+      <button class="button-4" (click)="setView(CalendarView.Day)">Gün</button>
     </div>
+
+    <button class="button-4" (click)="openAddDutyDialog()">+ Yeni Görev</button>
   </div>
-  <button class="btn btn-primary ms-2" (click)="addEvent()">+ Yeni Etkinlik</button>
+
   <h3 class="mb-3">{{ viewDate | calendarDate:(view + 'ViewTitle') }}</h3>
 
   <mwl-calendar-month-view
@@ -21,6 +23,7 @@
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     [weekStartsOn]="1"
+      [locale]="locale"
     (dayClicked)="dayClicked($event)"
     (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-month-view>
@@ -42,20 +45,17 @@
     (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 
-  <!-- lightweight modal -->
-  <div class="backdrop" *ngIf="showModal" (click)="closeModal()">
+  <!-- lightweight info modal (kept from earlier) -->
+  <div class="backdrop" *ngIf="showModal" (click)="closeInfoModal()">
     <div class="modal-card" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ modalData?.action }}</h5>
-        <button class="btn" (click)="closeModal()">×</button>
+      <div class="modal-header d-flex justify-content-between align-items-center">
+        <h6 class="modal-title">{{ modalData?.action }}</h6>
+        <button class="btn" (click)="closeInfoModal()">×</button>
       </div>
-      <div class="modal-body">
-        <pre>{{ modalData?.event | json }}</pre>
-      </div>
+      <div class="modal-body"><pre>{{ modalData?.event | json }}</pre></div>
       <div class="modal-footer">
-        <button class="btn" (click)="closeModal()">Kapat</button>
+        <button class="btn" (click)="closeInfoModal()">Kapat</button>
       </div>
     </div>
   </div>
-
 </div>
