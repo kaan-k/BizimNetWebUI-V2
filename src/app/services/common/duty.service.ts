@@ -8,8 +8,11 @@ import { SingleResponseModel } from '../../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class DutyService extends BizimNetHttpClientService {
+
+  private userId = localStorage.getItem('userId');
 
   private _controller = "Duty";
   
@@ -26,9 +29,14 @@ export class DutyService extends BizimNetHttpClientService {
         const observable = this.get<ResponseModel>({controller:this._controller, action: "Delete", queryString: `id=${id}` } )
         return observable
     }
-    getAll() {
-      return this.get<ListResponseModel<Duty>>({ controller: this._controller, action: "GetAllDetails" })
-    }
+    
+   getAll(userId: string) {
+  return this.get<ListResponseModel<Duty>>({
+    controller: this._controller,
+    action: "GetAllDetails",
+    queryString: `userId=${encodeURIComponent(userId)}`
+  });
+}
     markAsCompleted(id: string) {
   return this.get<SingleResponseModel<Duty>>({
     controller: this._controller,
