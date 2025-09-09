@@ -48,10 +48,10 @@ export class AddCustomerComponent {
       model.phoneNumber = model.phoneNumber.toString()
       console.log(model);
       
-      if (model.email.trim() == '') {
-        this.toastrService.error(this.lang.pleaseFillİnformation)
-        return
-      }
+      // if (model.email.trim() == '') {
+      //   this.toastrService.error(this.lang.pleaseFillİnformation)
+      //   return
+      // }
       this.customerComponentService.addCustomer(model, () => {
         this.customerEvent.emit(true)
         this.createCustomerForm()

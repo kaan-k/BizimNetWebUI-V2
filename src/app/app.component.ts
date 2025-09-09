@@ -11,5 +11,5 @@ import { CalendarComponent } from './components/calendar/calendar.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'BizimNetWebUI-V1';
+  title = 'BizimNetWebUI-V2';
 }
