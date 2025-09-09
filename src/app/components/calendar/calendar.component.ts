@@ -1,177 +1,166 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
+  Component,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { CommonModule, JsonPipe } from '@angular/common';
+import {  MonthViewDay } from 'calendar-utils';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
+import { Subject } from 'rxjs';
+
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
   CalendarView,
   CalendarMonthModule,
   CalendarWeekModule,
   CalendarDayModule,
-  CalendarEvent,
+  CalendarCommonModule, // gives you calendarDate pipe + nav directives
+  DateAdapter,
 } from 'angular-calendar';
-import { addHours } from 'date-fns';
-import { Duty } from '../../models/duties/duty';
-import { DutyComponentService } from '../../services/component/duty-component.service';
-import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
-import { DutyComponent } from '../duty/duty.component';
+import { EventColor } from 'calendar-utils';
+
+import { FormsModule } from '@angular/forms';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+const colors: Record<string, EventColor> = {
+  red: { primary: '#ad2121', secondary: '#FAE3E3' },
+  blue: { primary: '#1e90ff', secondary: '#D1E8FF' },
+  yellow: { primary: '#e3bc08', secondary: '#FDF1BA' },
+};
 
 @Component({
   selector: 'calendar-page',
   standalone: true,
-  imports: [CommonModule, CalendarMonthModule, CalendarWeekModule, CalendarDayModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
+  styles: [`
+    h3 { margin: 0 0 10px; }
+    pre { background-color: #f5f5f5; padding: 15px; }
+    /* super-lightweight fake modal */
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center; }
+    .modal-card { background:#fff; border-radius:8px; width:min(700px, 92vw); max-height: 86vh; overflow:auto; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+    .modal-header, .modal-footer { padding:.75rem 1rem; border-bottom:1px solid #eee; }
+    .modal-footer { border-top:1px solid #eee; border-bottom:none; }
+    .modal-body { padding:1rem; }
+    .btn { padding:.375rem .75rem; border:1px solid #ccc; background:#f8f9fa; border-radius:.375rem; cursor:pointer; }
+    .btn + .btn { margin-left:.5rem; }
+  `],
+  imports: [
+    CommonModule,
+    // ✅ Use NgModule API (works fine in a standalone component’s `imports`)
+    CalendarCommonModule,
+    CalendarMonthModule,
+    CalendarWeekModule,
+    CalendarDayModule,
+    FormsModule,
+    JsonPipe,],
+  providers: [
+    { provide: DateAdapter, useFactory: adapterFactory },
+  ],
 })
-export class CalendarComponent implements OnInit {
-  CalendarView = CalendarView;
+export class CalendarComponent {
+  // simple modal state (no ng-bootstrap)
+  showModal = false;
+  modalData?: { action: string; event: CalendarEvent };
+
   view: CalendarView = CalendarView.Month;
-  viewDate = new Date();
+  CalendarView = CalendarView;
+  viewDate: Date = new Date();
 
-  /** calendar data */
-  events: CalendarEvent[] = [];
-  loading = false;
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
+      onClick: ({ event }) => this.handleEvent('Edited', event),
+    },
+    {
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
+      onClick: ({ event }) => {
+        this.events = this.events.filter(i => i !== event);
+        this.handleEvent('Deleted', event);
+      },
+    },
+  ];
 
-  constructor(
-    private dutyComponentService: DutyComponentService,
-    private toastr: ToastrService,
-    private dialog: MatDialog
-  ) {}
+  refresh = new Subject<void>();
 
-  ngOnInit(): void {
-    this.loadAssignedDuties();
-  }
-
-  /** Fetch duties and map them to CalendarEvent[] */
-  private loadAssignedDuties(): void {
-    this.loading = true;
-
-    try {
-      const result = this.dutyComponentService.getAllDuty() as any;
-
-      // Works whether the service returns an Observable or a Promise:
-      if (result?.subscribe) {
-        result.subscribe({
-          next: (res: any) => this.applyDutiesResponse(res),
-          error: (err: any) => this.handleLoadError(err),
-          complete: () => (this.loading = false),
-        });
-      } else if (result?.then) {
-        (result as Promise<any>)
-          .then((res) => this.applyDutiesResponse(res))
-          .catch((err) => this.handleLoadError(err))
-          .finally(() => (this.loading = false));
-      } else {
-        // Unexpected return type
-        this.toastr.error('Görev servisi beklenmedik bir yanıt döndürdü.');
-        this.loading = false;
-      }
-    } catch (err) {
-      this.handleLoadError(err);
-      this.loading = false;
+  events: CalendarEvent[] = [
+    {
+      start: subDays(startOfDay(new Date()), 1),
+      end: addDays(new Date(), 1),
+      title: 'Neolokal Kurulum',
+      color: { ...colors['red'] },
+      actions: this.actions,
+      allDay: true,
+      resizable: { beforeStart: true, afterEnd: true },
+      draggable: true,
     }
-  }
+  ];
 
-  /** Normalize various API shapes and map to events */
-  private applyDutiesResponse(res: any): void {
-    // Common API shapes: res.data (array) OR array directly
-    const duties: Duty[] = Array.isArray(res) ? res : (res?.data ?? []);
-    this.events = duties
-      .map((d) => this.dutyToEvent(d))
-      .filter((e): e is CalendarEvent => !!e);
+  activeDayIsOpen = true;
 
-    // Optional toast
-    // this.toastr.success('Görevler yüklendi');
-  }
+  dayClicked(ev: { day: MonthViewDay<any>; sourceEvent: MouseEvent | KeyboardEvent }) {
+  const date = ev.day.date as Date;
+  const events = ev.day.events as CalendarEvent[];
 
-  private handleLoadError(err: any): void {
-    console.error('Failed to load duties', err);
-    this.toastr.error('Görevler yüklenemedi');
-    this.events = []; // still render an empty calendar
-  }
-
-  /** ==== Mapping helpers ================================================== */
-
-  private dutyToEvent(d: Duty): CalendarEvent | null {
-    try {
-      const { start, end } = this.resolveTimes(d);
-      const title = this.resolveTitle(d);
-      const color = this.resolveColor(d);
-
-      return {
-        id: (d as any).id ?? (d as any)._id,
-        title,
-        start,
-        end,
-        color,
-        allDay: false,
-        meta: { duty: d },
-        // enable these after wiring dnd/resizable libs if you want
-        draggable: false,
-        resizable: { beforeStart: false, afterEnd: false },
-      };
-    } catch (e) {
-      console.warn('Duty could not be mapped to event:', d, e);
-      return null;
-    }
-  }
-
-  /** Try typical date fields; fall back to deadline; default duration = 1h */
-  private resolveTimes(d: Duty): { start: Date; end: Date } {
-    const a: any = d as any;
-
-    // Adjust these property names to your real model
-    const startRaw =
-      a.startUtc ?? a.startDate ?? a.start ?? a.plannedDate ?? a.deadline ?? a.deadlineDate;
-    const endRaw = a.endUtc ?? a.endDate ?? a.end ?? a.plannedEndDate;
-
-    const start = startRaw ? new Date(startRaw) : new Date(); // now if missing
-    const end = endRaw ? new Date(endRaw) : addHours(start, 1); // +1h if missing
-
-    return { start, end };
-  }
-
-  private resolveTitle(d: Duty): string {
-    const a: any = d as any;
-    const base = a.title ?? a.name ?? 'Görev';
-    const assignee = a.assignedToName ?? a.employeeName ?? a.assigneeName;
-    return assignee ? `${base} — ${assignee}` : base;
-  }
-
-  private resolveColor(d: Duty): { primary: string; secondary: string } {
-    const status = ((d as any).status ?? (d as any).state ?? '').toString().toLowerCase();
-    if (status.includes('complete')) return { primary: '#28a745', secondary: '#d4edda' };
-    if (status.includes('cancel')) return { primary: '#dc3545', secondary: '#f8d7da' };
-    if (status.includes('progress')) return { primary: '#1e90ff', secondary: '#D1E8FF' };
-    return { primary: '#6c757d', secondary: '#e9ecef' }; // pending / default
-  }
-
-  /** ==== UI handlers ======================================================= */
-
-  onEventClicked({ event }: { event: CalendarEvent }): void {
-    const duty = (event.meta as any)?.duty as Duty | undefined;
-    if (!duty) return;
-    this.dialog.open(DutyComponent, {
-      data: duty,
-      width: '900px',
-      autoFocus: false,
-    });
-  }
-
-  prev(): void {
-    const d = new Date(this.viewDate);
-    if (this.view === CalendarView.Month) d.setMonth(d.getMonth() - 1);
-    else d.setDate(d.getDate() - (this.view === CalendarView.Week ? 7 : 1));
-    this.viewDate = d;
-  }
-
-  next(): void {
-    const d = new Date(this.viewDate);
-    if (this.view === CalendarView.Month) d.setMonth(d.getMonth() + 1);
-    else d.setDate(d.getDate() + (this.view === CalendarView.Week ? 7 : 1));
-    this.viewDate = d;
-  }
-
-  dayClicked(date: Date): void {
-    this.view = CalendarView.Day;
+  if (isSameMonth(date, this.viewDate)) {
+    this.activeDayIsOpen =
+      !(isSameDay(this.viewDate, date) && this.activeDayIsOpen) &&
+      events.length > 0;
     this.viewDate = date;
+  }
+}
+
+  eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent) {
+    this.events = this.events.map(i =>
+      i === event ? { ...event, start: newStart, end: newEnd } : i
+    );
+    this.handleEvent('Dropped or resized', event);
+  }
+
+  handleEvent(action: string, event: CalendarEvent) {
+    this.modalData = { event, action };
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  addEvent() {
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(new Date()),
+        color: colors['red'],
+        draggable: true,
+        resizable: { beforeStart: true, afterEnd: true },
+      },
+    ];
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter(e => e !== eventToDelete);
+  }
+
+  setView(view: CalendarView) {
+    this.view = view;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
   }
 }

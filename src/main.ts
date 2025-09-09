@@ -9,6 +9,11 @@ import { DatePipe } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { provideToastr } from 'ngx-toastr';
 
+import { registerLocaleData } from '@angular/common';
+import localeTr from '@angular/common/locales/tr';
+
+registerLocaleData(localeTr);
+
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
