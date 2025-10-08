@@ -26,6 +26,7 @@ import { Duty } from '../../../models/duties/duty';
 
 import { DutyComponentService } from '../../../services/component/duty-component.service';
 import { AddDutyDialogComponent } from './add-duty-dialog.component';
+import { AddDutyQuickDialogComponent } from './add-duty-quick-dialog.component';
 
 type DutyEvent = CalendarEvent<{ duty: Duty }>;
 registerLocaleData(localeTr);
@@ -87,7 +88,7 @@ export class AddCalendarComponent {
     const safeEnd = endOfDay(start);
 
     return {
-      title: d.name ?? '(İsimsiz Görev)',
+      title: d.customerId + d.name,
       start: safeStart,
       end: safeEnd,
       allDay: true,
@@ -140,7 +141,10 @@ export class AddCalendarComponent {
       width: '700px',
       data: { presetDate }
     });
+  
 
+    
+    
     ref.afterClosed().subscribe(async (result) => {
       if (!result) return;
 
@@ -157,5 +161,33 @@ export class AddCalendarComponent {
         this.toast.error(this.lang.error);
       }
     });
+  }
+
+  
+    openAddQuickDutyDialog(preset?: Date) {
+  const presetDate = preset ? preset.toISOString().substring(0,10) : '';
+  const ref = this.dialog.open(AddDutyQuickDialogComponent, {
+    width: '700px',
+    data: { presetDate }
+  });
+
+  ref.afterClosed().subscribe(async (result) => {
+    if (!result) return;
+
+    try {
+        await new Promise<void>((resolve) => this.dutySvc.addDutyCompleted(result, () => resolve())); // same callback pattern you use
+        this.toast.success(this.lang.addNewDuty);
+
+        this.events = [...this.events, this.toEvent({ ...result } as Duty)];
+        this.refresh.next();
+
+
+
+      } catch {
+        this.toast.error(this.lang.error);
+      }
+    });
+
+    
   }
 }

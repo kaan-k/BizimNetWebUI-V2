@@ -20,6 +20,10 @@ export class DutyService extends BizimNetHttpClientService {
         const observable = this.post<ResponseModel | Duty>({controller:this._controller, action: "Add"}, Duty) as Observable<ResponseModel>
         return observable
     }
+     addDutyCompleted(Duty: Duty){
+        const observable = this.post<ResponseModel | Duty>({controller:this._controller, action: "AddCompleted"}, Duty) as Observable<ResponseModel>
+        return observable
+    }
     
     updateDuty(Duty: Duty){
         const observable = this.post<ResponseModel | Duty>({controller:this._controller, action: "Update"}, Duty) as Observable<ResponseModel>

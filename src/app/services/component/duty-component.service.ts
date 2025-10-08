@@ -47,6 +47,16 @@ export class DutyComponentService {
         this.toastrService.error(error.error)
     })
   }
+  async addDutyCompleted(Duty: Duty, callBackfunction?: () => void){
+    const observable = await this.dutyService.addDutyCompleted(Duty)
+    const promiseData = firstValueFrom(observable)
+    promiseData.then(response=>{
+        this.toastrService.success(response.message)
+        callBackfunction && callBackfunction()
+    }).catch(error=>{
+        this.toastrService.error(error.error)
+    })
+  }
   async updateDuty(Duty:Duty, callBackfunction?: () => void){
     const observable = await this.dutyService.updateDuty(Duty)
     const promiseData = firstValueFrom(observable)
