@@ -88,7 +88,7 @@ export class AddCalendarComponent {
     const safeEnd = endOfDay(start);
 
     return {
-      title: d.customerId + d.name,
+      title: d.customerId + ' ' + d.name,
       start: safeStart,
       end: safeEnd,
       allDay: true,
