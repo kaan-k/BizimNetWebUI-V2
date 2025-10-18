@@ -12,11 +12,12 @@ import { Customer } from '../../models/customers/cusotmers';
 import { NavbarCustomerComponent } from './navbar-customer/navbar-customer.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { UpdateCustomerComponent } from './update-customer/update-customer.component';
+import {ViewCustomerComponent} from './viewCustomerComponent';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [CommonModule, AgGridAngular, NavbarCustomerComponent,AddCustomerComponent,UpdateCustomerComponent],
+  imports: [CommonModule, AgGridAngular, NavbarCustomerComponent,AddCustomerComponent,UpdateCustomerComponent, ViewCustomerComponent,MatDialogModule,MatButtonModule],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })
@@ -29,6 +30,9 @@ export class CustomerComponent {
   protected gridOptions: GridOptions = {
       pagination: true,
       paginationPageSize: 50,
+       onCellDoubleClicked: (event: any) => {
+    this.openViewDialog(event.data);
+  },
     };
   
     public columnDefs: (ColDef | ColGroupDef)[] = [
@@ -38,6 +42,7 @@ export class CustomerComponent {
       { field: 'phoneNumber', headerName: this.lang.phoneNumber, unSortIcon: true },
       { field: 'address', headerName: this.lang.address, unSortIcon: true },
       { field: 'country', headerName: this.lang.country, unSortIcon: true },
+      { field: 'taxid', headerName: this.lang.taxid, unSortIcon: true },
       { field: 'city', headerName: this.lang.city, unSortIcon: true },
       { field: 'customerField', headerName: this.lang.customerFields, unSortIcon: true },
       { field: 'status', headerName: this.lang.status, unSortIcon: true },
@@ -121,7 +126,15 @@ deleteCustomer(id: string) {
       panelClass: 'matdialog-delete',
     });
   }
+  openViewDialog(customer: Customer) {
+      this.dialog.open(ViewCustomerComponent, {
+        width: '600px',
+        data: customer,
+        panelClass: 'matdialog-view'
+      });
 }
+}
+
 
 @Component({
   selector: 'customer-delete-template',

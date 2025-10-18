@@ -28,6 +28,7 @@ chooseEmployee: any;
     servicings: any;
   servicingTitle: string;
   servicingDetails: string;
+  taxid: string;
   markAsCompleted: string;
   markAsInProgress: string;
     devices: any;

@@ -14,6 +14,7 @@ export class EN  implements ILanguage {
     customer: any;
     chooseCustomer: any;
     deadline: any;
+    taxid: string;
     name: "any";
     description: "any";
     addNewDocumentFile: any= "Add New Document File";

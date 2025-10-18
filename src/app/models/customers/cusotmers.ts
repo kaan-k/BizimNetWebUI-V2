@@ -7,6 +7,7 @@ export interface Customer {
     address:string
     city:string
     country:string
+    taxId:string
     customerField:string
     status:string
     lastActionDate:Date

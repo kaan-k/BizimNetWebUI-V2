@@ -7,6 +7,7 @@ export interface CustomerDto {
     address:string
     city:string
     country:string
+    taxid:string
     customerField:string
     status:string
     lastActionDate:Date 

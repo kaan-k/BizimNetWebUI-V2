@@ -13,6 +13,7 @@ export class FR implements ILanguage{
     updateDuty: any;
     customer: any;
     chooseCustomer: any;
+    taxid: string;
     deadline: any;
     name: "any";
     description: "any";

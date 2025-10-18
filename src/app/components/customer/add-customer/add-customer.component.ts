@@ -32,6 +32,7 @@ export class AddCustomerComponent {
       phoneNumber: [''],
       address: [''],
       country: ['Türkiye'],
+      taxid:[''],
       city: [''],
       customerField: [''],
       status: [''],

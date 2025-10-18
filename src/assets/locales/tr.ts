@@ -24,6 +24,7 @@ DeviceUpdate: string = "Cihaz Güncelle";
 updateServicing: string = "Servisi Güncelle";
 addNewServicing: string = "Yeni Servis Ekle";
     trackingId: string = "Takip Numarası";
+    taxid: string = "Vergi Numarası";
     lastAction: string = "Son İşlem";
     servicingName: string = "Servis Adı";
     chooseEmployee: any = "Çalışan Seçin";

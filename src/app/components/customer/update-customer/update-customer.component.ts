@@ -38,6 +38,7 @@ lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
       country: [value.country],
       city: [value.city],
       customerField: [value.customerField],
+      taxid:[value.taxid],
       status: [value.status],
       createdAt:[value.createdAt],
       updatedAt:[value.updatedAt],
