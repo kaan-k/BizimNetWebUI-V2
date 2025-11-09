@@ -12,11 +12,14 @@ import { NavbarDeviceComponent } from './navbar-device/navbar-device.component';
 import { AddDeviceComponent } from './add-device/add-device.component';
 import { changeDataTableHeight } from '../../../assets/js/main';
 import { UpdateDeviceComponent } from './update-device/update-device.component';
+import { AgPersist } from '../../ag-persist';
+import { CustomerResetConfirmDialog } from '../customer/customer.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-device',
   standalone: true,
-  imports: [CommonModule, AgGridAngular, NavbarDeviceComponent, AddDeviceComponent,UpdateDeviceComponent],
+  imports: [CommonModule, AgGridAngular, NavbarDeviceComponent, AddDeviceComponent, UpdateDeviceComponent],
   templateUrl: './device.component.html',
   styleUrl: './device.component.css'
 })
@@ -25,21 +28,18 @@ export class DeviceComponent {
   device: Device
   dataLoaded: boolean = false;
 
-  constructor(private deviceComponentService: DeviceComponentService, private dialog: MatDialog) { }
+  constructor(private deviceComponentService: DeviceComponentService,private toastrService: ToastrService, private dialog: MatDialog) { }
 
-  protected gridOptions: GridOptions = {
-    pagination: true,
-    paginationPageSize: 50,
-  };
+
 
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'name', headerName: this.lang.deviceName, unSortIcon: true, },
     { field: 'deviceType', headerName: this.lang.deviceType, unSortIcon: true, },
-    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: false},
-    { field: 'anyDeskId', headerName: this.lang.anyDeskId, unSortIcon: false},
-    { field: 'publicIp', headerName: this.lang.publicIp, unSortIcon: false},
-    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false},
-    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false},
+    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: false },
+    { field: 'anyDeskId', headerName: this.lang.anyDeskId, unSortIcon: false },
+    { field: 'publicIp', headerName: this.lang.publicIp, unSortIcon: false },
+    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false },
+    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false },
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
         return 'Delete';
@@ -64,15 +64,15 @@ export class DeviceComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-      flex: 1,
-      filter: true,
-      sortable: true,
-      resizable: true,
-      floatingFilter: true,
-      suppressMenu: true,
-      minWidth: 80,
-      suppressSizeToFit: true,
-    };
+    flex: 1,
+    filter: true,
+    sortable: true,
+    resizable: true,
+    floatingFilter: true,
+    suppressMenu: true,
+    minWidth: 80,
+    suppressSizeToFit: true,
+  };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';
@@ -88,10 +88,35 @@ export class DeviceComponent {
     defaultToolPanel: '',
   };
 
+
+  //AG PERSIST SETUP
+  private agPersist = new AgPersist('devicePersist');
+  public gridOptions = this.agPersist.setup({
+    pagination: true,
+    paginationPageSize: 50,
+  });
+
   onGridReady(params: GridReadyEvent) {
     params.api.sizeColumnsToFit();
     this.getAllDevice()
   }
+
+      resetParameters(): void {
+          const dialogRef = this.dialog.open(CustomerResetConfirmDialog, {
+              width: '450px',
+              panelClass: 'matdialog-confirm',
+          });
+  
+          dialogRef.afterClosed().subscribe(result => {
+              if (result === true) {
+                  this.agPersist.resetGridSettings();
+                  this.toastrService.success('Grid görünümü başarıyla sıfırlandı.', 'Sayfayı yeniden yükleyin.');
+                  window.location.reload();
+  
+              }
+          });
+  
+      }
 
   async getAllDevice() {
     this.rowData = await this.deviceComponentService.getAllDevice();

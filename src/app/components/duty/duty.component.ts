@@ -19,6 +19,7 @@ import { NavbarDutyComponent } from './navbar-duty/navbar-duty.component';
 import { AddDutyComponent } from './add-duty/add-duty.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ViewDutyComponent } from './viewDutyComponent';
+import { AgPersist } from '../../ag-persist';
 
 @Component({
   selector: 'app-duty',
@@ -48,10 +49,6 @@ export class DutyComponent {
 
   constructor(private dutyComponentService: DutyComponentService, private toastrService: ToastrService, private dialog: MatDialog) { }
 
-  protected gridOptions: GridOptions = {
-    pagination: true,
-    paginationPageSize: 50,
-  };
 
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: false},
@@ -158,11 +155,35 @@ export class DutyComponent {
     defaultToolPanel: '',
   };
 
+  //AG PERSIST SETUP
+  private agPersist = new AgPersist('dutyPersist');
+  public gridOptions = this.agPersist.setup({
+    pagination: true,
+    paginationPageSize: 50,
+  });
+
+  
+
   onGridReady(params: GridReadyEvent) {
     params.api.sizeColumnsToFit();
     this.getAllDuty();
   }
+resetParameters(): void {
+    const dialogRef = this.dialog.open(ResetConfirmDialog, {
+        width: '450px',
+        panelClass: 'matdialog-confirm',
+    });
+    
 
+    dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+            this.agPersist.resetGridSettings();
+            this.toastrService.success('Grid görünümü başarıyla sıfırlandı.', 'Sayfayı yeniden yükleyin.');
+            window.location.reload();
+            
+        }
+    });
+}
   async getAllDuty() {
     this.rowData = await this.dutyComponentService.getAllDuty();
     changeDataTableHeight();
@@ -257,4 +278,29 @@ export class RejectReasonDialog {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem('lng'));
   reason: string = '';
   constructor(public dialogRef: MatDialogRef<RejectReasonDialog>) { }
+}
+
+@Component({
+  selector: 'reset-confirm-dialog',
+  template: `
+  <h5 mat-dialog-title>Görünümü Sıfırlama Onayı</h5>
+  <div mat-dialog-content>
+    <p>Kaydedilmiş tüm sütun genişlikleri, sıralama ve filtre ayarları silinecektir.</p>
+    <p>Devam etmek istediğinizden emin misiniz?</p>
+  </div>
+  <div mat-dialog-actions class="mat-mdc-dialog-actions">
+    <button class="button-4" mat-button [mat-dialog-close]="false">
+      <i class="fa-solid fa-circle-xmark"></i> {{  'İptal' }}
+    </button>
+    <button class="button-24" mat-button [mat-dialog-close]="true" cdkFocusInitial>
+      <i class="fa-solid fa-check"></i> {{ 'Sıfırla' }}
+    </button>
+  </div>
+  `,
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule, CommonModule],
+})
+export class ResetConfirmDialog {
+  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
+  constructor(public dialogRef: MatDialogRef<ResetConfirmDialog>) { }
 }

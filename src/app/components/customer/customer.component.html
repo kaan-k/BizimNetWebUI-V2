@@ -1,15 +1,19 @@
 <div class="container-fluid" style="">
     <app-navbar-customer></app-navbar-customer>
-    <ag-grid-angular id="datatable" style="width: 100%;height: 83vh;font-size: 10px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
-        [defaultColDef]="defaultColDef" [rowSelection]="'multiple'" [enableCellTextSelection]="true"
-        [cacheBlockSize]="cacheBlockSize" [cacheOverflowSize]="cacheOverflowSize"
+
+    <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;" (click)="resetParameters()">
+        <i class="fa-solid fa-arrows-rotate me-1"></i>
+        Görünümü Sıfırla
+    </button>
+
+    <ag-grid-angular id="datatable" style="width: 100%;height: 83vh;font-size: 10px;" class="ag-theme-alpine"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowSelection]="'multiple'"
+        [enableCellTextSelection]="true" [cacheBlockSize]="cacheBlockSize" [cacheOverflowSize]="cacheOverflowSize"
         [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
         [infiniteInitialRowCount]="infiniteInitialRowCount" [enableBrowserTooltips]="true"
         [overlayNoRowsTemplate]="noRowsTemplate" [maxBlocksInCache]="maxBlocksInCache" [rowData]="rowData"
-        (gridReady)="onGridReady($event)"
-        (firstDataRendered)="onFirstDataRendered($event)"
+        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
         [suppressScrollOnNewData]="true"></ag-grid-angular>
-</div> 
+</div>
 <app-add-customer (customerEvent)="getAllCustomer()"></app-add-customer>
 <app-update-customer (customerEvent)="getAllCustomer()" [customer]="customer"></app-update-customer>
-
