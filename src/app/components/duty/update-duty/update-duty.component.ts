@@ -46,8 +46,7 @@ export class UpdateDutyComponent {
         deadline: [value.deadline],
         createdBy: [value.createdBy],
         completedBy: [value.completedBy],
-
-
+        assignedEmployeeId: [value.assignedEmployeeId],
       });
     }
 
