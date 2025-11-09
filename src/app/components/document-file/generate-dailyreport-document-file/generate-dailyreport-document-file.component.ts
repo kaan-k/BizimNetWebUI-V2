@@ -23,6 +23,7 @@ export class GenerateDailyreportDocumentFileComponent {
       next: (res) => {
         this.toastrService.success('Günlük rapor üretildi');
         this.documentEvent.emit(true);
+        window.location.reload();
       },
       error: (err) => {
         console.error(err);

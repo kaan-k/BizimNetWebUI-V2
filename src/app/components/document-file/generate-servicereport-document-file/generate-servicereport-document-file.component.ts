@@ -72,6 +72,7 @@ serviceReportForm:FormGroup
 
         // NOTE: The modal should be closed here if it's not closed by data-bs-dismiss="modal" on the button
         this.documentEvent.emit(true);
+        window.location.reload();
       })
       .catch(error => {
         // ERROR handling
