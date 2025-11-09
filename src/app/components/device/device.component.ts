@@ -35,11 +35,11 @@ export class DeviceComponent {
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'name', headerName: this.lang.deviceName, unSortIcon: true, },
     { field: 'deviceType', headerName: this.lang.deviceType, unSortIcon: true, },
-    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true },
-    { field: 'anyDeskId', headerName: this.lang.anyDeskId, unSortIcon: true },
-    { field: 'publicIp', headerName: this.lang.publicIp, unSortIcon: true },
-    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
-    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: true },
+    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: false},
+    { field: 'anyDeskId', headerName: this.lang.anyDeskId, unSortIcon: false},
+    { field: 'publicIp', headerName: this.lang.publicIp, unSortIcon: false},
+    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false},
+    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false},
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
         return 'Delete';
@@ -64,13 +64,15 @@ export class DeviceComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';

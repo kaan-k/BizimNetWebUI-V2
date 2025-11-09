@@ -51,4 +51,12 @@ export class DutyService extends BizimNetHttpClientService {
     getById(id: string) {
       return this.get<SingleResponseModel<Duty>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })
     }
+    getAllById(id: string) {
+    const actionWithId = `GetAllByCustomer/${id}`;
+
+    return this.get<SingleResponseModel<Duty>>({ 
+        controller: this._controller, 
+        action: actionWithId 
+    });
+}
 }

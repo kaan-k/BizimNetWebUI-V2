@@ -1,0 +1,12 @@
+/* Custom utility class to center header text */
+.ag-header-center-text {
+    /* Use flexbox for robust centering */
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;     /* Centers content vertically */
+}
+.ag-header-center-text .ag-header-cell-menu-button {
+    /* Hide the element AND ensure it takes up no space */
+    display: none !important;
+    width: 0 !important;
+}

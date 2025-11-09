@@ -45,7 +45,7 @@ import { UserComponentService } from '../../../services/component/user/user-comp
           </div>
 
           <div class="col-md-6">
-            <label class="form-label">{{ lang.deadline }}</label>
+            <label class="form-label">{{ "Görev Günü"}}</label>
             <input formControlName="deadline" class="form-control" type="date">
           </div>
 

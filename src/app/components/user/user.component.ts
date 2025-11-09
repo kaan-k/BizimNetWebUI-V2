@@ -59,7 +59,7 @@ export class UserComponent {
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'firstName', headerName: this.lang.firstName, unSortIcon: true, },
     { field: 'lastName', headerName: this.lang.lastName, unSortIcon: true, },
-    { field: 'email', headerName: this.lang.email, unSortIcon: true },
+    { field: 'email', headerName: this.lang.email, unSortIcon: false},
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
         return 'Delete';
@@ -84,13 +84,15 @@ export class UserComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';

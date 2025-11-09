@@ -17,6 +17,10 @@ export class DutyComponentService {
     const observable = this.dutyService.getById(id)
     return (await firstValueFrom(observable)).data
   }
+   async getAllById(id:string){
+    const observable = this.dutyService.getAllById(id)
+    return (await firstValueFrom(observable)).data
+  }
 
   async getAllDuty(){
     const observable = this.dutyService.getAll(localStorage.getItem('userId'))

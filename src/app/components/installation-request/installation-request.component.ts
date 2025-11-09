@@ -35,13 +35,13 @@ export class InstallationRequestComponent {
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'offerId', headerName: this.lang.offerName, unSortIcon: true, },
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true, },
-    { field: 'assignedEmployeeId', headerName: this.lang.assignedEmployeeName, unSortIcon: true },
-    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
-    { field: 'finishedAt', headerName: this.lang.finishedAt, unSortIcon: true },
-    { field: 'lastUpdatedAt', headerName: this.lang.lastUpdatedAt, unSortIcon: true },
-    { field: 'isAssigned', headerName: this.lang.isAssigned, unSortIcon: true },
-    { field: 'isCompleted', headerName: this.lang.isCompleted, unSortIcon: true },
-    { field: 'installationNote', headerName: this.lang.installationNote, unSortIcon: true },
+    { field: 'assignedEmployeeId', headerName: this.lang.assignedEmployeeName, unSortIcon: false},
+    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false},
+    { field: 'finishedAt', headerName: this.lang.finishedAt, unSortIcon: false},
+    { field: 'lastUpdatedAt', headerName: this.lang.lastUpdatedAt, unSortIcon: false},
+    { field: 'isAssigned', headerName: this.lang.isAssigned, unSortIcon: false},
+    { field: 'isCompleted', headerName: this.lang.isCompleted, unSortIcon: false},
+    { field: 'installationNote', headerName: this.lang.installationNote, unSortIcon: false},
     {
       field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
         return 'Delete';
@@ -66,13 +66,15 @@ export class InstallationRequestComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';

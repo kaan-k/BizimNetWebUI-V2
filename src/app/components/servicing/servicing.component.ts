@@ -32,13 +32,13 @@ export class ServicingComponent {
 
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true, }, 
-    { field: 'name', headerName: this.lang.servicingName, unSortIcon: true },
-    { field: 'trackingId', headerName: this.lang.trackingId, unSortIcon: true },
-    { field: 'status', headerName: this.lang.status, unSortIcon: true },
-    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
-    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: true },
-    { field: 'lastAction', headerName: this.lang.lastAction, unSortIcon: true },
-    { field: 'lastActionDate', headerName: this.lang.lastActionDate, unSortIcon: true },
+    { field: 'name', headerName: this.lang.servicingName, unSortIcon: false},
+    { field: 'trackingId', headerName: this.lang.trackingId, unSortIcon: false},
+    { field: 'status', headerName: this.lang.status, unSortIcon: false},
+    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false},
+    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false},
+    { field: 'lastAction', headerName: this.lang.lastAction, unSortIcon: false},
+    { field: 'lastActionDate', headerName: this.lang.lastActionDate, unSortIcon: false},
     {
       field: 'markAsCompleted', headerName: this.lang.markAsCompleted, filter: false, valueGetter: (params) => {
         return 'markAsCompleted';
@@ -74,13 +74,15 @@ export class ServicingComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';

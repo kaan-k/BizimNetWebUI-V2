@@ -54,10 +54,10 @@ export class DutyComponent {
   };
 
   public columnDefs: (ColDef | ColGroupDef)[] = [
-    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true },
-    { field: 'name', headerName: this.lang.name, unSortIcon: true },
-    { field: 'description', headerName: this.lang.description, unSortIcon: true },
-    { field: 'assignedEmployeeId', headerName: "Atanan Kişi", unSortIcon: true },
+    { field: 'customerId', headerName: this.lang.customerName, unSortIcon: false},
+    { field: 'name', headerName: this.lang.name, unSortIcon: false},
+    { field: 'description', headerName: this.lang.description, unSortIcon: false},
+    { field: 'assignedEmployeeId', headerName: "Atanan Kişi", unSortIcon: false},
 {
   field: 'deadline',
   headerName: this.lang.deadline,
@@ -96,10 +96,10 @@ export class DutyComponent {
     });
   }
 },
-    { field: 'priority', headerName: this.lang.priority, unSortIcon: true },
-    { field: 'status', headerName: this.lang.status, unSortIcon: true },
-    { field: 'createdBy', headerName: "Oluşturan", unSortIcon: true },
-    { field: 'completedBy', headerName: "Tamamlayan", unSortIcon: true },
+    { field: 'priority', headerName: this.lang.priority, unSortIcon: false},
+    { field: 'status', headerName: this.lang.status, unSortIcon: false},
+    { field: 'createdBy', headerName: "Oluşturan", unSortIcon: false},
+    { field: 'completedBy', headerName: "Tamamlayan", unSortIcon: false},
 
     {
       field: 'markAsCompleted', headerName: this.lang.markAsCompleted, filter: false, valueGetter: (params) => {
@@ -134,13 +134,15 @@ export class DutyComponent {
 
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
 
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' = 'infinite';

@@ -33,4 +33,7 @@ export class CustomerService extends BizimNetHttpClientService {
   getById(id: string) {
     return this.get<SingleResponseModel<Customer>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })
   }
+  getByAllById(id: string) {
+    return this.get<SingleResponseModel<Customer>>({ controller: this._controller, action: "GetAllByCustomer", queryString: `id=${id}` })
+  }
 }

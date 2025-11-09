@@ -6,7 +6,8 @@
         [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
         [infiniteInitialRowCount]="infiniteInitialRowCount" [enableBrowserTooltips]="true"
         [overlayNoRowsTemplate]="noRowsTemplate" [maxBlocksInCache]="maxBlocksInCache" [rowData]="rowData"
-        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
+        (gridReady)="onGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
         [suppressScrollOnNewData]="true"></ag-grid-angular>
 </div> 
 <app-add-customer (customerEvent)="getAllCustomer()"></app-add-customer>

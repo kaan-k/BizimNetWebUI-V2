@@ -38,13 +38,13 @@ export class OfferComponent {
   public columnDefs: (ColDef | ColGroupDef)[] = [
     { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true, },
     { field: 'employeeId', headerName: this.lang.employeeName, unSortIcon: true, },
-    { field: 'offerTitle', headerName: this.lang.offerTitle, unSortIcon: true },
-    { field: 'offerDetails', headerName: this.lang.offerDetails, unSortIcon: true },
-    { field: 'rejectionReason', headerName: this.lang.rejectionReason, unSortIcon: true },
-    { field: 'totalAmount', headerName: this.lang.totalAmount, unSortIcon: true },
-    { field: 'status', headerName: this.lang.status, unSortIcon: true },
-    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
-    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: true },
+    { field: 'offerTitle', headerName: this.lang.offerTitle, unSortIcon: false},
+    { field: 'offerDetails', headerName: this.lang.offerDetails, unSortIcon: false},
+    { field: 'rejectionReason', headerName: this.lang.rejectionReason, unSortIcon: false},
+    { field: 'totalAmount', headerName: this.lang.totalAmount, unSortIcon: false},
+    { field: 'status', headerName: this.lang.status, unSortIcon: false},
+    { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false},
+    { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false},
     {
       field: 'Approve', headerName: this.lang.approve, filter: false, valueGetter: (params) => {
         return 'Approve';
@@ -90,13 +90,15 @@ export class OfferComponent {
   ];
   public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-    flex: 1,
-    filter: true,
-    sortable: true,
-    resizable: true,
-    floatingFilter: true,
-    minWidth: 130,
-  };
+      flex: 1,
+      filter: true,
+      sortable: true,
+      resizable: true,
+      floatingFilter: true,
+      suppressMenu: true,
+      minWidth: 80,
+      suppressSizeToFit: true,
+    };
   public rowBuffer = 0;
   public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
     'infinite';

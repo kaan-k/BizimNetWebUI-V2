@@ -39,8 +39,8 @@ export class UpdateDocumentFileComponent {
       id: [value.id],
       documentName: [value.documentName],
       documentPath: [value.documentPath],
-      departmentId: [value.departmentId],
-      offerId: [value.offerId], 
+      // departmentId: [value.departmentId],
+      // offerId: [value.offerId], 
     });
   }
   async getallDepartments() {

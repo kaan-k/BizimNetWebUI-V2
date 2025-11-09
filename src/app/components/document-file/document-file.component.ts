@@ -11,12 +11,13 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NavbarDocumentFileComponent } from './navbar-document-file/navbar-document-file.component';
 import { AddDocumentFileComponent } from './add-document-file/add-document-file.component';
 import { GenerateDailyreportDocumentFileComponent } from './generate-dailyreport-document-file/generate-dailyreport-document-file.component';
+import {GenerateServicereportDocumentFileComponent} from'./generate-servicereport-document-file/generate-servicereport-document-file.component';
 import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
 
 @Component({
   selector: 'app-document-file',
   standalone: true,
-  imports: [CommonModule,AgGridModule,NavbarDocumentFileComponent,AddDocumentFileComponent,UpdateDocumentFileComponent,GenerateDailyreportDocumentFileComponent],
+  imports: [CommonModule,AgGridModule,NavbarDocumentFileComponent,AddDocumentFileComponent,UpdateDocumentFileComponent,GenerateDailyreportDocumentFileComponent,GenerateServicereportDocumentFileComponent],
   templateUrl: './document-file.component.html',
   styleUrl: './document-file.component.css'
 })
@@ -34,7 +35,7 @@ protected gridOptions: GridOptions = {
     public columnDefs: (ColDef | ColGroupDef)[] = [
       { field: 'documentName', headerName: this.lang.documentName, unSortIcon: true }, 
       { field: 'documentType', headerName: "Belge Tipi", unSortIcon: true }, 
-      { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true }, 
+      // { field: 'customerId', headerName: this.lang.customerName, unSortIcon: true }, 
 
       { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: true },
       { field: 'lastModifiedAt', headerName: this.lang.lastModifiedAt, unSortIcon: true },

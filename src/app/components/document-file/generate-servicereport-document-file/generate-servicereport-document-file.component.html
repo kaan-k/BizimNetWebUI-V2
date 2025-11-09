@@ -1,0 +1,36 @@
+<div class="modal fade" id="documentFileGenerateServiceReportModal" tabindex="-1" aria-labelledby="documentFileGenerateServiceReportLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-6" id="documentFileGenerateServiceReportLabel">
+                    <i class="fa-solid fa-plus"></i> {{ "Müşteri Servis Raporu Üret"}}
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="serviceReportForm">
+                    <div class="row">
+                        <!-- Customer -->
+                        <div class="col-lg-6 mb-2">
+                            <label class="chooseLabel"><i class="fa-solid fa-user"></i> {{"Müşteri Adı"}}</label>
+                            <select class="form-select" formControlName="customerId">
+                                <option value="" disabled selected>{{"Müşteri Seç" }}</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id">{{customer.companyName }}
+                                </option>
+                            </select>
+                        </div>
+
+
+                    </div>
+                </form>
+
+                <div class="btn-location mt-4">
+                    <button class="button-37" (click)="createReport()" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-plus"></i> {{"Oluştur"}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
