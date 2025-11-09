@@ -1,0 +1,94 @@
+/* === Modern ng-select theme === */
+::ng-deep .ng-select {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Container */
+::ng-deep .ng-select .ng-select-container {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+::ng-deep .ng-select:hover .ng-select-container {
+  border-color: #86b7fe;
+  box-shadow: 0 2px 5px rgba(13, 110, 253, 0.08);
+}
+
+::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+/* Placeholder */
+::ng-deep .ng-select .ng-placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+/* Selected value */
+::ng-deep .ng-select .ng-value {
+  color: #212529;
+}
+
+/* Dropdown panel */
+::ng-deep .ng-dropdown-panel {
+  background-color: #fff !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 9999 !important;
+  animation: dropdownFadeIn 0.15s ease-in-out;
+}
+
+/* Dropdown items */
+::ng-deep .ng-dropdown-panel .ng-option {
+  background: #ffffff !important;
+  color: #212529 !important;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option:hover {
+  background-color: #f1f3f5 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option-selected {
+  background-color: #e9f3ff !important;
+  color: #0d6efd !important;
+  font-weight: 500;
+}
+
+/* Clear button (x) */
+::ng-deep .ng-select .ng-clear-wrapper {
+  color: #adb5bd;
+  transition: color 0.15s ease-in-out;
+}
+::ng-deep .ng-select .ng-clear-wrapper:hover {
+  color: #dc3545;
+}
+
+/* Small fade-in animation for dropdown */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

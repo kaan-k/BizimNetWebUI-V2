@@ -167,7 +167,8 @@ export class AddCalendarComponent {
     openAddQuickDutyDialog(preset?: Date) {
   const presetDate = preset ? preset.toISOString().substring(0,10) : '';
   const ref = this.dialog.open(AddDutyQuickDialogComponent, {
-    width: '700px',
+    width: '70rem',
+    height:'30rem',
     data: { presetDate }
   });
 

@@ -6,12 +6,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DutyComponentService } from '../../../services/component/duty-component.service';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-generate-servicereport-document-file',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,NgSelectModule],
   templateUrl: './generate-servicereport-document-file.component.html',
   styleUrl: './generate-servicereport-document-file.component.css'
 })

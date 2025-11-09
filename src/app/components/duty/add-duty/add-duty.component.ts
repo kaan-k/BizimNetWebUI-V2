@@ -9,11 +9,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Duty } from '../../../models/duties/duty'; 
 import { CustomerComponentService } from '../../../services/component/customer-component.service'; 
 import { AgGridAngular } from 'ag-grid-angular';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-add-duty',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule,NgSelectModule],
   templateUrl: './add-duty.component.html',
   styleUrl: './add-duty.component.css'
 })

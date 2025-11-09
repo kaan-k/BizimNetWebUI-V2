@@ -9,12 +9,116 @@ import { Languages } from '../../../../assets/locales/language';
 
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'add-duty-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule],
   template: `
+
+  <style>
+  /* === Modern ng-select theme === */
+::ng-deep .ng-select {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Container */
+::ng-deep .ng-select .ng-select-container {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+::ng-deep .ng-select:hover .ng-select-container {
+  border-color: #86b7fe;
+  box-shadow: 0 2px 5px rgba(13, 110, 253, 0.08);
+}
+
+::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+/* Placeholder */
+::ng-deep .ng-select .ng-placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+/* Selected value */
+::ng-deep .ng-select .ng-value {
+  color: #212529;
+}
+
+/* Dropdown panel */
+::ng-deep .ng-dropdown-panel {
+  background-color: #fff !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 9999 !important;
+  animation: dropdownFadeIn 0.15s ease-in-out;
+}
+
+/* Dropdown items */
+::ng-deep .ng-dropdown-panel .ng-option {
+  background: #ffffff !important;
+  color: #212529 !important;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option:hover {
+  background-color: #f1f3f5 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option-selected {
+  background-color: #e9f3ff !important;
+  color: #0d6efd !important;
+  font-weight: 500;
+}
+
+/* Clear button (x) */
+::ng-deep .ng-select .ng-clear-wrapper {
+  color: #adb5bd;
+  transition: color 0.15s ease-in-out;
+}
+::ng-deep .ng-select .ng-clear-wrapper:hover {
+  color: #dc3545;
+}
+
+/* Small fade-in animation for dropdown */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+  
+  
+  </style>
+
+
+
     <h2 mat-dialog-title><i class="fa-solid fa-plus"></i> {{ lang.addNewDuty }}</h2>
     <div mat-dialog-content>
       <form [formGroup]="dutyForm">
@@ -28,13 +132,13 @@ import { UserComponentService } from '../../../services/component/user/user-comp
             <input formControlName="description" class="form-control" type="text">
           </div>
 
-          <div class="col-md-6">
-            <label class="form-label">{{ lang.customerName }}</label>
-            <select class="form-select" formControlName="customerId">
-              <option value="" disabled selected>{{ lang.chooseCustomers }}</option>
-              <option *ngFor="let c of customers" [value]="c.id">{{ c.companyName }}</option>
-            </select>
-          </div>
+           <div class="col-lg-6 mb-2">
+                            <label class="chooseLabel">
+                                <i class="fa-solid fa-user"></i> Müşteri Adı
+                            </label>
+                            <ng-select [items]="customers" bindLabel="companyName" bindValue="id"
+                                formControlName="customerId"></ng-select>
+                        </div>
 
           <div class="col-md-6">
             <label class="form-label">{{ 'Atanacak Personel' }}</label>

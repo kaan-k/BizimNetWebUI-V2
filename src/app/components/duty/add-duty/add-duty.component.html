@@ -27,13 +27,12 @@
                         </div>
 
                         <!-- Customer -->
-                        <div class="col-lg-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-user"></i> {{ lang.customerName }}</label>
-                            <select class="form-select" formControlName="customerId">
-                                <option value="" disabled selected>{{ lang.chooseCustomers }}</option>
-                                <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.companyName }}
-                                </option>
-                            </select>
+                         <div class="col-lg-6 mb-2">
+                            <label class="chooseLabel">
+                                <i class="fa-solid fa-user"></i> Müşteri Adı
+                            </label>
+                            <ng-select [items]="customers" bindLabel="companyName" bindValue="id"
+                                formControlName="customerId"></ng-select>
                         </div>
 
                         <div class="col-lg-6 mb-2">

@@ -1,4 +1,5 @@
-<div class="modal fade" id="documentFileGenerateServiceReportModal" tabindex="-1" aria-labelledby="documentFileGenerateServiceReportLabel" aria-hidden="true">
+<div class="modal fade" id="documentFileGenerateServiceReportModal" tabindex="-1"
+    aria-labelledby="documentFileGenerateServiceReportLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,14 +13,22 @@
                 <form [formGroup]="serviceReportForm">
                     <div class="row">
                         <!-- Customer -->
-                        <div class="col-lg-6 mb-2">
+                        <!-- <div class="col-lg-6 mb-2">
                             <label class="chooseLabel"><i class="fa-solid fa-user"></i> {{"Müşteri Adı"}}</label>
                             <select class="form-select" formControlName="customerId">
                                 <option value="" disabled selected>{{"Müşteri Seç" }}</option>
                                 <option *ngFor="let customer of customers" [value]="customer.id">{{customer.companyName }}
                                 </option>
                             </select>
+                        </div> -->
+                        <div class="col-lg-20 mb-2">
+                            <label class="chooseLabel">
+                                <i class="fa-solid fa-user"></i> Müşteri Adı
+                            </label>
+                            <ng-select [items]="customers" bindLabel="companyName" bindValue="id"
+                                formControlName="customerId"></ng-select>
                         </div>
+
 
 
                     </div>
