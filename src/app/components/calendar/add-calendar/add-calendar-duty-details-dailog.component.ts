@@ -3,15 +3,15 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Duty } from '../../models/duties/duty'; 
-import { ILanguage } from '../../../assets/locales/ILanguage';
-import { Languages } from '../../../assets/locales/language';
+import { Duty } from '../../../models/duties/duty'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ILanguage } from '../../../../assets/locales/ILanguage';
+import { Languages } from '../../../../assets/locales/language';
 
 @Component({
-  selector: 'view-duty',
+  selector: 'view-duty-calendar-dialog',
   standalone: true,
   template: `
     <h2 mat-dialog-title>{{ lang.view }} - {{ data.name }}</h2>
@@ -32,18 +32,26 @@ import { MatButtonModule } from '@angular/material/button';
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ "Tamamlanma Zamanı" }}</mat-label>
-        <input matInput [value]="data.completedAt |date:'d MMMM y HH:mm':'':'tr-TR'" readonly />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{ lang.priority }}</mat-label>
         <input matInput [value]="data.priority"  />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ "Durum"}}</mat-label>
+        <input matInput [value]="data.status"  />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ "Tamamlanma Zamanı" }}</mat-label>
+        <input matInput [value]="data.completedAt |date:'d MMMM y HH:mm':'':'tr-TR'"
+        placeholder="Henüz tamamlanmamış!" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ "Atanan Personel"}}</mat-label>
+        <input matInput [value]="data.assignedEmployeeId"  />
       </mat-form-field>
     </div>
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close class="button-4">
-        <i class="fa-solid fa-circle-xmark"></i> {{" lang.close" }}
+        <i class="fa-solid fa-circle-xmark"></i> {{"Kapat" }}
       </button>
     </div>
   `,
@@ -58,11 +66,11 @@ import { MatButtonModule } from '@angular/material/button';
   styles: [`
     .full-width {
       width: 100%;
-      margin-bottom: 10px;
+      padding-top:10px;
     }
   `]
 })
-export class ViewDutyComponent {
+export class AddCalendarViewDutyComponent {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
   constructor(@Inject(MAT_DIALOG_DATA) public data: Duty) {}
 }

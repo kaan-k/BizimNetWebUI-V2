@@ -33,7 +33,11 @@ import { Duty } from '../../../models/duties/duty';
 import { DutyComponentService } from '../../../services/component/duty-component.service';
 import { AddDutyDialogComponent } from './add-duty-dialog.component';
 import { AddDutyQuickDialogComponent } from './add-duty-quick-dialog.component';
-
+import { EmployeeService } from '../../../services/common/employee.service';
+import { faL } from '@fortawesome/free-solid-svg-icons';
+import { UserComponentService } from '../../../services/component/user/user-component.service';
+import { AddCalendarViewDutyComponent } from './add-calendar-duty-details-dailog.component';
+import {NgToastComponent, NgToastModule} from 'ng-angular-popup'
 type DutyEvent = CalendarEvent<{ duty: Duty }>;
 
 registerLocaleData(localeTr);
@@ -58,13 +62,16 @@ registerLocaleData(localeTr);
   ],
 })
 export class AddCalendarComponent {
+  imports: [NgToastComponent]
   lang: ILanguage = Languages.lngs.get(localStorage.getItem('lng'));
   locale = 'tr';
+  selectedId: string | null = null;
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate = new Date();
   refresh = new Subject<void>();
   activeDayIsOpen = false;
+  employees = [];
 
   events: DutyEvent[] = [];
 
@@ -72,19 +79,48 @@ export class AddCalendarComponent {
   modalData?: { action: string; event: DutyEvent };
 
   constructor(
+    private toaster:ToastrService,
+     private userComponentservice: UserComponentService,
     private dutySvc: DutyComponentService,
+    private employeeService: EmployeeService,
     private dialog: MatDialog,
     private toast: ToastrService
   ) {}
 
   async ngOnInit() {
+    await this.getAllUser();
     await this.loadDuties();
+    
   }
+  async getAllUser() {
+      this.employees = await this.userComponentservice.getAllUser()
+      console.log(this.employees)
+    }
 
-  private async loadDuties() {
+   async loadDuties() {
+    this.selectedId='';
     const duties: Duty[] = await this.dutySvc.getAllDuty();
      console.log(duties);
     this.events = duties.map((d) => this.toEvent(d));
+    this.refresh.next();
+    // this.toaster.info("duties loaded")
+  }
+
+
+   async loadDutyForEmployee(employeeId: string){
+     this.selectedId = employeeId;
+    const dutiesPerEmployee: Duty[] = await this.dutySvc.getAllByEmployeeId(employeeId);
+    console.log(dutiesPerEmployee);
+    this.events = dutiesPerEmployee.map((d) => this.toEvent(d));
+    this.refresh.next();
+  }
+
+  async loadDutyByStatus(status: string,id:string){
+     this.selectedId= id;
+
+    const dutiesPerStatus: Duty[] = await this.dutySvc.getAllByStatus(status);
+    console.log(dutiesPerStatus);
+    this.events = dutiesPerStatus.map((d) => this.toEvent(d));
     this.refresh.next();
   }
 
@@ -109,12 +145,43 @@ export class AddCalendarComponent {
       start: finalStart,
       end: finalEnd,
       allDay: false,
-      draggable: true,
-      resizable: { beforeStart: true, afterEnd: true },
+      draggable: false,
+      resizable: { beforeStart: false, afterEnd: false },
       color: this.pickColor(d),
       meta: { duty: d },
     };  
   }
+
+
+eventToDuty(event: CalendarEvent<{ duty: Duty }>): Duty {
+  if (event.meta?.duty) {
+    return event.meta.duty;
+  }
+
+  const [customerId, ...nameParts] = (event.title ?? '').split(' ');
+  const name = nameParts.join(' ').trim();
+
+  return {
+    id: event.id?.toString() ?? '',
+    name: name || '',
+    description: '',
+    customerId: customerId || '',
+    priority: '',
+    status: '',
+    lastUpdated: new Date(),
+    deadline: new Date(),
+    createdAt: new Date(),
+    beginsAt: event.start,
+    endsAt: event.end ?? event.start,
+    completedAt: new Date(),
+    createdBy: '',
+    completedBy: '',
+    assignedEmployeeId: '',
+    assignedToName: '',
+    startUtc: event.start.toISOString(),
+    endUtc: (event.end ?? event.start).toISOString(),
+  };
+}
 
    convertToIsoDate(date: Date | string): Date {
     if (!date) return null;
@@ -133,10 +200,13 @@ export class AddCalendarComponent {
   }
 
   private pickColor(d: Duty): { primary: string; secondary: string } {
-    if (d.status && d.status.toLowerCase().includes('tamam')) {
+    if (d.status && d.status.toLowerCase().includes('tamamlandı')) {
       return { primary: '#198754', secondary: '#d4edda' }; // completed = green
     }
-    switch ((d.priortiy ?? '').toLowerCase()) {
+    else{
+      return { primary: '#871919ff', secondary: '#edd4d4ff' };
+    }
+    switch ((d.priority ?? '').toLowerCase()) {
       case 'acil':
       case 'yüksek':
         return { primary: '#dc3545', secondary: '#f8d7da' }; // high = red
@@ -155,7 +225,10 @@ export class AddCalendarComponent {
     this.activeDayIsOpen = false;
   }
 
+  
+
   dayClicked(ev: {
+    
     day: MonthViewDay<any>;
     sourceEvent: MouseEvent | KeyboardEvent;
   }) {
@@ -167,6 +240,21 @@ export class AddCalendarComponent {
       this.viewDate = date;
     }
   }
+
+  eventClicked(event: {
+  event: CalendarEvent;
+  sourceEvent: MouseEvent | KeyboardEvent;
+}) {
+    this.openDialog(this.eventToDuty(event.event));
+  const clickedEvent = event.event;
+
+  const date = clickedEvent.start as Date;
+  if (isSameMonth(date, this.viewDate)) {
+    this.activeDayIsOpen =
+      !(isSameDay(this.viewDate, date) && this.activeDayIsOpen);
+    this.viewDate = date;
+  }
+}
 
   eventTimesChanged({
     event,
@@ -186,6 +274,17 @@ export class AddCalendarComponent {
     this.showModal = true;
     this.refresh.next();
   }
+
+
+
+
+    openDialog(duty: Duty) {
+        this.dialog.open(AddCalendarViewDutyComponent, {
+          width: '900px',
+          data: duty,
+          panelClass: 'matdialog-view'
+        });
+      }
 
   closeInfoModal() {
     this.showModal = false;

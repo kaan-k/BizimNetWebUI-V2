@@ -1,0 +1,7 @@
+.active-btn {
+  background-color: #007bff !important;
+  color: white !important;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}

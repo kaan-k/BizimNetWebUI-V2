@@ -1,7 +1,7 @@
 
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { ILanguage } from '../../../../assets/locales/ILanguage';
@@ -10,11 +10,13 @@ import { Languages } from '../../../../assets/locales/language';
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'add-duty-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule, NgSelectModule],
   template: `
 
   <style>
@@ -124,8 +126,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
       <form [formGroup]="dutyForm">
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label">{{ lang.name }}</label>
-            <input formControlName="name" class="form-control" type="text">
+            <label class="form-label">{{ lang.name +'*' }}</label>
+            <input formControlName="name" class="form-control" type="text"
+            placeholder="İsim giriniz"
+            >
+            
           </div>
           <div class="col-md-6">
             <label class="form-label">{{ lang.description }}</label>
@@ -191,18 +196,18 @@ export class AddDutyDialogComponent {
   dutyForm!: FormGroup;
   customers: any[] = [];
   employees: any[] = [];
-
+refresh = new Subject<void>();
   constructor(
     private fb: FormBuilder,
     private customerSvc: CustomerComponentService,
     private userSvc: UserComponentService,
     private dialogRef: MatDialogRef<AddDutyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { presetDate?: string } // optional date from calendar
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.dutyForm = this.fb.group({
-      name: [''],
+      name: ['', Validators.required],
       description: [''],
       customerId: [''],
       deadline: [this.data?.presetDate ?? ''],
@@ -220,6 +225,10 @@ export class AddDutyDialogComponent {
   submit() {
     if (this.dutyForm.valid) {
       this.close(this.dutyForm.value);
+      this.refresh.next();
+    }
+    else {
+
     }
   }
   close(result: any) { this.dialogRef.close(result); }
