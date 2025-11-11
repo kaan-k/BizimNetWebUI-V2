@@ -10,6 +10,7 @@ import { Languages } from '../../../../assets/locales/language';
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { start } from 'repl';
 
 @Component({
   selector: 'add-duty-quick-dialog',
@@ -249,16 +250,18 @@ export class AddDutyQuickDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { presetDate?: string } // optional date from calendar
   ) { }
   async ngOnInit() {
-    const today = format(new Date(), 'yyyy-MM-dd-HH:mm-ss');
+    const today = format(new Date(), 'yyyy-MM-dd');
 
+    
     this.dutyForm = this.fb.group({
 
-      name: [''],
+         name: [''],
       description: [''],
       customerId: [''],
       deadline: [today],
       status: ['Tamamlanmamış'],
-      endsAt: [addHours(today,1)],
+      // beginsAt: [today],
+      // endsAt: [addHours(today,1)],
       assignedEmployeeId: [localStorage.getItem('userId')],
       priority: ['Orta'],
     });

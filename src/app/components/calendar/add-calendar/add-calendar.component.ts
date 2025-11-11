@@ -89,6 +89,7 @@ export class AddCalendarComponent {
   }
 
   private toEvent(d: Duty): DutyEvent {
+    
     if(d.beginsAt == null){
       d.beginsAt = d.createdAt;
       d.endsAt = d.deadline;
