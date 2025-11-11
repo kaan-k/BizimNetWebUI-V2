@@ -21,6 +21,7 @@ import { loginGuard } from './guards/login.guard';
 import { ILanguage } from '../assets/locales/ILanguage';
 import { Languages } from '../assets/locales/language';
 import { AgreementsComponent } from './components/agreements/agreements.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 // === Locale bootstrap for breadcrumbs (kept as in your file)
 let lang: ILanguage | undefined = Languages.lngs.get(localStorage.getItem('lng'));
@@ -55,7 +56,8 @@ const humanRoutes = [
   { path: 'device', component: DeviceComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.devices } },
   { path: 'servicing', component: ServicingComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
   { path: 'duty', component: DutyComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
-  { path: 'agreements', component: AgreementsComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } }, // keep as-is to match your lang keys
+  { path: 'agreements', component: AgreementsComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
+  { path: 'settings', component: SettingsComponent, canActivate: [loginGuard], data: { breadcrumb: "ayarlar" } },  // keep as-is to match your lang keys
  // keep as-is to match your lang keys
 
   // ✅ Lazy-loaded calendar page

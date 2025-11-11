@@ -83,7 +83,7 @@
           </mwl-calendar-week-view>
 
       <mwl-calendar-day-view     *ngIf="view === CalendarView.Day"     [viewDate]="viewDate"     [events]="events"    
-        [refresh]="refresh"     (eventTimesChanged)="eventTimesChanged($event)">
+        [refresh]="refresh"     (eventClicked)="eventClicked($event)">
           </mwl-calendar-day-view>
 
         <div class="backdrop" *ngIf="showModal" (click)="closeInfoModal()">
