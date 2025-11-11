@@ -49,6 +49,8 @@
   <mwl-calendar-week-view
     *ngIf="view === CalendarView.Week"
     [viewDate]="viewDate"
+    [dayStartHour]="9"
+    [dayEndHour]="18"
     [events]="events"
     [refresh]="refresh"
     [weekStartsOn]="1"

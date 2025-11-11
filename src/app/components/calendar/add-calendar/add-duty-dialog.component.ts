@@ -154,6 +154,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
           </div>
 
           <div class="col-md-6">
+            <label class="form-label">{{ "Görev Başlangıcı"}}</label>
+            <input formControlName="beginsAt" class="form-control" type="datetime-local">
+          </div>
+                    <div class="col-md-6">
+            <label class="form-label">{{ "Görev Bitiş"}}</label>
+            <input formControlName="endsAt" class="form-control" type="datetime-local">
+          </div>
+
+          <div class="col-md-6">
             <label class="form-label">{{ lang.priority }}</label>
             <select class="form-select" formControlName="priority">
               <option value="" disabled selected>Öncelik Seçin</option>
@@ -197,6 +206,8 @@ export class AddDutyDialogComponent {
       description: [''],
       customerId: [''],
       deadline: [this.data?.presetDate ?? ''],
+      beginsAt: [''],
+      endsAt: [''],
       status: ['Tamamlanmamış'],
       assignedEmployeeId: [''],
       priority: [''],
