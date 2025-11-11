@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { addHours, format } from 'date-fns';
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -249,7 +249,7 @@ export class AddDutyQuickDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { presetDate?: string } // optional date from calendar
   ) { }
   async ngOnInit() {
-    const today = format(new Date(), 'yyyy-MM-dd');
+    const today = format(new Date(), 'yyyy-MM-dd-HH:mm-ss');
 
     this.dutyForm = this.fb.group({
 
@@ -258,6 +258,7 @@ export class AddDutyQuickDialogComponent {
       customerId: [''],
       deadline: [today],
       status: ['Tamamlanmamış'],
+      endsAt: [addHours(today,1)],
       assignedEmployeeId: [localStorage.getItem('userId')],
       priority: ['Orta'],
     });

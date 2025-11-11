@@ -88,10 +88,21 @@ export class AddCalendarComponent {
     this.refresh.next();
   }
 
-  private toEvent(d: Duty): DutyEvent {    
+  private toEvent(d: Duty): DutyEvent {
+    if(d.beginsAt == null){
+      d.beginsAt = d.createdAt;
+      d.endsAt = d.deadline;
+      var convertedDate = this.convertToIsoDate(addHours(d.deadline,1));
+      console.log("NULL DATE HANDLED");
+      console.log("BEGINS AT:",d.beginsAt);
+      console.log("ENDS AT:",d.endsAt);
+      console.log("CONVERTED DATE:",convertedDate);
+    }
      const finalStart = this.convertToIsoDate(d.beginsAt);
      const finalEnd = this.convertToIsoDate(d.endsAt);
-    console.log(finalStart);
+          console.log("BEGINS AT FORMATED:",d.beginsAt);
+      console.log("ENDS AT FORMATED:",convertedDate);
+
     return {
       title: `${d.customerId ?? ''} ${d.name ?? ''}`.trim(),
       start: finalStart,
@@ -101,7 +112,7 @@ export class AddCalendarComponent {
       resizable: { beforeStart: true, afterEnd: true },
       color: this.pickColor(d),
       meta: { duty: d },
-    };
+    };  
   }
 
    convertToIsoDate(date: Date | string): Date {
