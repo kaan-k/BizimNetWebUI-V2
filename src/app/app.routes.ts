@@ -22,6 +22,7 @@ import { ILanguage } from '../assets/locales/ILanguage';
 import { Languages } from '../assets/locales/language';
 import { AgreementsComponent } from './components/agreements/agreements.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 // === Locale bootstrap for breadcrumbs (kept as in your file)
 let lang: ILanguage | undefined = Languages.lngs.get(localStorage.getItem('lng'));
@@ -48,6 +49,8 @@ const dashboardRoutes = [
 
 // --- App feature routes under layout
 const humanRoutes = [
+    { path: 'charts', component: ChartsComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.users } },
+
   { path: 'user', component: UserComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.users } },
   { path: 'customer', component: CustomerComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.customers } },
   { path: 'offer', component: OfferComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.offers } },

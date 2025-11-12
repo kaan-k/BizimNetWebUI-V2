@@ -3,6 +3,10 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import localeTr from '@angular/common/locales/tr';
 import { Subject } from 'rxjs';
 
+//mport { CustomDateFormatter } from '../../core/datetime/datetime-picker-component';
+
+
+
 import {
   CalendarView,
   CalendarEvent,
@@ -10,7 +14,8 @@ import {
   CalendarWeekModule,
   CalendarDayModule,
   CalendarCommonModule,
-  DateAdapter
+  DateAdapter,
+  CalendarDateFormatter
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {
@@ -38,6 +43,7 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { AddCalendarViewDutyComponent } from './add-calendar-duty-details-dailog.component';
 import {NgToastComponent, NgToastModule} from 'ng-angular-popup'
+import { CustomDateFormatter } from '../../../core/datetime/datetime-picker-component';
 type DutyEvent = CalendarEvent<{ duty: Duty }>;
 
 registerLocaleData(localeTr);
@@ -57,9 +63,13 @@ registerLocaleData(localeTr);
     CalendarDayModule,
   ],
   providers: [
-    { provide: DateAdapter, useFactory: adapterFactory },
-    { provide: LOCALE_ID, useValue: 'tr-TR' },
-  ],
+  //   { provide: DateAdapter, useFactory: adapterFactory },
+  { provide: LOCALE_ID, useValue: 'tr-TR' },
+    
+    { provide: CalendarDateFormatter, useClass: CustomDateFormatter }
+
+    
+   ],
 })
 export class AddCalendarComponent {
   imports: [NgToastComponent]

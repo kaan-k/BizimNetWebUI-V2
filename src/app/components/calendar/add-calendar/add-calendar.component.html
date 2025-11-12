@@ -1,44 +1,27 @@
 <div class="container-fluid calendar-container py-3">
 
-    <button
-  *ngFor="let emp of employees"
-  class="btn button-4"
-  style="margin-bottom: 1rem; margin-left: 1rem;"
-  [ngClass]="{ 'active-btn': selectedId === emp.id }"
-  (click)="loadDutyForEmployee(emp.id)"
->
-  <i class="fa-solid fa-user me-1"></i>
-  {{ emp.firstName }}
-</button>
+    <button *ngFor="let emp of employees" class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;"
+        [ngClass]="{ 'active-btn': selectedId === emp.id }" (click)="loadDutyForEmployee(emp.id)">
+        <i class="fa-solid fa-user me-1"></i>
+        {{ emp.firstName }}
+    </button>
 
-<button
-  class="btn button-4"
-  style="margin-bottom: 1rem; margin-left: 1rem;"
-  [ngClass]="{ 'active-btn': selectedId === '' }"
-  (click)="loadDuties()"
->
-  <i class="fa-solid fa-user me-1"></i>
-  Hepsi
-</button>
-<button
-  class="btn button-4"
-  style="margin-bottom: 1rem; margin-left: 1rem;"
-  [ngClass]="{ 'active-btn': selectedId === 'cmp' }"
-  (click)="loadDutyByStatus('Tamamlandı','cmp')"
->
-  <i class="fa-solid fa-check"></i>
-  Tamamlanmışlar
-</button>
+    <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;"
+        [ngClass]="{ 'active-btn': selectedId === '' }" (click)="loadDuties()">
+        <i class="fa-solid fa-user me-1"></i>
+        Hepsi
+    </button>
+    <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;"
+        [ngClass]="{ 'active-btn': selectedId === 'cmp' }" (click)="loadDutyByStatus('Tamamlandı','cmp')">
+        <i class="fa-solid fa-check"></i>
+        Tamamlanmışlar
+    </button>
 
-<button
-  class="btn button-4"
-  style="margin-bottom: 1rem; margin-left: 1rem;"
-  [ngClass]="{ 'active-btn': selectedId === 'uncmp' }"
-  (click)="loadDutyByStatus('Tamamlanmamış','uncmp')"
->
-  <i class="fa-solid fa-xmark"></i>
-  Tamamlanmamışlar
-</button>
+    <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;"
+        [ngClass]="{ 'active-btn': selectedId === 'uncmp' }" (click)="loadDutyByStatus('Tamamlanmamış','uncmp')">
+        <i class="fa-solid fa-xmark"></i>
+        Tamamlanmamışlar
+    </button>
 
       <div
         class="mb-3 d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center">
@@ -77,10 +60,19 @@
         (dayClicked)="dayClicked($event)"     (eventTimesChanged)="eventTimesChanged($event)">
           </mwl-calendar-month-view>
 
-      <mwl-calendar-week-view     *ngIf="view === CalendarView.Week"     [viewDate]="viewDate" [dayStartHour]="9"
-        [dayEndHour]="18"     [events]="events"     [refresh]="refresh"     [weekStartsOn]="1"    
-        (eventClicked)="eventClicked($event)">
-          </mwl-calendar-week-view>
+      <mwl-calendar-week-view
+  *ngIf="view === CalendarView.Week"
+  [viewDate]="viewDate"
+  [dayStartHour]="9"
+  [dayEndHour]="18"
+  [events]="events"
+  [locale]="locale"
+  [refresh]="refresh"
+  [weekStartsOn]="1"
+  (eventClicked)="eventClicked($event)">
+</mwl-calendar-week-view>
+
+
 
       <mwl-calendar-day-view     *ngIf="view === CalendarView.Day"     [viewDate]="viewDate"     [events]="events"    
         [refresh]="refresh"     (eventClicked)="eventClicked($event)">
