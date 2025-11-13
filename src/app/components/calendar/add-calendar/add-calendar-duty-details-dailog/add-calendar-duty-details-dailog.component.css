@@ -1,0 +1,14 @@
+.custom-input {
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.container {
+  max-width: 900px; /* centers content nicely */
+}

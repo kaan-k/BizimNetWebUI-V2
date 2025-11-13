@@ -1,0 +1,75 @@
+<h2 mat-dialog-title><i class="fa-solid fa-plus"></i> {{ lang.addNewDuty }}</h2>
+<div mat-dialog-content>
+    <form [formGroup]="dutyForm">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">{{ lang.name +'*' }}</label>
+                <input formControlName="name" class="form-control" type="text" placeholder="İsim giriniz">
+
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">{{ lang.description }}</label>
+                <input formControlName="description" class="form-control" type="text">
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <label class="chooseLabel">
+                    <i class="fa-solid fa-user"></i> Müşteri Adı
+                </label>
+                <ng-select [items]="customers" bindLabel="companyName" bindValue="id"
+                    formControlName="customerId"></ng-select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ 'Atanacak Personel' }}</label>
+                <select class="form-select" formControlName="assignedEmployeeId">
+                    <option value="" disabled selected>{{ 'Personel Seç' }}</option>
+                    <option *ngFor="let e of employees" [value]="e.id">{{ e.firstName }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ "Görev Günü"}}</label>
+                <input formControlName="deadline" class="form-control" type="date">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ "Görev Başlangıcı"}}</label>
+                <input formControlName="beginsAt" class="form-control" type="datetime-local">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">{{ "Görev Bitiş"}}</label>
+                <input formControlName="endsAt" class="form-control" type="datetime-local">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ lang.priority }}</label>
+                <select class="form-select" formControlName="priority">
+                    <option value="" disabled selected>Öncelik Seçin</option>
+                    <option value="Düşük">Düşük</option>
+                    <option value="Orta">Orta</option>
+                    <option value="Yüksek">Yüksek</option>
+                    <option value="Acil">Acil</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <!-- <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()"
+        (onEndEvent)="drawComplete()"></signature-pad>
+    <button class="button-24" mat-button (click)="clearPad()">
+        <i class="fa-solid fa-check"></i> {{ "İmzayı Temizle" }}
+    </button> -->
+</div>
+
+
+
+<div mat-dialog-actions class="d-flex justify-content-end gap-2">
+    <button class="button-4" mat-button (click)="close(null)">
+        <i class="fa-solid fa-circle-xmark"></i> {{ lang.cancel }}
+    </button>
+    <button class="button-24" mat-button (click)="submit()">
+        <i class="fa-solid fa-check"></i> {{ lang.addNewDuty }}
+    </button>
+</div>

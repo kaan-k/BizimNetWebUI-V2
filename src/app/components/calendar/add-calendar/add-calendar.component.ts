@@ -36,14 +36,15 @@ import { Languages } from '../../../../assets/locales/language';
 import { Duty } from '../../../models/duties/duty';
 
 import { DutyComponentService } from '../../../services/component/duty-component.service';
-import { AddDutyDialogComponent } from './add-duty-dialog.component';
-import { AddDutyQuickDialogComponent } from './add-duty-quick-dialog.component';
+import { AddDutyDialogComponent } from './add-duty-dialog/add-duty-dialog.component';
+import { AddDutyQuickDialogComponent } from './add-duty-quick-dialog/add-duty-quick-dialog.component';
 import { EmployeeService } from '../../../services/common/employee.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
-import { AddCalendarViewDutyComponent } from './add-calendar-duty-details-dailog.component';
+import { AddCalendarViewDutyComponent } from './add-calendar-duty-details-dailog/add-calendar-duty-details-dailog.component';
 import {NgToastComponent, NgToastModule} from 'ng-angular-popup'
 import { CustomDateFormatter } from '../../../core/datetime/datetime-picker-component';
+import { AddServiceDutyDialogComponent } from './add-service-duty-dialog/add-service-duty-dialog.component';
 type DutyEvent = CalendarEvent<{ duty: Duty }>;
 
 registerLocaleData(localeTr);
@@ -325,6 +326,28 @@ eventToDuty(event: CalendarEvent<{ duty: Duty }>): Duty {
   openAddQuickDutyDialog(preset?: Date) {
     const presetDate = preset ? preset.toISOString().substring(0, 10) : '';
     const ref = this.dialog.open(AddDutyQuickDialogComponent, {
+      width: '70rem',
+      height: '30rem',
+      data: { presetDate },
+    });
+
+    ref.afterClosed().subscribe(async (result) => {
+      if (!result) return;
+      try {
+        await new Promise<void>((resolve) =>
+          this.dutySvc.addDutyCompleted(result, () => resolve())
+        );
+        this.toast.success(this.lang.addNewDuty);
+        this.events = [...this.events, this.toEvent(result as Duty)];
+        this.refresh.next();
+      } catch {
+        this.toast.error(this.lang.error);
+      }
+    });
+  }
+  openAddServiceDutyDialog(preset?: Date) {
+    const presetDate = preset ? preset.toISOString().substring(0, 10) : '';
+    const ref = this.dialog.open(AddServiceDutyDialogComponent, {
       width: '70rem',
       height: '30rem',
       data: { presetDate },

@@ -17,5 +17,5 @@ export interface Duty {
     assignedToName?: string;
   startUtc: string;  // e.g. "2025-08-27T09:00:00Z"
   endUtc: string;    // e.g. "2025-08-27T11:00:00Z"
-  
+  signatureBase64?: string
 }

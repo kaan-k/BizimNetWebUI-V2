@@ -1,0 +1,60 @@
+<div class="container py-4">
+
+  <h2 class="mb-4">{{ lang.view }} - {{ data.name }}</h2>
+
+  <div class="row g-4">
+
+    <div class="col-md-6">
+      <label class="form-label">{{ lang.customerName }}</label>
+      <input type="text" class="form-control custom-input" [value]="data.customerId" readonly>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">{{ lang.name }}</label>
+      <input type="text" class="form-control custom-input" [value]="data.name" readonly>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">{{ lang.description }}</label>
+      <textarea rows="3" class="form-control custom-input" [value]="data.description" readonly></textarea>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">{{ lang.priority }}</label>
+      <input type="text" class="form-control custom-input" [value]="data.priority">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Durum</label>
+      <input type="text" class="form-control custom-input" [value]="data.status">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Tamamlanma Zamanı</label>
+      <input type="text" class="form-control custom-input"
+             [value]="data.completedAt | date:'d MMMM y HH:mm':'':'tr-TR'"
+             placeholder="Henüz tamamlanmamış!" readonly>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Atanan Personel</label>
+      <input type="text" class="form-control custom-input" [value]="data.assignedEmployeeId">
+    </div>
+
+<div class="col-12" *ngIf="data.signatureBase64">
+  <label class="form-label">Yetkili İmzası</label>
+  <img [src]="getImageSrc(data.signatureBase64)" 
+       class="img-fluid rounded" 
+       alt="Görev görseli">
+</div>
+
+    
+    </div>
+
+  <div class="text-end mt-4">
+    <button class="btn btn-danger px-4 py-2">
+      <i class="fa-solid fa-circle-xmark"></i> Kapat
+    </button>
+  </div>
+
+</div>
