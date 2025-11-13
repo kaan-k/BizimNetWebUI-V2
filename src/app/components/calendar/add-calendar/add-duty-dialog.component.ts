@@ -1,11 +1,13 @@
 
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { ILanguage } from '../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../assets/locales/language';
+import { SignaturePadModule } from 'angular-signature-pad-v2';
+import { SignaturePad } from 'angular-signature-pad-v2';
 
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { UserComponentService } from '../../../services/component/user/user-component.service';
@@ -16,8 +18,10 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'add-duty-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule, NgSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule, NgSelectModule,SignaturePadModule ],
   template: `
+  
+
 
   <style>
   /* === Modern ng-select theme === */
@@ -180,6 +184,8 @@ import { Subject } from 'rxjs';
         </div>
       </form>
     </div>
+        <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>,
+
 
     <div mat-dialog-actions class="d-flex justify-content-end gap-2">
       <button class="button-4" mat-button (click)="close(null)">
@@ -189,6 +195,7 @@ import { Subject } from 'rxjs';
         <i class="fa-solid fa-check"></i> {{ lang.addNewDuty }}
       </button>
     </div>
+
   `,
 })
 export class AddDutyDialogComponent {
@@ -196,6 +203,13 @@ export class AddDutyDialogComponent {
   dutyForm!: FormGroup;
   customers: any[] = [];
   employees: any[] = [];
+   @ViewChild(SignaturePad) signaturePad: SignaturePad;
+
+   signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
+    'minWidth': 5,
+    'canvasWidth': 250,
+    'canvasHeight': 100
+  };
 refresh = new Subject<void>();
   constructor(
     private fb: FormBuilder,
@@ -220,6 +234,22 @@ refresh = new Subject<void>();
 
     this.customers = await this.customerSvc.getAllCustomer();
     this.employees = await this.userSvc.getAllUser();
+  }
+
+    ngAfterViewInit() {
+    // this.signaturePad is now available
+    this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
+    this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+  }
+
+  drawComplete() {
+    // will be notified of szimek/signature_pad's onEnd event
+    console.log(this.signaturePad.toDataURL());
+  }
+
+  drawStart() {
+    // will be notified of szimek/signature_pad's onBegin event
+    console.log('begin drawing');
   }
 
   submit() {

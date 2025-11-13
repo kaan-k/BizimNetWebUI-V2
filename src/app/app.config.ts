@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
 import localeTr from '@angular/common/locales/tr';
+import { SignaturePadModule } from 'angular-signature-pad-v2';
 
 import { routes } from './app.routes';
 
