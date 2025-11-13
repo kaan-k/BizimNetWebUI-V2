@@ -49,8 +49,7 @@ const dashboardRoutes = [
 
 // --- App feature routes under layout
 const humanRoutes = [
-    { path: 'charts', component: ChartsComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.users } },
-
+  { path: 'charts', component: ChartsComponent, canActivate: [loginGuard], data: { breadcrumb: "lang?.users" } },
   { path: 'user', component: UserComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.users } },
   { path: 'customer', component: CustomerComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.customers } },
   { path: 'offer', component: OfferComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.offers } },
