@@ -16,8 +16,8 @@ export class ChartsComponent {
     this.data={
       labels:['Q1','Q2','Q3','Q4'],
       datasets:[{
-        label:'yarrak',
-        data:[10,10,20,10]
+        label:'TEST',
+        data:[10,15,20,30]
       }]
 
     }
