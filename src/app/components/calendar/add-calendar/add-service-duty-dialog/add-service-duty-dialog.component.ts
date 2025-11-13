@@ -33,9 +33,9 @@ export class AddServiceDutyDialogComponent {
      @ViewChild(SignaturePad) signaturePad: SignaturePad;
   
      signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
-      'minWidth': 90,
-      'canvasWidth': 1250,
-      'canvasHeight':400,
+      'minWidth': 20,
+      'canvasWidth': 550,
+      'canvasHeight':300,
       
     };
 

@@ -39,6 +39,11 @@ export class AddCalendarViewDutyComponent {
     console.log(this.data.signatureBase64)
     
   }
+  showImage: boolean = false;
+
+toggleImage() {
+  this.showImage = !this.showImage;
+}
   getImageSrc(base64: string) {
   if (!base64) return '';
   

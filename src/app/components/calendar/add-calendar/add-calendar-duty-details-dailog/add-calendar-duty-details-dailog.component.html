@@ -1,5 +1,4 @@
-<div class="container py-4">
-
+<div class="container py-4" style="max-height: 90vh; overflow-y: auto;">
   <h2 class="mb-4">{{ lang.view }} - {{ data.name }}</h2>
 
   <div class="row g-4">
@@ -42,10 +41,31 @@
     </div>
 
 <div class="col-12" *ngIf="data.signatureBase64">
-  <label class="form-label">Yetkili İmzası</label>
-  <img [src]="getImageSrc(data.signatureBase64)" 
-       class="img-fluid rounded" 
-       alt="Görev görseli">
+  <label class="form-label fw-bold">Yetkili İmzası</label>
+  
+  <div class="d-grid">
+    <button type="button" 
+            class="btn btn-outline-secondary d-flex justify-content-between align-items-center" 
+            (click)="toggleImage()">
+      <span>
+        <i class="fa-solid fa-image me-2"></i>
+        {{ showImage ? 'İmzayı Gizle' : 'İmzayı Göster' }}
+      </span>
+      <i class="fa-solid" [class.fa-chevron-up]="showImage" [class.fa-chevron-down]="!showImage"></i>
+    </button>
+  </div>
+
+  <div *ngIf="showImage" class="mt-3 text-center p-2 bg-light border rounded">
+    <img [src]="data.signatureBase64" 
+         class="img-fluid rounded shadow-sm" 
+         style="max-height: 300px; object-fit: contain;" 
+         alt="Görev Görseli">
+      <div class="mt-2">
+        <a [href]="data.signatureBase64" download="gorsel.png" class="btn btn-sm btn-link text-decoration-none">
+           <i class="fa-solid fa-download"></i> İndir / Tam Boyut
+        </a>
+      </div>
+  </div>
 </div>
 
     
