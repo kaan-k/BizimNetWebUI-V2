@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
-import { ILanguage } from '../../../../../assets/locales/ILanguage';
-import { Languages } from '../../../../../assets/locales/language';
+import { ILanguage } from '../../../../assets/locales/ILanguage';
+import { Languages } from '../../../../assets/locales/language';
 import { SignaturePadModule } from 'angular-signature-pad-v2';
 import { SignaturePad } from 'angular-signature-pad-v2';
 
-import { CustomerComponentService } from '../../../../services/component/customer-component.service';
-import { UserComponentService } from '../../../../services/component/user/user-component.service';
+import { CustomerComponentService } from '../../../services/component/customer-component.service';
+import { UserComponentService } from '../../../services/component/user/user-component.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';

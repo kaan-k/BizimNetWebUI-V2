@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 // Use the full calendar+add feature
-import { AddCalendarComponent } from '../calendar/add-calendar/add-calendar.component';
+import { AddCalendarComponent } from '../calendar/add-calendar.component';
 
 @Component({
   selector: 'app-dashboard',

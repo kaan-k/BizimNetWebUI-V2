@@ -24,24 +24,24 @@
     </div>
 
     <div class="col-md-6">
-      <label class="form-label">Durum</label>
+      <label class="form-label">{{lang.status}}</label>
       <input type="text" class="form-control custom-input" [value]="data.status">
     </div>
 
     <div class="col-md-6">
-      <label class="form-label">Tamamlanma Zamanı</label>
+      <label class="form-label">{{lang.completionTime}}</label>
       <input type="text" class="form-control custom-input"
              [value]="data.completedAt | date:'d MMMM y HH:mm':'':'tr-TR'"
              placeholder="Henüz tamamlanmamış!" readonly>
     </div>
 
     <div class="col-md-6">
-      <label class="form-label">Atanan Personel</label>
+      <label class="form-label">{{lang.assignedEmployeeName}}</label>
       <input type="text" class="form-control custom-input" [value]="data.assignedEmployeeId">
     </div>
 
 <div class="col-12" *ngIf="data.signatureBase64">
-  <label class="form-label fw-bold">Yetkili İmzası</label>
+  <label class="form-label fw-bold">{{lang.AuthorizedSignature}}</label>
   
   <div class="d-grid">
     <button type="button" 
@@ -62,7 +62,7 @@
          alt="Görev Görseli">
       <div class="mt-2">
         <a [href]="data.signatureBase64" download="gorsel.png" class="btn btn-sm btn-link text-decoration-none">
-           <i class="fa-solid fa-download"></i> İndir / Tam Boyut
+           <i class="fa-solid fa-download"></i> {{lang.download}}
         </a>
       </div>
   </div>

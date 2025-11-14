@@ -31,19 +31,19 @@ import { MonthViewDay } from 'calendar-utils';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
-import { ILanguage } from '../../../../assets/locales/ILanguage';
-import { Languages } from '../../../../assets/locales/language';
-import { Duty } from '../../../models/duties/duty';
+import { ILanguage } from '../../../assets/locales/ILanguage';
+import { Languages } from '../../../assets/locales/language';
+import { Duty } from '../../models/duties/duty';
 
-import { DutyComponentService } from '../../../services/component/duty-component.service';
+import { DutyComponentService } from '../../services/component/duty-component.service';
 import { AddDutyDialogComponent } from './add-duty-dialog/add-duty-dialog.component';
 import { AddDutyQuickDialogComponent } from './add-duty-quick-dialog/add-duty-quick-dialog.component';
-import { EmployeeService } from '../../../services/common/employee.service';
+import { EmployeeService } from '../../services/common/employee.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
-import { UserComponentService } from '../../../services/component/user/user-component.service';
+import { UserComponentService } from '../../services/component/user/user-component.service';
 import { AddCalendarViewDutyComponent } from './add-calendar-duty-details-dailog/add-calendar-duty-details-dailog.component';
 import {NgToastComponent, NgToastModule} from 'ng-angular-popup'
-import { CustomDateFormatter } from '../../../core/datetime/datetime-picker-component';
+import { CustomDateFormatter } from '../../core/datetime/datetime-picker-component';
 import { AddServiceDutyDialogComponent } from './add-service-duty-dialog/add-service-duty-dialog.component';
 type DutyEvent = CalendarEvent<{ duty: Duty }>;
 
