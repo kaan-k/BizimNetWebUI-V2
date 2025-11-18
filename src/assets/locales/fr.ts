@@ -1,13 +1,6 @@
 import { ILanguage } from "./ILanguage";
 
 export class FR implements ILanguage{
-    clearSignature: any;
-    selectPriority: any;
-    dutyEnd: any;
-    dutyStart: any;
-    dutyDay: any;
-    AuthorizedSignature: any;
-    completionTime: any;
     view: any;
     firstName: any;
     lastName: any;

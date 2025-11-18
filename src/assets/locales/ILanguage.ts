@@ -1,11 +1,4 @@
 export interface ILanguage {
-clearSignature: any;
-selectPriority: any;
-dutyEnd: any;
-dutyStart: any;
-dutyDay: any;
-AuthorizedSignature: any;
-completionTime: any;
 firstName:any;
 lastName:any;
 title:any;

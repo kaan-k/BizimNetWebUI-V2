@@ -60,14 +60,16 @@ const humanRoutes = [
   { path: 'duty', component: DutyComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
   { path: 'agreements', component: AgreementsComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
   { path: 'settings', component: SettingsComponent, canActivate: [loginGuard], data: { breadcrumb: "ayarlar" } },  // keep as-is to match your lang keys
+ // keep as-is to match your lang keys
 
-  // {
-  //   path: 'calendar',
-  //   canActivate: [loginGuard],
-  //   data: { breadcrumb: 'Takvim' }, // or lang?.calendar if you have it
-  //   loadComponent: () =>
-  //     import('./components/calendar/calendar.component').then(m => m.CalendarComponent),
-  // },
+  // ✅ Lazy-loaded calendar page
+  {
+    path: 'calendar',
+    canActivate: [loginGuard],
+    data: { breadcrumb: 'Takvim' }, // or lang?.calendar if you have it
+    loadComponent: () =>
+      import('./components/calendar/calendar.component').then(m => m.CalendarComponent),
+  },
 ];
 
 // --- 404s

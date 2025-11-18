@@ -172,12 +172,6 @@ export class CustomerComponent {
             panelClass: 'matdialog-delete',
         });
     }
-        openAddDialog() {
-        return this.dialog.open(AddCustomerComponent, {
-            width: '550px',
-            panelClass: 'matdialog-delete',
-        });
-    }
     openViewDialog(customer: Customer) {
         this.dialog.open(ViewCustomerComponent, {
             width: '600px',

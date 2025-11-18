@@ -4,18 +4,18 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
-import { ILanguage } from '../../../../assets/locales/ILanguage';
-import { Languages } from '../../../../assets/locales/language';
-import { CustomerComponentService } from '../../../services/component/customer-component.service';
-import { UserComponentService } from '../../../services/component/user/user-component.service';
+import { ILanguage } from '../../../../../assets/locales/ILanguage';
+import { Languages } from '../../../../../assets/locales/language';
+
+import { CustomerComponentService } from '../../../../services/component/customer-component.service';
+import { UserComponentService } from '../../../../services/component/user/user-component.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { start } from 'repl';
-import { AddCustomerComponent } from '../../customer/add-customer/add-customer.component';
 
 @Component({
   selector: 'add-duty-quick-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule,AddCustomerComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule],
     templateUrl: './add-duty-quick-dialog.component.html',
   styleUrl: './add-duty-quick-dialog.component.css'  
 })

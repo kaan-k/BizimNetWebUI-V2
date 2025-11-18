@@ -1,0 +1,61 @@
+<div class="container-fluid">
+
+  <div class="d-flex align-items-center mb-3 gap-2">
+    <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" class="btn">&lt;</button>
+    <button mwlCalendarToday [(viewDate)]="viewDate" class="btn">Bugün</button>
+    <button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" class="btn">&gt;</button>
+
+    <div class="ms-auto btn-group">
+      <button class="btn" (click)="setView(CalendarView.Month)">Ay</button>
+      <button class="btn" (click)="setView(CalendarView.Week)">Hafta</button>
+      <button class="btn" (click)="setView(CalendarView.Day)">Gün</button>
+    </div>
+  </div>
+  <button class="btn btn-primary ms-2" (click)="addEvent()">+ Yeni Etkinlik</button>
+  <h3 class="mb-3">{{ viewDate | calendarDate:(view + 'ViewTitle') }}</h3>
+
+  <mwl-calendar-month-view
+    *ngIf="view === CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    [weekStartsOn]="1"
+    (dayClicked)="dayClicked($event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-month-view>
+
+  <mwl-calendar-week-view
+    *ngIf="view === CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [weekStartsOn]="1"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-week-view>
+
+  <mwl-calendar-day-view
+    *ngIf="view === CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-day-view>
+
+  <!-- lightweight modal -->
+  <div class="backdrop" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalData?.action }}</h5>
+        <button class="btn" (click)="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <pre>{{ modalData?.event | json }}</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" (click)="closeModal()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+</div>
