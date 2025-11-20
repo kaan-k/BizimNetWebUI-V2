@@ -70,8 +70,13 @@
 
     
     </div>
+<div class="text-end mt-4">
+    <button *ngIf="data.status !== 'Tamamlandı'" 
+            class="btn btn-success px-4 py-2 me-2" 
+            (click)="markAsCompleted(data.id)">
+      <i class="fa-solid fa-check"></i> Tamamlandı
+    </button>
 
-  <div class="text-end mt-4">
     <button class="btn btn-danger px-4 py-2">
       <i class="fa-solid fa-circle-xmark"></i> Kapat
     </button>

@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ILanguage } from '../../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../../assets/locales/language';
+import { DutyComponentService } from '../../../../services/component/duty-component.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'view-duty-calendar-dialog',
@@ -32,7 +34,7 @@ import { Languages } from '../../../../../assets/locales/language';
 })
 export class AddCalendarViewDutyComponent {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Duty) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Duty,private dutyComponentService: DutyComponentService,private toastrService: ToastrService) {}
 
 
   async ngOnInit() {
@@ -53,6 +55,19 @@ toggleImage() {
   
   return 'data:image/png;base64,' + base64;
 }
+
+async markAsCompleted(id: string) {
+  try {
+    const res = await this.dutyComponentService.markAsCompleted(id);
+    if (res.success) this.toastrService.success(res.message);
+    else this.toastrService.error(res.message);
+  } catch { this.toastrService.error('Bu görev zaten tamamlanmış.'); }
+}
+
+
+
+
+
 }
 
 
