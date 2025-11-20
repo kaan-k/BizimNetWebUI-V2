@@ -14,3 +14,29 @@
 .container {
   max-width: 900px; /* centers content nicely */
 }
+/* Makes buttons completely round like a pill */
+.btn-pill {
+  border-radius: 50px;
+  font-weight: 600; /* Semi-bold text */
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+/* The "Lift" effect on hover */
+.btn-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important; /* Stronger shadow on hover */
+}
+
+/* Optional: Soften the standard bootstrap green */
+.btn-success {
+  background-color: #2ecc71;
+  border-color: #2ecc71;
+}
+
+/* Optional: Make the close button look cleaner as an outline until hovered */
+.btn-outline-danger {
+  border-width: 2px;
+}

@@ -11,7 +11,7 @@ import { ILanguage } from '../../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../../assets/locales/language';
 import { DutyComponentService } from '../../../../services/component/duty-component.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'view-duty-calendar-dialog',
   standalone: true,
@@ -34,7 +34,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddCalendarViewDutyComponent {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Duty,private dutyComponentService: DutyComponentService,private toastrService: ToastrService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Duty,public dialogRef: MatDialogRef<AddCalendarViewDutyComponent>,private dutyComponentService: DutyComponentService,private toastrService: ToastrService) {}
 
 
   async ngOnInit() {
@@ -64,7 +64,9 @@ async markAsCompleted(id: string) {
   } catch { this.toastrService.error('Bu görev zaten tamamlanmış.'); }
 }
 
-
+close() {
+    this.dialogRef.close(); // Closes the dialog
+  }
 
 
 
