@@ -43,10 +43,10 @@ body {
 
 .options-panel {
   display: flex;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   padding-top: 3px;
   justify-content: center;
-  margin-left: 2rem;
+  margin-left: 0rem;
 }
 
 .options-panel a {
