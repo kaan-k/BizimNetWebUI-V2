@@ -28,6 +28,8 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [];
   user: User | null = null;
   userName: string = 'Yükleniyor...';
+  isUserAdmin: boolean = false;
+  userRoleText: string = 'Kullanıcı';
 
   // --- Minimal mobile-only state ---
   isMobileMenuOpen: boolean = false;
@@ -68,6 +70,12 @@ export class SidebarComponent implements OnInit {
       if (this.user) {
         // Prefer Name + Surname, fallback to Email
         this.userName = `${this.user.firstName || ''} ${this.user.lastName || ''}`.trim();
+        console.log(this.user.isAuthorised);
+        if (this.user.isAuthorised === true) {
+                this.userRoleText = 'Yönetici';
+            } else {
+                this.userRoleText = 'Kullanıcı';
+            }
       }
     }
   }

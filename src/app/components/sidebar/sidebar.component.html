@@ -1,12 +1,12 @@
 <!-- MOBILE HAMBURGER BUTTON (only visible on mobile via CSS) -->
 <button class="mobile-menu-button" (click)="toggleMobileMenu()" aria-label="Menüyü aç">
-  <i class="fa-solid fa-bars"></i>
+    <i class="fa-solid fa-bars"></i>
 </button>
 
 <nav class="hk-nav" [class.mobile-open]="isMobileMenuOpen">
     <div class="nav-header-wrapper">
         <div class="brand-logo">
-            <div class="logo-icon"><i class="fa-solid fa-cubes-stacked"></i></div> 
+            <div class="logo-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
             <span class="brand-text">BizimNet</span>
         </div>
     </div>
@@ -15,29 +15,25 @@
             <span class="menu-header">Menü</span>
             <ul class="navbar-nav flex-column">
                 @for (item of menuItems; track item.link) {
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           [routerLink]="[item.link]" 
-                           routerLinkActive="active" 
-                           [routerLinkActiveOptions]="{exact: item.link === '/'}"
-                           (click)="closeMobileMenu()">
-                            <span class="feather-icon"><i [class]="item.icon"></i></span>
-                            <span class="nav-link-text">{{ item.label }}</span>
-                            <div class="hover-effect"></div>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: item.link === '/'}" (click)="closeMobileMenu()">
+                        <span class="feather-icon"><i [class]="item.icon"></i></span>
+                        <span class="nav-link-text">{{ item.label }}</span>
+                        <div class="hover-effect"></div>
+                    </a>
+                </li>
                 }
             </ul>
         </div>
     </div>
     <div class="nav-footer">
         <div class="user-mini">
-            <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=203b46&color=fff&size=128&bold=true'" 
-                 class="avatar-circle" 
-                 alt="User Avatar">
+            <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=203b46&color=fff&size=128&bold=true'"
+                class="avatar-circle" alt="User Avatar">
             <div class="user-info">
                 <span class="name">{{ userName }}</span>
-                <span class="role">Kullanıcı</span>
+                <span class="role">{{ userRoleText }}</span>
             </div>
             <button class="btn-logout ms-auto" (click)="Logout()" title="Çıkış Yap">
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -56,41 +52,38 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
-    
+
     <div class="offcanvas-body custom-scrollbar">
         <div class="mobile-user-block mb-4 p-3 rounded">
             <div class="d-flex align-items-center gap-3 mb-3">
-                <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=26a69a&color=fff&size=128&bold=true'" 
-                     class="avatar-circle" alt="User Avatar">
+                <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=26a69a&color=fff&size=128&bold=true'"
+                    class="avatar-circle" alt="User Avatar">
                 <div>
                     <div class="text-white fw-bold">{{ userName }}</div>
                     <small class="text-muted">Kullanıcı</small>
                 </div>
             </div>
-<!--             
+            <!--             
             <div class="mobile-utility-toggle mb-3">
                 <button class="btn btn-sm w-100 btn-toggle-desktop" (click)="toggleDesktopSidebar()">
                     <i class="fa-solid fa-desktop me-2"></i> Masaüstü Menüsünü Gizle
                 </button>
             </div> -->
-            
+
             <button class="btn btn-sm w-100" style="background: #ef4444; color: white;" (click)="Logout()">
                 <i class="fa-solid fa-power-off me-2"></i> Çıkış Yap
             </button>
         </div>
-        
+
         <ul class="navbar-nav flex-column">
             @for (item of menuItems; track item.link) {
-                <li class="nav-item">
-                    <a class="nav-link" 
-                       [routerLink]="[item.link]" 
-                       routerLinkActive="active"
-                       [routerLinkActiveOptions]="{exact: item.link === '/'}"
-                       (click)="closeMobileMenu()">
-                        <span class="feather-icon"><i [class]="item.icon"></i></span>
-                        <span class="nav-link-text">{{ item.label }}</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: item.link === '/'}" (click)="closeMobileMenu()">
+                    <span class="feather-icon"><i [class]="item.icon"></i></span>
+                    <span class="nav-link-text">{{ item.label }}</span>
+                </a>
+            </li>
             }
         </ul>
     </div>
