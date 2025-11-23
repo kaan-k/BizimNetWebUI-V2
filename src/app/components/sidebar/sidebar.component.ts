@@ -7,6 +7,7 @@ import { LanguageComponentService } from '../../services/component/language-comp
 import { UserComponentService } from '../../services/component/user/user-component.service';
 import { UserDetailsDto } from '../../models/user/userDetailsDto';
 import { User } from '../../models/user/user';
+import { version,Version } from '../../../../src/set-version.js';
 
 // Define the structure for menu items
 interface MenuItem {
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [];
   user: User | null = null;
   userName: string = 'Yükleniyor...';
+  appVersion: Version = version;
 
   // --- Minimal mobile-only state ---
   isMobileMenuOpen: boolean = false;

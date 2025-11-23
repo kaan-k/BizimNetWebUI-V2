@@ -136,7 +136,7 @@
                                         <span>{{ duty.assignedEmployeeId }}</span>
                                     </div>
                                 </td>
-                                <td class="text-muted small">{{ duty.beginsAt | date:'dd.MM.yyyy' }}</td>
+                                <td class="text-muted small">{{ duty.completedAt | date:'dd.MM.yyyy' }}</td>
                                 <td>
                                     <span class="status-badge" 
                                           [class.done]="duty.status === 'Tamamlandı'"
