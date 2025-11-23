@@ -1,0 +1,129 @@
+<div class="calendar-layout bg-aurora">
+  
+  <div class="header-card glass-panel">
+    
+    <div class="top-row">
+        <div class="d-flex align-items-center gap-3">
+            <div class="btn-group btn-group-sm glass-btn-group">
+                <button class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="btn fw-bold px-3" mwlCalendarToday [(viewDate)]="viewDate">
+                    Bugün
+                </button>
+                <button class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <h2 class="calendar-title text-gradient">
+                {{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}
+            </h2>
+        </div>
+
+        <div class="btn-group btn-group-sm glass-btn-group">
+            <button class="btn" [class.active]="view === CalendarView.Month" (click)="setView(CalendarView.Month)">Ay</button>
+            <button class="btn" [class.active]="view === CalendarView.Week" (click)="setView(CalendarView.Week)">Hafta</button>
+            <button class="btn" [class.active]="view === CalendarView.Day" (click)="setView(CalendarView.Day)">Gün</button>
+        </div>
+    </div>
+
+    <div class="controls-row mt-3">
+        
+        <div class="filter-scroll">
+            <button class="filter-pill glass-pill" [class.active]="selectedId === ''" (click)="loadDuties()">
+                Tümü
+            </button>
+            <button class="filter-pill glass-pill status-success" [class.active]="selectedId === 'cmp'" (click)="loadDutyByStatus('Tamamlandı', 'cmp')">
+                <i class="fa-solid fa-check"></i>
+            </button>
+            <button class="filter-pill glass-pill status-danger" [class.active]="selectedId === 'uncmp'" (click)="loadDutyByStatus('Tamamlanmamış', 'uncmp')">
+                <i class="fa-solid fa-clock"></i>
+            </button>
+            
+            <div class="vr mx-2 opacity-25 text-white"></div>
+
+            @for (emp of employees; track emp.id) {
+                <button class="filter-pill glass-pill employee" 
+                        [class.active]="selectedId === emp.id" 
+                        (click)="loadDutyForEmployee(emp.id)">
+                    <span class="avatar-circle">{{ emp.firstName.charAt(0) }}</span>
+                    {{ emp.firstName }}
+                </button>
+            }
+        </div>
+
+        <div class="actions-group">
+            <button class="btn-float quick" (click)="openAddQuickDutyDialog()" title="Hızlı">
+                <i class="fa-solid fa-bolt"></i>
+            </button>
+            <button class="btn-float service" (click)="openAddServiceDutyDialog()" title="Servis">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </button>
+            <button class="btn-float new" (click)="openAddDutyDialog()" title="Yeni">
+                <i class="fa-solid fa-plus"></i> <span class="d-none d-md-inline ms-2">Yeni Görev</span>
+            </button>
+        </div>
+    </div>
+  </div>
+
+  <div class="calendar-viewport glass-panel">
+      @if (view === CalendarView.Month) {
+        <mwl-calendar-month-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [activeDayIsOpen]="activeDayIsOpen"
+          [weekStartsOn]="1"
+          [locale]="locale"
+          (dayClicked)="dayClicked($event)"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-month-view>
+      }
+
+      @if (view === CalendarView.Week) {
+        <mwl-calendar-week-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [locale]="locale"
+          [weekStartsOn]="1"
+          [dayStartHour]="8"
+          [dayEndHour]="19"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-week-view>
+      }
+
+      @if (view === CalendarView.Day) {
+        <mwl-calendar-day-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [locale]="locale"
+          [dayStartHour]="8"
+          [dayEndHour]="19"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-day-view>
+      }
+  </div>
+  
+  @if (showModal) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal d-block fade show" tabindex="-1" (click)="closeInfoModal()">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-panel border-0">
+          <div class="modal-header border-0">
+            <h6 class="modal-title fw-bold text-dark">{{ modalData?.action }}</h6>
+            <button type="button" class="btn-close" (click)="closeInfoModal()"></button>
+          </div>
+          <div class="modal-body">
+            <pre class="bg-light p-2 rounded small mb-0">{{ modalData?.event | json }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

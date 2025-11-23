@@ -1,112 +1,200 @@
-.nav-header {
-    padding: 0.5rem 1.15rem;
-    width: 240px;
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.4);
+/* --- VARIABLES --- */
+:host {
+    --sidebar-width: 280px;
+    --bg-gradient: linear-gradient(180deg, #203b46 0%, #152a33 100%);
+    --primary: #203b46;
+    --accent: #26a69a; 
+    --hover-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-main: #eceff1;
+    --text-muted: #90a4ae;
 }
 
-
-
-.feather-icon {
-    min-width: 32px;
-    line-height: 25px;
-}
-
-.nav-link {
-    position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.6);
-    padding: 7px 0px;
-}
-
-.fa-solid {
-    margin-right: 10px;
-}
-
-.fa-regular {
-    margin-right: 10px;
-}
-
+/* --- MAIN CONTAINER (Desktop) --- */
 .hk-nav {
-
-    width: 260px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    padding: 80px 20px;
+    width: var(--sidebar-width);
+    position: fixed; top: 0; left: 0; height: 100%;
+    background: var(--bg-gradient);
     z-index: 100;
-    box-shadow: 0 0 1px var(--grey-color-light);
-    transition: all 0.5s ease;
-    width: 15%;
-    background: #233c46;
-}
-
-.nicescroll-bar {
-    height: 100%;
-    overflow-y: scroll;
-    width: auto;
-    outline: none;
-}
-
-.flex-column {
-    padding-left: 2%;
-}
-
-.hk-nav {
-
+    display: flex; flex-direction: column;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+    border-right: 1px solid var(--border-color);
     transition: all 0.4s ease;
 }
 
-
-@media (max-width: 1476px) {
-
-    .hk-nav {
-        display: none;
-    }
+/* --- HEADER --- */
+.nav-header-wrapper { padding: 1.5rem 2rem; flex-shrink: 0; }
+.brand-logo {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--text-main); font-size: 1.4rem; font-weight: 800;
+    letter-spacing: 0.5px;
+}
+.logo-icon {
+    width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), #00897b);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(38, 166, 154, 0.3);
 }
 
+/* --- DESKTOP SCROLLABLE AREA --- */
+.nicescroll-bar {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    padding: 1rem 0;
+}
+.navbar-nav-wrap { padding: 0 1rem; }
+.menu-header {
+    display: block; padding: 0 1rem 0.8rem 1rem;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    color: var(--text-muted); letter-spacing: 1px; opacity: 0.6;
+}
+
+/* NAVIGATION LINKS */
+.nav-link {
+    position: relative; display: flex; align-items: center;
+    padding: 0.8rem 1.2rem; color: var(--text-muted);
+    border-radius: 12px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-decoration: none; font-weight: 500; overflow: hidden;
+}
+
+.feather-icon { min-width: 24px; margin-right: 12px; font-size: 1.1rem; transition: color 0.3s; display: flex; align-items: center; justify-content: center; }
+.nav-link-text { font-size: 0.95rem; letter-spacing: 0.3px; }
+
+/* HOVER STATE */
+.nav-link:hover {
+    color: var(--text-main); background: var(--hover-bg);
+    transform: translateX(4px);
+}
+.nav-link:hover .feather-icon { color: var(--accent); }
+
+/* ACTIVE STATE */
+.nav-link.active {
+    background: linear-gradient(90deg, rgba(38, 166, 154, 0.15) 0%, rgba(38, 166, 154, 0.05) 100%);
+    color: #ffffff;
+    box-shadow: inset 4px 0 0 var(--accent);
+    font-weight: 600;
+}
+.nav-link.active .feather-icon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(38, 166, 154, 0.6));
+}
+
+/* --- FOOTER (User Profile) --- */
+.nav-footer {
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+.user-mini { display: flex; align-items: center; gap: 12px; width: 100%; }
+.avatar-circle { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
+.user-info { display: flex; flex-direction: column; overflow: hidden; }
+.user-info .name { color: var(--text-main); font-weight: 700; font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-info .role { color: var(--text-muted); font-size: 0.7rem; }
+
+.btn-logout {
+    background: rgba(255,255,255,0.05); color: #ef4444; width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;
+    margin-left: auto;
+}
+.btn-logout:hover { background: #ef4444; color: white; transform: translateX(2px); box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); }
+
+
+/* --- MOBILE OFFCANVAS FIXES --- */
+
+/* Fix: Ensures the content area is scrollable */
+.offcanvas-body {
+    flex-grow: 1; 
+    overflow-y: auto; 
+    padding-top: 0.5rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* Offcanvas Panel Style */
 .canvas-style {
-    background-color: #233c46;
-    width: 280px;
-}
-
-.languages {
+    background: var(--bg-gradient);
+    width: 300px;
+    border-right: 1px solid var(--border-color);
     display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
+    flex-direction: column;
+    height: 100vh; /* Ensures full height */
 }
 
-.navbar-logo {
+.offcanvas-header {
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+}
+
+.btn-close-custom {
+    background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem;
+}
+
+/* --- CRITICAL VISIBILITY OVERRIDE (For when content is appended to body/root) --- */
+/* This is a high-specificity rule to ensure the offcanvas is visible when opened */
+:host ::ng-deep #offcanvasExample.show {
+    visibility: visible !important;
+    transform: none !important;
+}
+
+/* --- ========== MOBILE-SPECIFIC BEHAVIOR ========== --- */
+
+/* Hide the mobile hamburger by default; show on small screens */
+.mobile-menu-button {
+  display: none;
+}
+
+/* prevent body scroll when mobile menu is open */
+.no-scroll {
+  overflow: hidden;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  /* show hamburger */
+  .mobile-menu-button {
     display: flex;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 500;
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    align-items: center;
     justify-content: center;
-    height: 54px;
-    width: 100%;
-    margin-bottom: 28px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  }
+
+  /* hide desktop sidebar by default on mobile (completely off-screen) */
+  .hk-nav {
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(.25,.8,.25,1);
+    width: 260px; /* width when open */
+  }
+
+  /* when mobile-open class applied, bring it on-screen */
+  .hk-nav.mobile-open {
+    transform: translateX(0);
+    z-index: 490;
+  }
+
+  /* optional: subtle overlay when menu open (we keep it minimal) */
+  .hk-nav.mobile-open::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+
+  /* ensure nav-footer stays at bottom inside the off-canvas */
+  .nav-footer {
+    position: relative;
+  }
 }
 
-.language {
-    cursor: pointer;
-}
-
-@media (max-width: 1536px) {
-    .nav-link-text {
-        font-size: 14px;
-    }
-}
-
-.hk-nav ::-webkit-scrollbar {
-    width: .5em;
-}
-
-.hk-nav ::-webkit-scrollbar-thumb {
-    background-color: #233c46 !important;
-    border-radius: 5px !important;
-}
+/* end of file */

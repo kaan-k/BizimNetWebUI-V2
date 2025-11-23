@@ -1,70 +1,95 @@
-<h2 mat-dialog-title class="mb-3">
-  <i class="fa-solid fa-plus"></i> {{ lang.addNewDuty }}
-</h2>
-
-<div mat-dialog-content>
-  <form [formGroup]="dutyForm">
-
-    <div class="row g-3">
-
-      <!-- Duty Name -->
-      <div class="col-12 col-md-6">
-        <label class="form-label">{{ lang.name }}</label>
-        <input formControlName="name" class="form-control" type="text">
-      </div>
-
-      <!-- Description -->
-      <div class="col-12 col-md-6">
-        <label class="form-label">{{ lang.description }}</label>
-        <input formControlName="description" class="form-control" type="text">
-      </div>
-
-      <!-- Customer -->
-      <div class="col-12">
-        <label class="form-label">
-          <i class="fa-solid fa-user"></i> Müşteri Adı
-        </label>
-        <ng-select 
-          [items]="customers"
-          bindLabel="companyName"
-          bindValue="id"
-          formControlName="customerId">
-        </ng-select>
-      </div>
-
-      <!-- Signature Pad -->
-      <div class="col-12">
-        <label class="form-label d-block">
-          <i class="fa-solid fa-signature"></i> İmza
-        </label>
-
-        <div class="border rounded shadow-sm p-2 bg-white" style="width: 100%; overflow: hidden;">
-          <signature-pad 
-            [options]="signaturePadOptions"
-            (onBeginEvent)="drawStart()"
-            (onEndEvent)="drawComplete()">
-          </signature-pad>
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">{{ lang.addNewDuty }}</h5>
+            <p class="subtitle">Servis detaylarını giriniz ve imza alınız.</p>
         </div>
-
-        <button type="button"
-                class="btn btn-secondary w-100 mt-2"
-                (click)="clearPad()">
-          <i class="fa-solid fa-eraser"></i> İmzayı Temizle
+        <button class="btn-close-white" (click)="close(null)">
+            <i class="fa-solid fa-xmark"></i>
         </button>
-      </div>
-
     </div>
 
-  </form>
+    <div class="dialog-body">
+        <form [formGroup]="dutyForm">
+            
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ lang.name }} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-pen input-icon"></i>
+                        <input formControlName="name" type="text" class="form-control ps-5" placeholder="Servis adı...">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+    <label class="form-label">{{ lang.description }}</label>
+    <div class="input-wrapper">
+        <textarea 
+            formControlName="description" 
+            class="form-control ps-3" 
+            placeholder="Açıklama..."
+            cdkTextareaAutosize 
+            cdkAutosizeMinRows="1">
+        </textarea>
+    </div>
 </div>
+            </div>
 
-<!-- Footer -->
-<div mat-dialog-actions class="d-flex justify-content-end gap-2 mt-3">
-  <button class="btn btn-light" mat-button (click)="close(null)">
-    <i class="fa-solid fa-circle-xmark"></i> {{ lang.cancel }}
-  </button>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label class="form-label">Müşteri Adı <span class="text-danger">*</span></label>
+                    <ng-select [items]="customers" 
+                               bindLabel="companyName" 
+                               bindValue="id" 
+                               formControlName="customerId"
+                               placeholder="" 
+                               appendTo="body" 
+                               class="modern-select">
+                        
+                        <ng-template ng-option-tmp let-item="item">
+                            <div class="d-flex align-items-center">
+                                <div class="customer-avatar me-2">
+                                    {{ item.companyName.charAt(0).toUpperCase() }}
+                                </div>
+                                <span class="fw-bold text-dark small">{{item.companyName}}</span>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
 
-  <button class="btn btn-primary" mat-button (click)="submit()">
-    <i class="fa-solid fa-check"></i> {{ lang.addNewDuty }}
-  </button>
+            <div class="signature-section">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label mb-0">
+                        <i class="fa-solid fa-file-signature text-primary me-1"></i> İmza
+                    </label>
+                    <button type="button" class="btn-text-danger" (click)="clearPad()">
+                        <i class="fa-solid fa-eraser"></i> Temizle
+                    </button>
+                </div>
+
+                <div class="signature-pad-wrapper">
+                    <signature-pad 
+                        [options]="signaturePadOptions"
+                        (onBeginEvent)="drawStart()"
+                        (onEndEvent)="drawComplete()">
+                    </signature-pad>
+                    <div class="signature-placeholder" *ngIf="!hasSigned">
+                        <span>İmza atmak için buraya çizin</span>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="btn btn-light border" (click)="close(null)">
+            {{ lang.cancel }}
+        </button>
+        <button class="btn btn-dark-teal" (click)="submit()">
+            <i class="fa-solid fa-check me-2"></i> {{ lang.addNewDuty }}
+        </button>
+    </div>
 </div>

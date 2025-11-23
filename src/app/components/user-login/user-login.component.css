@@ -1,67 +1,108 @@
+/* --- THEME VARIABLES --- */
+:host {
+    --bg-dark-primary: #1f313c; /* Deep Teal/Slate Background */
+    --color-accent: #26a69a;    /* Bright Teal Accent */
+    --color-white: #e0e7ff;     /* Off-White Text/Surface */
+    --border-dark: #37474f;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+    
+    /* CRITICAL FIX: Apply the dark gradient to the component's root */
+    display: block; 
+    height: 100vh;
+    background: linear-gradient(135deg, var(--bg-dark-primary) 0%, #111827 100%);
+    color: var(--color-white);
+}
+
+/* Ensure all text inside the component is light for visibility */
+.login-card * {
+    color: var(--color-white);
+}
+
+/* Customizing specific elements */
 .login-title {
-  height: 100%;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 10%;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10%;
 }
 
-body {
-  background: linear-gradient(to bottom, #020812, #537895);
-  color: #fff;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-evenly;
-  align-content: space-around;
-  margin-bottom: 5%;
-}
-
-.container {
-  height: 100vh;
-}
-
-.text-center {
-  margin-top: 50px;
-}
-
+/* INPUTS: Need specific override */
 .form-control {
-  width: 300px;
-  margin: 10px auto;
-  padding: 10px;
+    width: 100%;
+    height: 48px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05); /* Subtle dark input bg */
+    border: 1px solid var(--border-dark);
+    color: var(--color-white);
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    font-size: 1rem;
 }
 
-.custom-btn {
-  padding: 3px;
-  width: 120px;
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.text-muted {
-  text-align: center;
-  color: #fff !important;
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.3);
+    color: var(--color-white);
 }
 
-.options-panel {
-  display: flex;
-  padding-bottom: 10px;
-  padding-top: 3px;
-  justify-content: center;
-  margin-left: 0rem;
+/* LOGIN CARD */
+.login-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
 }
 
-.options-panel a {
-  margin-right: 17%;
-  font-size: 17px;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
+/* BUTTONS */
+.btn-login {
+    width: 100%;
+    padding: 12px 0;
+    background: var(--color-accent);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 20px rgba(38, 166, 154, 0.3);
 }
 
-.password-button a {
-  color: white;
-  text-decoration: none;
+.btn-login:hover {
+    background: #10b981;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(38, 166, 154, 0.5);
 }
 
-.language {
-  cursor: pointer;
+/* Language Selector */
+.languages {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.language img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.language img:hover {
+    opacity: 1;
+    transform: scale(1.1);
 }

@@ -1,121 +1,111 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Renderer2 } from '@angular/core';
+import { Component, Renderer2, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
 import { Languages } from '../../../assets/locales/language';
 import { ILanguage } from '../../../assets/locales/ILanguage';
 import { UserComponentService } from '../../services/component/user/user-component.service';
 import { UserDetailsDto } from '../../models/user/userDetailsDto'; 
 import { LanguageComponentService } from '../../services/component/language-component.service';
 
-
-
-
-
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
-  providers: []
+  styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  user: UserDetailsDto;
-  breadCrum:any
-  //TrueFalse
-  status: boolean = false;
-  menuItems: any;
+  user: UserDetailsDto | null = null;
+  breadCrum: string = '';
+  userName: string = '';
   isSidebarOpen: boolean = true;
-  dataLoaded = false;
-  userName: string;
-  imagePath: any;
-  employeeImagePath: any;
-  employeeStatus: boolean = false;
-  userStatus: boolean = false;
-
-  ngOnInit(): void {
-    this.getImage()
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const currentRoute = this.router.routerState.snapshot.root;
-        this.breadCrum = this.getBreadcrumb(currentRoute);
-      }
-    });
-  }
+  
+  // Image paths
+  imagePath: string | null = null;
+  employeeImagePath: string | null = null;
 
   constructor(
-    private titleService: Title,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private renderer: Renderer2,
     private userComponentService: UserComponentService,
     private languageComponentService: LanguageComponentService,
   ) { }
 
-  getImagePath(): string {
-    if (this.imagePath) {
-      let url: string = window["env"]["userImage"] + this.imagePath
-      return url;
-    } else if (this.employeeImagePath) {
-      let url2: string = window["env"]["employeeImage"] + this.employeeImagePath
-      return url2
-    }
-    let url3 = "assets/img/noimage.jpg";
-    return url3
-  }
-  getImage() {
-    var userId = localStorage.getItem("userId")
-    this.getByUser()
-      this.userStatus = true;
+  ngOnInit(): void {
+    this.loadUserData();
+    
+    // Breadcrumb Logic
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const root = this.router.routerState.snapshot.root;
+      this.breadCrum = this.getBreadcrumb(root);
+    });
   }
 
-  Logout() {
-    localStorage.removeItem("token")
-    localStorage.removeItem("expiration")
-    localStorage.removeItem("userId");
-    localStorage.removeItem("employeeId");
-    this.router.navigate(["/user-login"]);
+  async loadUserData() {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      this.user = await this.userComponentService.getById(userId);
+      // Map properties for the UI
+      if (this.user) {
+        this.userName = this.user.email
+      }
+    }
+  }
+
+  // Getter for clean HTML
+  get safeUserImage(): string {
+    const baseUrlUser = window["env"]?.["userImage"] || '';
+    const baseUrlEmp = window["env"]?.["employeeImage"] || '';
+
+    if (this.imagePath) return baseUrlUser + this.imagePath;
+    if (this.employeeImagePath) return baseUrlEmp + this.employeeImagePath;
+    
+    return "assets/img/noimage.jpg";
   }
 
   SidebarShow() {
     const sidebarElement = document.querySelector('.hk-nav');
-    const wrapperElement = document.querySelector('.main-element');
+    const wrapperElement = document.querySelector('.main-element'); // Assuming this is your content wrapper
 
     if (sidebarElement && wrapperElement) {
       if (this.isSidebarOpen) {
-        this.renderer.setStyle(sidebarElement, 'width', '0%');
+        // Close Sidebar
+        this.renderer.setStyle(sidebarElement, 'width', '0');
         this.renderer.setStyle(sidebarElement, 'padding', '0');
+        this.renderer.setStyle(sidebarElement, 'overflow', 'hidden'); // clean hide
         this.renderer.setStyle(wrapperElement, 'width', '100%');
+        this.renderer.setStyle(wrapperElement, 'margin-left', '0'); // Ensure it stretches
       } else {
-        this.renderer.setStyle(sidebarElement, 'width', '15%');
+        // Open Sidebar
+        this.renderer.setStyle(sidebarElement, 'width', '280px'); // Match CSS var
         this.renderer.setStyle(sidebarElement, 'padding', '80px 20px');
-        this.renderer.setStyle(wrapperElement, 'width', '85%');
+        this.renderer.setStyle(wrapperElement, 'width', 'calc(100% - 280px)');
+        this.renderer.setStyle(wrapperElement, 'margin-left', '280px');
       }
       this.isSidebarOpen = !this.isSidebarOpen;
     }
   }
-  async getByUser() {
-    var userId = localStorage.getItem("userId");
-    this.user = (await this.userComponentService.getImagesByUserId(userId));
-    this.dataLoaded = true;
-  }
+
   readNotification() {
-    var a = document.getElementById("bell");
-    a.classList.remove("bells");
+    const bell = document.getElementById("bell");
+    if(bell) bell.classList.remove("bells");
   }
-  changeLanguage(language: string) {
-    localStorage.setItem("lng", language)
-    this.languageComponentService.setLanguage(language)
-    window.location.reload()
+
+  Logout() {
+    localStorage.clear(); // Clears all items (token, userId, etc)
+    this.router.navigate(["/user-login"]);
   }
-  private getBreadcrumb(route: ActivatedRouteSnapshot): string {
+
+  private getBreadcrumb(route: any): string {
     while (route.firstChild) {
       route = route.firstChild;
     }
-    return route.data["breadcrumb"];  
+    return route.data?.["breadcrumb"] || '';  
   }
-
-
 }

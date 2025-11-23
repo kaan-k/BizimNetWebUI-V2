@@ -11,13 +11,14 @@ import { CustomerComponentService } from '../../../../services/component/custome
 import { UserComponentService } from '../../../../services/component/user/user-component.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { start } from 'repl';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { SignaturePad, SignaturePadModule } from 'angular-signature-pad-v2';
 
 
 @Component({
   selector: 'app-add-service-duty-dialog',
   standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule,SignaturePadModule],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule,NgSelectModule,SignaturePadModule,TextFieldModule],
   templateUrl: './add-service-duty-dialog.component.html',
   styleUrl: './add-service-duty-dialog.component.css'
 })
@@ -27,6 +28,7 @@ export class AddServiceDutyDialogComponent {
   dutyForm!: FormGroup;
   customers: any[] = [];
   employees: any[] = [];
+  hasSigned = false;
   signatureBase64 = '';
 
 
@@ -91,11 +93,13 @@ ngAfterViewInit() {
   }
 
   drawStart() {
+    this.hasSigned = true;
     // will be notified of szimek/signature_pad's onBegin event
     console.log('begin drawing');
   }
   clearPad() {
     this.signaturePad.clear();
+    this.hasSigned = false;
   }
 
   close(result: any) { this.dialogRef.close(result); }

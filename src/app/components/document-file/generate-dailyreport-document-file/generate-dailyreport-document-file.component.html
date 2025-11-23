@@ -1,19 +1,45 @@
-<div class="modal fade" id="documentFileGenerateDailyReportModal" tabindex="-1" aria-labelledby="documentFileGenerateDailyReportLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-6" id="documentFileGenerateDailyReportLabel"> <i class="fa-solid fa-file-contract"></i>
-                    {{"Günlük Rapor Üret"}}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="dialog-layout">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">Günlük Rapor</h5>
+            <p class="subtitle">Sistem genelinde günlük rapor oluşturma işlemi.</p>
+        </div>
+        <button type="button" class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="dialog-body">
+        
+        <div class="alert-box info">
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-calendar-day"></i>
             </div>
-            <div class="modal-body">
-                    <div class="row">
-                        Bugünlük Rapor Üretilecek. Onaylıyor musunuz?
-                    </div>
-                <div class="btn-location mt-5">
-                    <button class="button-37" (click)="onSubmit()" data-bs-dismiss="modal"><i class="fa-solid fa-file-contract"></i> {{"Rapor Üret"}}</button>
-                </div>
+            <div>
+                <h6 class="fw-bold mb-1">Rapor Oluşturulsun mu?</h6>
+                <p class="mb-0 small">Bugüne ait veriler derlenip PDF formatında arşive eklenecektir.</p>
             </div>
         </div>
+
     </div>
+
+    <div class="dialog-footer">
+        <button type="button" class="btn-ghost" (click)="close()">
+            İptal
+        </button>
+        
+        <button type="button" class="btn-prism" (click)="onSubmit()" [disabled]="isLoading">
+            <div class="sheen"></div>
+            
+            <ng-container *ngIf="!isLoading">
+                <i class="fa-solid fa-file-contract me-2"></i> Raporu Üret
+            </ng-container>
+            
+            <ng-container *ngIf="isLoading">
+                <i class="fa-solid fa-circle-notch fa-spin me-2"></i> İşleniyor...
+            </ng-container>
+        </button>
+    </div>
+
 </div>

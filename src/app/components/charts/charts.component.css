@@ -1,0 +1,207 @@
+/* --- THEME VARIABLES --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-app: #f0f2f5;
+    --border: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --radius: 16px;
+    --shadow-card: 0 4px 15px -3px rgba(0,0,0,0.05);
+}
+
+/* LAYOUT */
+.chart-container {
+    background-color: var(--bg-app);
+    min-height: 100vh;
+    padding: 2rem 2.5rem;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+.page-title {
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.2rem;
+}
+
+/* --- CARDS --- */
+.chart-card {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+.chart-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+}
+
+.card-header-custom {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: var(--text-main);
+    background: linear-gradient(to bottom, #ffffff, #fbfcfd);
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+.chart-body {
+    padding: 1.5rem;
+    flex: 1;
+    position: relative;
+}
+
+/* --- SUMMARY CARD (The Colored One) --- */
+.summary-card {
+    background: linear-gradient(135deg, var(--primary) 0%, #2c5c6d 100%);
+    border-radius: var(--radius);
+    padding: 2rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px -5px rgba(32, 59, 70, 0.3);
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.stat-row:last-child { border-bottom: none; }
+
+.stat-label { font-size: 0.9rem; opacity: 0.8; }
+.stat-value { font-size: 1.4rem; font-weight: 800; }
+
+/* Utility Buttons */
+.btn-icon {
+    background: transparent; border: none; color: var(--text-muted);
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+}
+.btn-icon:hover { background: #f1f5f9; color: var(--primary); }
+
+.btn-prism-white {
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 0.8rem;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.btn-prism-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Badges */
+.bg-teal-light { background-color: #e0f2f1; }
+.text-teal { color: var(--primary); }
+
+
+
+/* ... existing styles ... */
+
+/* --- TABLE STYLING (PrimeNG Overrides) --- */
+::ng-deep .custom-table .p-datatable-header {
+    background: transparent;
+    border: none;
+}
+
+::ng-deep .custom-table .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr > td {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    border-bottom: 1px solid #f1f5f9;
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 700;
+}
+.status-badge.done { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+.status-badge.pending { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+
+/* Mini Avatar in Table */
+.avatar-mini {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #e0f2f1; color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 800; border: 1px solid var(--border);
+}
+
+/* --- PAGINATOR STYLING --- */
+
+::ng-deep .p-paginator {
+    background: transparent;
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem; /* Consistent internal padding */
+}
+
+/* Base Style for All Buttons (Page Numbers, Prev/Next) */
+::ng-deep .p-paginator .p-paginator-page,
+::ng-deep .p-paginator .p-paginator-prev,
+::ng-deep .p-paginator .p-paginator-next {
+    /* Base shape and sizing */
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 4px;
+    transition: all 0.2s;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid transparent; 
+}
+
+/* Hover/Focus State (Subtle highlight) */
+::ng-deep .p-paginator .p-paginator-page:not(.p-highlight):hover,
+::ng-deep .p-paginator .p-paginator-prev:not(.p-disabled):hover,
+::ng-deep .p-paginator .p-paginator-next:not(.p-disabled):hover {
+    background-color: var(--bg-gray) !important; /* Light Gray Background */
+    color: var(--primary); /* Dark Teal Text */
+    border-color: var(--border);
+}
+
+/* Active Page Number (Teal Accent) */
+::ng-deep .p-paginator .p-paginator-page.p-highlight {
+    background: var(--accent) !important; /* Solid Bright Teal */
+    color: white !important;
+    border-color: var(--accent);
+}
+
+/* Disabled Navigation Arrows */
+::ng-deep .p-paginator .p-paginator-prev.p-disabled,
+::ng-deep .p-paginator .p-paginator-next.p-disabled {
+    opacity: 0.4;
+}

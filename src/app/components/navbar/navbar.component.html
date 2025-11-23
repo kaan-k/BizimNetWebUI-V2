@@ -1,50 +1,63 @@
+<!-- <nav class="navbar-glass fixed-top">
+    
+    <div class="nav-left">
+        <button class="btn-icon-toggle d-xl-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-<nav class="navbar navbar-expand-xl navbar-light fixed-tops hk-navbar">
-    <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover nav-canvas"href="#offcanvasExample" data-bs-toggle="offcanvas" aria-controls="offcanvasExample" >
-        <span class="feather-icon"> <i class="fa-solid fa-bars"></i> </span>
-      </a>
+        <button class="btn-icon-toggle d-none d-xl-flex" (click)="SidebarShow()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
 
-      <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover nav-click" style="cursor: pointer; margin-right: 1rem;" (click)="SidebarShow()">
-        <span class="feather-icon"> <i class="fa-solid fa-bars"></i> </span>
-      </a>
-
-    <a class="navbar-brand font-weight-700 d-flex justify-content-center"  [routerLink]="['/']" >
-        <div class="navbar-logo">
-            <img src="../../../assets/ary-yazilim.png" alt="logo" class="avatar-img ">
+        <div class="breadcrumb-wrapper d-none d-md-block">
+            <span class="current-page">{{ breadCrum || lang.dashboard }}</span>
         </div>
-    </a>
-  
-    <ul class="navbar-nav hk-navbar-content" >
-        <li class="nav-item dropdown dropdown-notifications">
-            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="readNotification()" >
-                <span class="feather-icon"> <i id="bell"  class="fa-solid fa-bell"></i>  </span>
-            </a>
-        </li>
+    </div>
+
+    <div class="nav-right">
         
+        <div class="nav-item dropdown">
+            <a class="btn-icon-bell" href="#" role="button" data-bs-toggle="dropdown" (click)="readNotification()">
+                <i class="fa-regular fa-bell"></i>
+                <span id="bell" class="notification-dot bells"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                <span class="dropdown-header">Bildirimler</span>
+                <a class="dropdown-item text-muted small" href="#">Bildiriminiz yok.</a>
+            </div>
+        </div>
 
-        <li class="nav-item dropdown dropdown-authentication">
-            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-bs-toggle="dropdown" data-bs-target="#userDropdown" aria-haspopup="true" aria-expanded="false">
-                <div class="media">
-                    <div class="media-img-wrap">
-                        <div class="avatar">
-                                        <img src="../../../assets/ary-yazilim.png" alt="logo" class="avatar-img ">
-
-                            <!-- <img [src]="getImagePath()" alt="user" class="avatar-img rounded-circle"> -->
-                        </div>
-                        <span class="badge badge-success badge-indicator"></span>
+        <div class="nav-item dropdown">
+            <a class="user-pill dropdown-toggle no-caret" href="#" role="button" data-bs-toggle="dropdown">
+                <div class="user-avatar">
+                    <img [src]="safeUserImage" alt="user">
+                </div>
+                <div class="user-info d-none d-md-block">
+                    <span class="name">{{ userName }}</span>
                     </div>
-                    <div class="media-body">
+                <i class="fa-solid fa-chevron-down ms-2 text-muted" style="font-size: 0.7rem;"></i>
+            </a>
 
-                        <span class="user-name"> {{userName}}</span>
-
-                        <i class="fa-solid fa-caret-down"></i>
+            <div class="dropdown-menu dropdown-menu-end profile-dropdown" id="userDropdown">
+                <div class="dropdown-header d-flex align-items-center gap-3 pb-3 border-bottom">
+                    <img [src]="safeUserImage" class="avatar-lg">
+                    <div>
+                        <h6 class="mb-0 text-dark font-weight-bold">{{ userName }}</h6>
+                        <small class="text-muted">Hesap Ayarları</small>
                     </div>
                 </div>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX" id="userDropdown">
-                <a class="dropdown-item" (click)="Logout()"><i class="fa-solid fa-right-from-bracket"></i><span>{{lang.logout}}</span></a>
+                
+                <a class="dropdown-item mt-2" [routerLink]="['/settings']">
+                    <i class="fa-solid fa-gear me-2"></i> {{ "Ayarlar" }}
+                </a>
+                
+                <div class="dropdown-divider"></div>
+                
+                <a class="dropdown-item text-danger" (click)="Logout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> {{ lang.logout }}
+                </a>
             </div>
-        </li>
-        
-    </ul>
-</nav>
+        </div>
+
+    </div>
+</nav> -->

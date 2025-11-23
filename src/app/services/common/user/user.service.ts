@@ -40,7 +40,7 @@ export class UserService extends BizimNetHttpClientService {
     return this.get<ListResponseModel<UserDetailsDto>>({ controller: this._controller, action: "GetAll" })
   }
   getById(id: string) {
-    return this.get<SingleResponseModel<User>>({ controller: this._controller, action: "GetByUser", queryString: `id=${id}` })
+    return this.get<SingleResponseModel<User>>({ controller: this._controller, action: "GetById", queryString: `id=${id}` })
   }
   getImagesByUserId(id: string) {
     return this.get<SingleResponseModel<UserDetailsDto>>({ controller: this._controller, action: "GetImagesByUserId", queryString: `userId=${id}` })

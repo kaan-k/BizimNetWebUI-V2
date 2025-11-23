@@ -1,94 +1,158 @@
-/* === Modern ng-select theme === */
-::ng-deep .ng-select {
-  width: 100%;
-  font-size: 14px;
-  font-weight: 500;
-  color: #212529;
+/* --- THEME VARIABLES --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8fafc;
+    --border: #e2e8f0;
+    --text-main: #1e293b;
+    --text-sub: #64748b;
 }
 
-/* Container */
-::ng-deep .ng-select .ng-select-container {
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 10px;
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+/* LAYOUT CONTAINER */
+.dialog-layout {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
-::ng-deep .ng-select:hover .ng-select-container {
-  border-color: #86b7fe;
-  box-shadow: 0 2px 5px rgba(13, 110, 253, 0.08);
+/* HEADER */
+.dialog-header {
+    background-color: var(--primary);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: white;
+}
+.title { margin: 0; font-weight: 700; font-size: 1.1rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1);
+    border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { background: rgba(255,255,255,0.2); }
+
+/* BODY */
+.dialog-body {
+    padding: 2rem 1.5rem;
+    background-color: white;
 }
 
-::ng-deep .ng-select.ng-select-focused .ng-select-container {
-  border-color: #0d6efd !important;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+.form-label {
+    font-size: 0.8rem; font-weight: 700; color: var(--text-sub);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;
 }
 
-/* Placeholder */
-::ng-deep .ng-select .ng-placeholder {
-  color: #adb5bd;
-  font-weight: 400;
+.alert-box {
+    background: #f0f9ff; border: 1px solid #bae6fd;
+    border-left: 4px solid #0ea5e9;
+    padding: 1rem; border-radius: 8px;
+    display: flex; gap: 10px; align-items: center;
+    color: #0369a1; font-size: 0.85rem; font-weight: 500;
 }
 
-/* Selected value */
-::ng-deep .ng-select .ng-value {
-  color: #212529;
+/* FOOTER */
+.dialog-footer {
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: #f8fafc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
 }
 
-/* Dropdown panel */
-::ng-deep .ng-dropdown-panel {
-  background-color: #fff !important;
-  border: 1px solid #dee2e6 !important;
-  border-radius: 10px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
-  margin-top: 4px;
-  overflow: hidden;
-  z-index: 9999 !important;
-  animation: dropdownFadeIn 0.15s ease-in-out;
+/* --- BUTTON STYLES (The Missing Part) --- */
+
+/* Ghost Button (Cancel) */
+.btn-ghost {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text-sub);
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-ghost:hover {
+    background: #e2e8f0;
+    color: var(--text-main);
 }
 
-/* Dropdown items */
-::ng-deep .ng-dropdown-panel .ng-option {
-  background: #ffffff !important;
-  color: #212529 !important;
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
+/* Prism Button (Generate Report) */
+.btn-prism {
+    position: relative;
+    border: none;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary) 0%, #37474f 100%);
+    color: white;
+    font-weight: 700;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(32, 59, 70, 0.3);
 }
 
-::ng-deep .ng-dropdown-panel .ng-option:hover {
-  background-color: #f1f3f5 !important;
+.btn-prism:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(32, 59, 70, 0.4);
 }
 
-::ng-deep .ng-dropdown-panel .ng-option-selected {
-  background-color: #e9f3ff !important;
-  color: #0d6efd !important;
-  font-weight: 500;
+.btn-prism:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
 }
 
-/* Clear button (x) */
-::ng-deep .ng-select .ng-clear-wrapper {
-  color: #adb5bd;
-  transition: color 0.15s ease-in-out;
+/* Shine Animation */
+.sheen {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.3), rgba(255,255,255,0));
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
 }
-::ng-deep .ng-select .ng-clear-wrapper:hover {
-  color: #dc3545;
+.btn-prism:disabled .sheen { display: none; }
+
+@keyframes shine {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
 }
 
-/* Small fade-in animation for dropdown */
-@keyframes dropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* --- NG-SELECT STYLES --- */
+::ng-deep .modern-select .ng-select-container {
+    min-height: 45px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+::ng-deep .modern-select.ng-select-focused .ng-select-container {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Dropdown Panel Global Override */
+::ng-deep body .ng-dropdown-panel {
+    z-index: 9999 !important; /* Ensure on top */
+    background: #fff !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+}
+
+.customer-avatar {
+    width: 24px; height: 24px; background: #f1f5f9; color: var(--text-sub);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 800; border: 1px solid var(--border);
 }

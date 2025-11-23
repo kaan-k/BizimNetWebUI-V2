@@ -1,12 +1,155 @@
+<div class="container-fluid chart-container">
+    
+    <div class="page-header mb-4">
+        <div>
+            <h3 class="page-title">
+                <i class="fa-solid fa-chart-pie me-2 opacity-50"></i>
+                İstatistikler ve Raporlar
+            </h3>
+            <p class="text-muted small mb-0">Sistem verilerinin görsel özeti.</p>
+        </div>
+    </div>
 
-<div class="d-flex align-items-center mb-3 gap-2">
-    <p-chart type="pie" [data]="data" class="w-full md:w-[1rem]" />
+    <div class="row g-4 mb-4">
+        
+        <div class="col-md-12 col-lg-4">
+            <div class="summary-card h-100">
+                <h5 class="text-white mb-4">Hızlı Özet</h5>
+                
+                <div class="stat-row">
+                    <span class="stat-label">Toplam Görev</span>
+                    <span class="stat-value">{{ totalCount }}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Tamamlanan</span>
+                    <span class="stat-value">{{ completedCount }}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Aktif / Bekleyen</span>
+                    <span class="stat-value">{{ activeCount }}</span>
+                </div>
+
+                <!-- <div class="mt-auto pt-4">
+                    <button class="btn-prism-white w-100">
+                        <i class="fa-solid fa-file-export me-2"></i> Rapor İndir
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <h6 class="m-0">Görev Dağılımı</h6>
+                    <button class="btn-icon"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+                <div class="chart-body d-flex justify-content-center align-items-center">
+                    <p-chart type="pie" [data]="pieData" [options]="pieOptions" width="100%" height="250px"></p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <h6 class="m-0">Personel Katkı Payı</h6>
+                    <button class="btn-icon"><i class="fa-solid fa-user-check"></i></button>
+                </div>
+                <div class="chart-body d-flex justify-content-center align-items-center">
+                    <p-chart type="doughnut" [data]="userContributionData" [options]="doughnutOptions" width="100%" height="250px"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        
+        <div class="col-md-6">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <h6 class="m-0">Servis vs Görev Dağılımı (İmza)</h6>
+                    <button class="btn-icon"><i class="fa-solid fa-file-signature"></i></button>
+                </div>
+                <div class="chart-body">
+                    <p-chart type="bar" [data]="upcomingDeadlineData" [options]="forecastOptions" height="200px"></p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <h6 class="m-0">En Yüksek İş Yükü Olan Müşteriler</h6>
+                    <button class="btn-icon"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                </div>
+                <div class="chart-body">
+                    <p-chart type="bar" [data]="bottleneckData" [options]="barOptions" height="200px"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <h6 class="m-0">Son 14 Günlük Tamamlanma Trendi</h6>
+                    <button class="btn-icon"><i class="fa-solid fa-chart-line"></i></button>
+                </div>
+                <div class="chart-body">
+                    <p-chart type="line" [data]="weeklyTrendData" [options]="lineOptions" height="300px"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<p-chart type="doughnut" [data]="data"  />
-
-
-
-
-<p-chart type="line" [data]="data"  />
-  </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="chart-card">
+                <div class="card-header-custom">
+                    <div class="d-flex align-items-center gap-2">
+                        <h6 class="m-0">Son Görevler</h6>
+                        <span class="badge bg-light text-muted border">{{ duties.length }} Kayıt</span>
+                    </div>
+                    <button class="btn-icon"><i class="fa-solid fa-filter"></i></button>
+                </div>
+                
+                <div class="p-0">
+                    <p-table [value]="duties" [paginator]="true" [rows]="5" styleClass="p-datatable-sm custom-table">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Müşteri</th>
+                                <th>Görev Adı</th>
+                                <th>Personel</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-duty>
+                            <tr>
+                                <td class="fw-bold text-primary">{{ duty.customerId }}</td>
+                                <td>{{ duty.name }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="avatar-mini">{{ duty.assignedEmployeeId?.charAt(0) }}</div>
+                                        <span>{{ duty.assignedEmployeeId }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-muted small">{{ duty.beginsAt | date:'dd.MM.yyyy' }}</td>
+                                <td>
+                                    <span class="status-badge" 
+                                          [class.done]="duty.status === 'Tamamlandı'"
+                                          [class.pending]="duty.status !== 'Tamamlandı'">
+                                        <i class="fa-solid" [class.fa-check]="duty.status === 'Tamamlandı'" [class.fa-clock]="duty.status !== 'Tamamlandı'"></i>
+                                        {{ duty.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

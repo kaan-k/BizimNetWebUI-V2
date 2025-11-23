@@ -116,10 +116,12 @@ export class DutyComponent {
     {
       field: 'View',
       headerName: this.lang.view,
+      cellStyle: { 'text-align': 'center' },
       filter: false,
       valueGetter: () => 'View',
       cellRenderer: () =>
         `<i class="fa-solid fa-eye" style="cursor:pointer;opacity:0.7;font-size:20px;"></i>`,
+      
       onCellClicked: (event: CellClickedEvent) => this.openViewDialog(event.data),
     },
     {
@@ -281,26 +283,152 @@ export class RejectReasonDialog {
 }
 
 @Component({
-  selector: 'reset-confirm-dialog',
-  template: `
-  <h5 mat-dialog-title>Görünümü Sıfırlama Onayı</h5>
-  <div mat-dialog-content>
-    <p>Kaydedilmiş tüm sütun genişlikleri, sıralama ve filtre ayarları silinecektir.</p>
-    <p>Devam etmek istediğinizden emin misiniz?</p>
-  </div>
-  <div mat-dialog-actions class="mat-mdc-dialog-actions">
-    <button class="button-4" mat-button [mat-dialog-close]="false">
-      <i class="fa-solid fa-circle-xmark"></i> {{  'İptal' }}
-    </button>
-    <button class="button-24" mat-button [mat-dialog-close]="true" cdkFocusInitial>
-      <i class="fa-solid fa-check"></i> {{ 'Sıfırla' }}
-    </button>
-  </div>
-  `,
-  standalone: true,
-  imports: [MatDialogModule, MatButtonModule, CommonModule],
+  selector: 'reset-confirm-dialog',
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule, CommonModule],
+  template: `
+    <div class="dialog-layout">
+      
+      <div class="dialog-header">
+        <div class="icon-box">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </div>
+        <div class="header-text">
+          <h5 class="title">Görünümü Sıfırla</h5>
+          <p class="subtitle">Tablo ayarlarınız varsayılana dönecek.</p>
+        </div>
+      </div>
+
+      <div class="dialog-body">
+        <div class="alert-box">
+          <i class="fa-solid fa-circle-info text-accent"></i>
+          <p>Kaydedilmiş tüm <strong>sütun genişlikleri</strong>, <strong>sıralama</strong> ve <strong>filtre</strong> ayarları silinecektir.</p>
+        </div>
+        <p class="confirmation-text">Devam etmek istediğinizden emin misiniz?</p>
+      </div>
+
+      <div class="dialog-footer">
+        <button class="btn-ghost" [mat-dialog-close]="false">
+          {{ 'İptal' }}
+        </button>
+        
+        <button class="btn-prism" [mat-dialog-close]="true" cdkFocusInitial>
+          <div class="sheen"></div>
+          <i class="fa-solid fa-check me-2"></i> {{ 'Sıfırla' }}
+        </button>
+      </div>
+
+    </div>
+  `,
+  styles: [`
+    /* --- THEME VARIABLES --- */
+    :host {
+      --primary: #203b46;
+      --accent: #26a69a;
+      --bg-gray: #f8f9fa;
+      --border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+    }
+
+    /* LAYOUT */
+    .dialog-layout {
+      background: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-width: 450px;
+    }
+
+    /* HEADER */
+    .dialog-header {
+      padding: 1.5rem;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .icon-box {
+      width: 48px; height: 48px;
+      background: #e0f2f1; /* Light Teal Bg */
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 10px rgba(38, 166, 154, 0.15);
+    }
+    
+    /* Subtle rotation animation for the icon on hover */
+    .dialog-header:hover .icon-box i {
+        transform: rotate(180deg);
+        transition: transform 0.5s ease;
+    }
+
+    .title { margin: 0; font-weight: 800; font-size: 1.1rem; color: var(--text-main); }
+    .subtitle { margin: 0; font-size: 0.8rem; color: var(--text-sub); margin-top: 2px; }
+
+    /* BODY */
+    .dialog-body { padding: 1.5rem; background: var(--bg-gray); }
+
+    .alert-box {
+      background: #fff;
+      border: 1px solid #b2dfdb;
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      display: flex; gap: 10px; align-items: start;
+    }
+    .text-accent { color: var(--accent); margin-top: 3px; }
+
+    .confirmation-text {
+        margin: 0; font-weight: 600; color: var(--text-main); font-size: 0.95rem;
+    }
+
+    /* FOOTER */
+    .dialog-footer {
+      padding: 1rem 1.5rem;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 0.8rem;
+    }
+
+    /* BUTTONS */
+    .btn-ghost {
+      border: 1px solid var(--border); background: white;
+      color: var(--text-sub); font-weight: 600; padding: 0.6rem 1.2rem;
+      border-radius: 8px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-ghost:hover { background: var(--bg-gray); color: var(--text-main); }
+
+    /* The Prism Button (Teal) */
+    .btn-prism {
+      position: relative; border: none; overflow: hidden;
+      background: linear-gradient(135deg, var(--primary) 0%, #37474f 100%);
+      color: white; font-weight: 700; padding: 0.6rem 1.5rem;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center;
+      box-shadow: 0 4px 10px rgba(32, 59, 70, 0.3);
+    }
+    
+    .btn-prism:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(32, 59, 70, 0.4);
+    }
+
+    .sheen {
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.3), rgba(255,255,255,0));
+      transform: skewX(-25deg); animation: shine 3s infinite;
+    }
+    @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+  `]
 })
 export class ResetConfirmDialog {
-  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  constructor(public dialogRef: MatDialogRef<ResetConfirmDialog>) { }
+  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
+  constructor(public dialogRef: MatDialogRef<ResetConfirmDialog>) { }
 }

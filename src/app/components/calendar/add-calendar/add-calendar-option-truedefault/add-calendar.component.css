@@ -1,0 +1,227 @@
+/* --- THEME VARIABLES --- */
+:host {
+    --primary: #203b46;
+    --primary-soft: #ecfdf5; /* Very light teal tint */
+    --accent: #26a69a;
+    --bg-body: #f1f5f9;
+    --surface: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-container {
+    padding: 1.5rem;
+    background-color: var(--bg-body);
+    min-height: 100vh;
+}
+
+/* --- 1. CONTROLS CARD --- */
+.controls-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Header Row (Title & Nav) */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.calendar-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+    text-transform: capitalize;
+    letter-spacing: -0.5px;
+}
+.calendar-subtitle { margin: 0; font-size: 0.9rem; margin-top: 4px; }
+
+/* Navigation Buttons */
+.btn-white {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 0.6rem 1rem;
+    transition: all 0.2s;
+}
+.btn-white:hover { background: var(--bg-body); }
+
+.divider { margin: 1rem 0; border-color: var(--border); opacity: 0.6; }
+
+/* --- 2. FILTERS (SCROLLABLE) --- */
+.filter-row {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.filter-scroll-container {
+    flex: 1; /* Take remaining space */
+    overflow-x: auto; /* Enable Horizontal Scroll */
+    padding-bottom: 4px; /* Space for scrollbar */
+    /* Hide scrollbar for clean look */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+.filter-scroll-container::-webkit-scrollbar { display: none; }
+
+.filter-track {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Filter Pills */
+.filter-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-pill:hover { background: var(--bg-body); transform: translateY(-1px); }
+
+/* Active States */
+.filter-pill.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(32, 59, 70, 0.25);
+}
+.filter-pill.success.active { background: #10b981; border-color: #10b981; }
+.filter-pill.danger.active { background: #ef4444; border-color: #ef4444; }
+
+.avatar-circle {
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: bold;
+}
+.filter-pill:not(.active) .avatar-circle { background: var(--bg-body); color: var(--text-muted); }
+
+/* View Switcher Buttons */
+.view-switcher-wrapper .btn.active {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* --- 3. ACTION GRID --- */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Columns equal width */
+    gap: 1rem;
+}
+
+.action-btn {
+    border: none;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    height: 100%;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+}
+
+.action-btn .icon-box {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.action-btn.quick .icon-box { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.action-btn.service .icon-box { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.action-btn.new .icon-box { background: linear-gradient(135deg, var(--primary), #162a33); }
+
+.action-btn .text-content { display: flex; flex-direction: column; }
+.action-btn .label { font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
+.action-btn .desc { font-size: 0.75rem; color: var(--text-muted); }
+
+/* --- 4. CALENDAR SURFACE --- */
+.calendar-surface {
+    background: white;
+    border-radius: 16px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+/* DEEP CALENDAR OVERRIDES */
+::ng-deep .cal-month-view .cal-header .cal-cell {
+    padding: 1rem 0; font-weight: 700; color: var(--primary);
+    border-bottom: 1px solid var(--border);
+}
+::ng-deep .cal-month-view .cal-day-cell { min-height: 100px; } /* Taller cells */
+::ng-deep .cal-month-view .cal-day-cell.cal-today {
+    background-color: var(--primary-soft) !important;
+}
+::ng-deep .cal-month-view .cal-day-badge {
+    background-color: var(--accent) !important;
+}
+::ng-deep .cal-event { border-radius: 4px; }
+
+
+/* --- RESPONSIVE MEDIA QUERIES (THE MOBILE FIX) --- */
+@media (max-width: 768px) {
+    .calendar-container { padding: 1rem; }
+    
+    /* 1. Stack Header */
+    .header-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .nav-actions { width: 100%; }
+    .btn-group { width: 100%; display: flex; }
+    .btn-group .btn { flex: 1; }
+
+    /* 2. Stack Filter Row */
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    /* 3. Stack Actions */
+    .actions-grid {
+        grid-template-columns: 1fr; /* Stack vertically */
+        gap: 0.75rem;
+    }
+    
+    .action-btn { padding: 0.8rem; }
+}

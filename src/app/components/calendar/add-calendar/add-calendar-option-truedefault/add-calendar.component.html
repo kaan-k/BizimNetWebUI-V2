@@ -1,0 +1,137 @@
+<div class="container-fluid calendar-container">
+  
+  <div class="controls-card">
+    
+    <div class="header-row">
+        <div class="calendar-title-wrapper">
+            <h2 class="calendar-title">
+                {{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}
+            </h2>
+            <p class="calendar-subtitle text-muted d-none d-md-block">
+                Görev ve servis planlamanızı buradan yönetin.
+            </p>
+        </div>
+
+        <div class="nav-actions">
+            <div class="btn-group shadow-sm">
+                <button class="btn btn-white" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-white fw-bold px-3" mwlCalendarToday [(viewDate)]="viewDate">
+                    Bugün
+                </button>
+                <button class="btn btn-white" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="filter-row">
+        
+        <div class="filter-scroll-container">
+            <div class="filter-track">
+                <button class="filter-pill" [class.active]="selectedId === ''" (click)="loadDuties()">
+                    Tümü
+                </button>
+                <button class="filter-pill success" [class.active]="selectedId === 'cmp'" (click)="loadDutyByStatus('Tamamlandı', 'cmp')">
+                    <i class="fa-solid fa-check-circle"></i> Tamamlanan
+                </button>
+                <button class="filter-pill danger" [class.active]="selectedId === 'uncmp'" (click)="loadDutyByStatus('Tamamlanmamış', 'uncmp')">
+                    <i class="fa-solid fa-clock"></i> Açık
+                </button>
+                
+                <div class="vr mx-2 opacity-25"></div>
+
+                @for (emp of employees; track emp.id) {
+                    <button class="filter-pill employee" 
+                            [class.active]="selectedId === emp.id" 
+                            (click)="loadDutyForEmployee(emp.id)">
+                        <span class="avatar-circle">{{ emp.firstName.charAt(0) }}</span>
+                        {{ emp.firstName }}
+                    </button>
+                }
+            </div>
+        </div>
+
+        <div class="view-switcher-wrapper">
+            <div class="btn-group w-100 shadow-sm">
+                <button class="btn btn-sm btn-white" [class.active]="view === CalendarView.Month" (click)="setView(CalendarView.Month)">Ay</button>
+                <button class="btn btn-sm btn-white" [class.active]="view === CalendarView.Week" (click)="setView(CalendarView.Week)">Hafta</button>
+                <button class="btn btn-sm btn-white" [class.active]="view === CalendarView.Day" (click)="setView(CalendarView.Day)">Gün</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="actions-grid mb-4">
+    <button class="action-btn quick" (click)="openAddQuickDutyDialog()">
+        <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+        <div class="text-content">
+            <span class="label">Hızlı Ekle</span>
+            <span class="desc">Basit görev oluştur</span>
+        </div>
+    </button>
+
+    <button class="action-btn service" (click)="openAddServiceDutyDialog()">
+        <div class="icon-box"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="text-content">
+            <span class="label">Servis Gir</span>
+            <span class="desc">Form ve imza al</span>
+        </div>
+    </button>
+
+    <button class="action-btn new" (click)="openAddDutyDialog()">
+        <div class="icon-box"><i class="fa-solid fa-plus"></i></div>
+        <div class="text-content">
+            <span class="label">Yeni Görev</span>
+            <span class="desc">Detaylı planlama</span>
+        </div>
+    </button>
+  </div>
+
+  <div class="calendar-surface shadow-sm">
+      @if (view === CalendarView.Month) {
+        <mwl-calendar-month-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [activeDayIsOpen]="activeDayIsOpen"
+          [weekStartsOn]="1"
+          [locale]="locale"
+          (dayClicked)="dayClicked($event)"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-month-view>
+      }
+
+      @if (view === CalendarView.Week) {
+        <mwl-calendar-week-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [locale]="locale"
+          [weekStartsOn]="1"
+          [dayStartHour]="8"
+          [dayEndHour]="19"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-week-view>
+      }
+
+      @if (view === CalendarView.Day) {
+        <mwl-calendar-day-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [locale]="locale"
+          [dayStartHour]="8"
+          [dayEndHour]="19"
+          (eventClicked)="eventClicked($event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-day-view>
+      }
+  </div>
+</div>

@@ -1,7 +1,383 @@
-.active-btn {
-  background-color: #007bff !important;
-  color: white !important;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
-  transform: scale(1.05);
-  transition: all 0.2s ease;
+/* --- THEME VARIABLES --- */
+:host {
+    --bg-app: #f0f2f5;          /* Soft blue-gray background */
+    --bg-surface: #ffffff;
+    --primary: #203b46;         /* Dark Teal */
+    --primary-light: #e0f2f1;
+    --accent: #26a69a;          /* Bright Teal */
+    --text-main: #1e293b;
+    --text-sub: #64748b;
+    --border: #e2e8f0;
+    --radius: 16px;             /* Softer corners */
+    --shadow-card: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-float: 0 10px 20px rgba(0,0,0,0.06);
+}
+
+/* 1. LAYOUT SHELL */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 64px);
+    background-color: var(--bg-app);
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* 2. HEADER (Floating Card Look) */
+.top-bar {
+    flex: 0 0 auto;
+    background-color: var(--bg-surface);
+    padding: 1rem 1.5rem;
+    z-index: 20;
+    background: linear-gradient(to bottom, #fff, #fbfcfd);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 15px -5px rgba(0,0,0,0.05);
+}
+
+/* Header Row */
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+
+.title-group { display: flex; align-items: center; gap: 14px; }
+.icon-badge {
+    width: 44px; height: 44px; 
+    background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+    color: var(--primary);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.8);
+}
+.page-title { margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--primary); text-transform: capitalize; letter-spacing: -0.5px; }
+.page-subtitle { margin: 0; font-size: 0.85rem; color: var(--text-sub); font-weight: 500; }
+
+/* Navigation Capsules */
+.nav-controls { 
+    display: flex; align-items: center; gap: 4px; 
+    background: #fff; border: 1px solid var(--border); 
+    padding: 4px; border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.btn-icon {
+    width: 34px; height: 34px; border: none; background: transparent; border-radius: 50%;
+    color: var(--text-main); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
+}
+.btn-icon:hover { background: var(--bg-app); color: var(--primary); transform: scale(1.1); }
+.btn-today {
+    border: none; background: var(--primary); color: white; font-weight: 700; 
+    font-size: 0.8rem; padding: 0.4rem 1rem; border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(32, 59, 70, 0.2);
+}
+
+.separator { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); width: 100%; margin-bottom: 1rem; opacity: 0.6; }
+
+/* --- 3. TOOLBAR & FACEPILE --- */
+.toolbar-row { display: flex; justify-content: space-between; align-items: center; gap: 2rem; min-width: 0; }
+
+.filter-strip { 
+    display: flex; align-items: center; gap: 0.5rem; 
+    overflow-x: auto; white-space: nowrap; padding-bottom: 4px; 
+    flex: 1; min-width: 0; scrollbar-width: none;
+}
+.filter-strip::-webkit-scrollbar { display: none; }
+
+/* Status Chips */
+.chip {
+    background: white; border: 1px solid var(--border); border-radius: 30px;
+    padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600; color: var(--text-sub);
+    display: flex; align-items: center; gap: 8px; transition: all 0.2s; flex-shrink: 0;
+}
+.chip:hover { transform: translateY(-1px); border-color: #94a3b8; }
+.chip.active { background: var(--text-main); color: white; border-color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.success { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.dot.danger { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+
+.divider-v { width: 1px; height: 24px; background: var(--border); margin: 0 0.5rem; flex-shrink: 0; }
+
+/* FACEPILE USER LIST */
+.chip.user {
+    margin-right: -8px; border: 2px solid white; padding-left: 4px;
+    transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.chip.user:hover {
+    margin-right: 4px; z-index: 10; transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.chip.user.active { background: var(--primary); color: white; z-index: 5; margin-right: 8px; }
+
+.avatar {
+    width: 24px; height: 24px; background: #f1f5f9; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-main);
+    font-weight: 800; border: 1px solid var(--border);
+}
+.chip.user.active .avatar { background: rgba(255,255,255,0.2); color: white; border: none; }
+
+
+/* Right Actions */
+.right-actions { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+
+.toggle-capsule { background: #f1f5f9; padding: 3px; border-radius: 12px; display: flex; }
+.toggle-capsule button {
+    border: none; background: transparent; padding: 0.4rem 1rem; font-size: 0.8rem;
+    font-weight: 600; color: var(--text-sub); border-radius: 9px; transition: 0.2s;
+}
+.toggle-capsule button.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-weight: 800; }
+
+/* CREATE BUTTON */
+.btn-primary-action {
+    background: linear-gradient(135deg, var(--primary) 0%, #2f5666 100%);
+    color: white; border: none;
+    padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 0.9rem;
+    display: flex; align-items: center; gap: 8px; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(32, 59, 70, 0.25);
+}
+.btn-primary-action:hover { 
+    transform: translateY(-2px); box-shadow: 0 8px 20px rgba(32, 59, 70, 0.35);
+    background: linear-gradient(135deg, #2f5666 0%, var(--primary) 100%);
+}
+
+
+/* 4. CALENDAR CONTAINER */
+.calendar-scroll-container {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    background: var(--bg-app); padding: 1.5rem; position: relative;
+}
+.calendar-wrapper { background: transparent; min-height: 100%; }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+
+/* =================================================================
+   --- UNIFIED CALENDAR STYLES (Month, Week, Day) ---
+   ================================================================= */
+
+/* Shared Header Styles (The Days of the Week) */
+::ng-deep .cal-header {
+    border-bottom: none !important;
+    background: transparent !important;
+}
+
+::ng-deep .cal-header .cal-cell, 
+::ng-deep .cal-week-view .cal-header.cal-today,
+::ng-deep .cal-week-view .cal-day-headers .cal-header:not(:last-child) {
+    border: none !important;
+    font-weight: 800 !important;
+    color: var(--text-sub) !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    padding: 1rem 0;
+    background: transparent !important; /* Kills ugly default yellow/gray backgrounds */
+}
+
+/* Today Header Accent */
+::ng-deep .cal-week-view .cal-header.cal-today b {
+    color: var(--accent) !important;
+    font-size: 1.1rem;
+}
+
+
+/* --- MONTH VIEW SPECIFICS (Floating Cards) --- */
+::ng-deep .cal-month-view { background: transparent !important; }
+::ng-deep .cal-month-view .cal-days, ::ng-deep .cal-month-view .cal-cell-row { border: none; gap: 8px; background: transparent; }
+::ng-deep .cal-month-view .cal-cell-row { margin-bottom: 8px; }
+
+::ng-deep .cal-month-view .cal-day-cell {
+    min-height: 120px; background: white; border-radius: 16px; border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s ease;
+}
+::ng-deep .cal-month-view .cal-day-cell:hover {
+    transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); z-index: 5;
+}
+::ng-deep .cal-month-view .cal-day-cell.cal-today {
+    background: #ffffff !important;
+    box-shadow: inset 0 0 0 2px var(--accent), 0 4px 12px rgba(38, 166, 154, 0.15) !important;
+}
+::ng-deep .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    color: var(--accent); font-size: 1.3rem; font-weight: 900; opacity: 1; margin: 8px;
+}
+::ng-deep .cal-month-view .cal-day-cell .cal-day-number {
+    font-size: 1rem; color: var(--text-main); opacity: 0.6; margin: 8px;
+}
+::ng-deep .cal-month-view .cal-events { margin-bottom: 6px; }
+::ng-deep .cal-month-view .cal-day-badge { 
+    background-color: var(--accent) !important; box-shadow: 0 2px 5px rgba(38, 166, 154, 0.3);
+}
+
+
+/* --- WEEK & DAY VIEW SPECIFICS (Clean White Grid) --- */
+
+/* The main containers */
+::ng-deep .cal-week-view, ::ng-deep .cal-day-view {
+    background-color: white; /* Clean white background for the grid area */
+    border-radius: var(--radius);
+    border: none !important; /* Remove outer ugly borders */
+    box-shadow: var(--shadow-card);
+    overflow: hidden; /* Rounded corners for the whole grid */
+}
+
+/* Remove internal ugly gray borders */
+::ng-deep .cal-week-view .cal-day-columns,
+::ng-deep .cal-week-view .cal-time-events,
+::ng-deep .cal-day-view .cal-hour-rows {
+    border-color: transparent !important;
+}
+
+/* The Time Slots (Hour Segments) */
+::ng-deep .cal-week-view .cal-hour-segment,
+::ng-deep .cal-day-view .cal-hour-segment {
+    border-bottom: 1px solid #f1f5f9; /* Very subtle separator */
+    transition: background-color 0.2s;
+}
+
+::ng-deep .cal-week-view .cal-hour-segment:hover,
+::ng-deep .cal-day-view .cal-hour-segment:hover {
+    background-color: #f8fafc; /* Subtle hover state */
+}
+
+/* The Vertical Lines between days in Week View */
+::ng-deep .cal-week-view .cal-day-column {
+    border-left: 1px solid #f1f5f9 !important;
+}
+
+/* Time Labels on the left */
+::ng-deep .cal-week-view .cal-time,
+::ng-deep .cal-day-view .cal-time {
+    font-weight: 700; color: var(--text-sub); font-size: 0.8rem;
+    background: white; border-right: 1px solid #f1f5f9;
+}
+
+
+/* --- EVENTS IN WEEK/DAY VIEW --- */
+/* Make them look like modern chips */
+::ng-deep mwl-calendar-week-view-event,
+::ng-deep mwl-calendar-day-view-event {
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none !important; /* Remove default border */
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+::ng-deep mwl-calendar-week-view-event:hover,
+::ng-deep mwl-calendar-day-view-event:hover {
+    transform: scale(1.02); z-index: 10;
+}
+
+/* Need to explicitly target the inner container for background color to work right */
+::ng-deep .cal-week-view .cal-event,
+::ng-deep .cal-day-view .cal-event {
+     /* Use the color passed from TS, but add opacity for a modern look */
+    color: black !important;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-weight: 600; font-size: 0.85rem;
+    border: none !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .header-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .nav-controls { width: 100%; justify-content: space-between; }
+    .toolbar-row { flex-direction: column; align-items: stretch; }
+    .right-actions { justify-content: space-between; }
+    .calendar-scroll-container { padding: 0.5rem; } 
+    ::ng-deep .cal-month-view .cal-cell-row { gap: 4px; margin-bottom: 4px; }
+}
+
+/* =================================================================
+   --- CALENDAR OPEN VIEW (The "Control Strip" Design) ---
+   ================================================================= */
+
+/* 1. THE CONTAINER (Seamless Integration) */
+::ng-deep .cal-month-view .cal-open-day-events {
+    background-color: #f1f5f9 !important; /* Matches the app background var */
+    box-shadow: inset 0 10px 20px -5px rgba(0,0,0,0.06); /* Inner depth shadow */
+    padding: 1rem 1.5rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Tight, clean gap */
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+/* 2. THE STRIP (The Event Row) */
+::ng-deep .cal-month-view .cal-open-day-events > div {
+    background-color: #ffffff;
+    border-radius: 8px; /* Modern radius */
+    border: 1px solid transparent; /* Invisible border for hover state */
+    padding: 0.75rem 1rem !important;
+    margin: 0 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03); /* Very subtle lift */
+    transition: all 0.15s ease-out;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Hover Interaction: Crisp & Tactile */
+::ng-deep .cal-month-view .cal-open-day-events > div:hover {
+    transform: scale(1.01); /* Micro-zoom */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: #e2e8f0;
+    z-index: 5;
+}
+
+/* 3. THE INDICATOR (The Glowing Beacon) */
+/* We turn the default 'dot' into a glowing pill */
+::ng-deep .cal-month-view .cal-open-day-events .cal-event {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    margin: 0 1.2rem 0 0.2rem !important; /* Spacing */
+    padding: 0 !important;
+    border: none !important;
+    position: static !important;
+    display: inline-block !important;
+    
+    /* THE GLOW TRICK: Use box-shadow to create a matching glow */
+    /* This uses 'currentColor' logic indirectly by letting the inline style set bg */
+    box-shadow: 0 0 0 2px rgba(255,255,255,1), 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+/* 4. THE TEXT (Clean & Sharp) */
+::ng-deep .cal-month-view .cal-open-day-events .cal-event-title {
+    color: var(--text-main) !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem !important;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin: 0 !important;
+    text-decoration: none;
+    flex: 1;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+::ng-deep .cal-month-view .cal-open-day-events > div:hover .cal-event-title {
+    opacity: 1;
+    color: var(--primary) !important;
+}
+
+/* 5. SUBTLE CHEVRON (Visual Cue) */
+::ng-deep .cal-month-view .cal-open-day-events > div::after {
+    content: '\f054'; /* FontAwesome Right Chevron */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: #cbd5e1;
+    margin-left: auto; /* Push to far right */
+    opacity: 0.5;
+    transition: 0.2s;
+}
+
+::ng-deep .cal-month-view .cal-open-day-events > div:hover::after {
+    opacity: 1;
+    color: var(--primary);
+    transform: translateX(2px);
+}
+
+/* 6. Hide Default Actions */
+::ng-deep .cal-month-view .cal-open-day-events .cal-event-actions {
+    display: none;
 }

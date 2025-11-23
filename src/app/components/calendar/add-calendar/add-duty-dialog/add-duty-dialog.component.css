@@ -1,95 +1,473 @@
-
-::ng-deep .ng-select {
-  width: 100%;
-  font-size: 14px;
-  font-weight: 500;
-  color: #212529;
+/* --- THEME VARS --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8f9fa;
+    --border: #dee2e6;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    /* New explicit border color for popups to ensure contrast */
+    --popup-border: #cbd5e1;
 }
 
-/* Container */
+/* FIXED SCROLL CONTAINER LOGIC */
+.dialog-container {
+    display: flex; flex-direction: column; height: 100%; max-height: 100%;
+    background: white; overflow: hidden;
+}
+
+/* --- HEADER --- */
+.dialog-header {
+    background-color: var(--primary); padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    color: white; flex-shrink: 0;
+}
+.title { margin: 0; font-weight: 600; font-size: 1.15rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { background: rgba(255,255,255,0.2); }
+
+/* --- BODY --- */
+.dialog-body { padding: 1.5rem; overflow-y: auto; flex: 1; min-height: 0; }
+
+.form-label {
+    font-size: 0.8rem; font-weight: 700; color: #495057;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
+}
+
+/* Inputs */
+.form-control, .form-select {
+    height: 42px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.95rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Input Icons */
+.input-wrapper { position: relative; }
+.input-icon {
+    position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #adb5bd;
+}
+.ps-5 { padding-left: 2.5rem !important; }
+
+/* --- TIMING BOX --- */
+.timing-box {
+    background: transparent; padding: 0; border: none; margin-bottom: 1.5rem;
+}
+
+/* --- NG-SELECT TWEAKS --- */
 ::ng-deep .ng-select .ng-select-container {
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 10px;
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-height: 42px; border: 1px solid var(--border); border-radius: 6px; background: #fff;
+}
+/* Force Global Dropdown Style */
+::ng-deep body .ng-dropdown-panel {
+    z-index: 9999 !important; background: #fff !important;
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
-::ng-deep .ng-select:hover .ng-select-container {
-  border-color: #86b7fe;
-  box-shadow: 0 2px 5px rgba(13, 110, 253, 0.08);
+/* ==================================================================
+   --- PRIMENG CALENDAR FIXES (THE "PRETTY" UPGRADE) ---
+   ================================================================== */
+
+/* 1. Wrapper Width */
+::ng-deep .p-calendar { width: 100%; }
+
+/* 2. MAIN POPUP CONTAINER STYLING */
+::ng-deep body .p-datepicker {
+    background-color: #ffffff !important;
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 12px !important;
+    opacity: 1 !important;
+    min-width: 320px;
+    z-index: 10000 !important;
+    overflow: hidden; font-family: 'Inter', sans-serif;
 }
 
-::ng-deep .ng-select.ng-select-focused .ng-select-container {
-  border-color: #0d6efd !important;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+/* 3. Header Styling */
+::ng-deep body .p-datepicker .p-datepicker-header {
+    background-color: var(--primary) !important;
+    color: #ffffff !important;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+::ng-deep body .p-datepicker .p-datepicker-title {
+    color: #ffffff !important; font-weight: 700; font-size: 1rem;
 }
 
-/* Placeholder */
-::ng-deep .ng-select .ng-placeholder {
-  color: #adb5bd;
-  font-weight: 400;
+/* 4. Arrows */
+::ng-deep body .p-datepicker .p-datepicker-prev,
+::ng-deep body .p-datepicker .p-datepicker-next {
+    color: #ffffff !important; width: 2rem; height: 2rem; border-radius: 50%; transition: 0.2s;
+}
+::ng-deep body .p-datepicker .p-datepicker-prev:hover,
+::ng-deep body .p-datepicker .p-datepicker-next:hover {
+    background-color: rgba(255,255,255,0.2) !important;
 }
 
-/* Selected value */
-::ng-deep .ng-select .ng-value {
-  color: #212529;
+/* 5. Calendar Table */
+::ng-deep body .p-datepicker table { margin: 0.5rem 0; background: #fff; }
+::ng-deep body .p-datepicker table th {
+    color: var(--text-gray); font-weight: 700; padding: 0.7rem 0.5rem;
+    font-size: 0.9rem; border-bottom: 1px solid var(--bg-gray);
+}
+::ng-deep body .p-datepicker table td { padding: 0.25rem; }
+::ng-deep body .p-datepicker table td > span {
+    width: 2.2rem; height: 2.2rem; border-radius: 8px; transition: 0.2s;
+    color: var(--text-dark); font-weight: 500;
+}
+::ng-deep body .p-datepicker table td > span:hover:not(.p-highlight) {
+    background-color: var(--bg-gray) !important;
 }
 
-/* Dropdown panel */
-::ng-deep .ng-dropdown-panel {
-  background-color: #fff !important;
-  border: 1px solid #dee2e6 !important;
-  border-radius: 10px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
-  margin-top: 4px;
-  overflow: hidden;
-  z-index: 9999 !important;
-  animation: dropdownFadeIn 0.15s ease-in-out;
+/* Selected Day */
+::ng-deep body .p-datepicker table td > span.p-highlight {
+    background-color: var(--accent) !important; color: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(38, 166, 154, 0.3);
 }
 
-/* Dropdown items */
-::ng-deep .ng-dropdown-panel .ng-option {
-  background: #ffffff !important;
-  color: #212529 !important;
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
+/* Today's Day */
+::ng-deep body .p-datepicker table td > span.p-datepicker-today {
+    border: 2px solid var(--primary) !important; color: var(--primary) !important;
+    font-weight: bold; background: transparent !important;
+}
+/* Fix conflict if today is also selected */
+::ng-deep body .p-datepicker table td > span.p-highlight.p-datepicker-today {
+    background-color: var(--accent) !important; color: white !important; border: none !important;
 }
 
-::ng-deep .ng-dropdown-panel .ng-option:hover {
-  background-color: #f1f3f5 !important;
+/* 6. Time Picker Section */
+::ng-deep body .p-timepicker {
+    border-top: 1px solid var(--popup-border) !important;
+    padding: 1rem 0.5rem;
+    background: #fff !important;
+    background: linear-gradient(to bottom, #ffffff, #f8fafc) !important;
+}
+::ng-deep body .p-timepicker span {
+    font-size: 1.2rem; font-weight: 800; color: var(--primary);
+}
+::ng-deep body .p-timepicker button {
+    width: 2rem; height: 2rem; border-radius: 6px; color: var(--text-gray);
+}
+::ng-deep body .p-timepicker button:hover {
+    background-color: var(--bg-gray) !important; color: var(--text-dark) !important;
 }
 
-::ng-deep .ng-dropdown-panel .ng-option-selected {
-  background-color: #e9f3ff !important;
-  color: #0d6efd !important;
-  font-weight: 500;
+
+/* --- PRIORITY GROUP LAYOUT --- */
+.priority-group {
+    display: flex;
+    gap: 0.8rem;
+    width: 100%;
 }
 
-/* Clear button (x) */
-::ng-deep .ng-select .ng-clear-wrapper {
-  color: #adb5bd;
-  transition: color 0.15s ease-in-out;
-}
-::ng-deep .ng-select .ng-clear-wrapper:hover {
-  color: #dc3545;
+/* --- BASE BUTTON STYLE --- */
+.btn-priority {
+    flex: 1; /* Distribute width equally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.8rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background-color: #ffffff;
+    color: var(--text-gray);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-/* Small fade-in animation for dropdown */
-@keyframes dropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.btn-priority i {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+    transition: transform 0.2s;
 }
 
+/* --- HOVER EFFECTS (The "Lift") --- */
+.btn-priority:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    border-color: transparent;
+}
+
+.btn-priority:hover i {
+    transform: scale(1.1);
+}
+
+/* --- SELECTED STATES (The "Pop") --- */
+
+/* 1. LOW (Green) */
+.btn-check:checked + .btn-low {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-color: #059669;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* 2. MEDIUM (Blue) */
+.btn-check:checked + .btn-med {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* 3. HIGH (Amber/Orange) */
+.btn-check:checked + .btn-high {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    border-color: #d97706;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+/* 4. URGENT (Red) */
+.btn-check:checked + .btn-urgent {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border-color: #dc2626;
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+}
+
+/* Add subtle press effect */
+.btn-priority:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+/* --- FOOTER --- */
+.dialog-footer {
+    padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+    background: #fff; display: flex; justify-content: flex-end; gap: 1rem; flex-shrink: 0;
+}
+
+.btn-dark-teal {
+    background-color: var(--primary); color: white; font-weight: 600;
+    padding: 0.6rem 2rem; border-radius: 6px; transition: 0.2s;
+}
+.btn-dark-teal:hover { background-color: #162a33; }
+
+/* --- CUSTOM AVATAR STYLE FOR DROPDOWN --- */
+.customer-avatar {
+    width: 24px; height: 24px; background: #f1f5f9; color: var(--text-gray);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; border: 1px solid var(--border);
+}
+::ng-deep .ng-option-selected .customer-avatar {
+    background-color: var(--primary); color: #fff; border-color: var(--primary);
+}
+/* ==================================================================
+   --- PRIMENG CALENDAR FIXES (THE COMPLETE SUITE) ---
+   ================================================================== */
+
+/* 1. Wrapper Width */
+::ng-deep .p-calendar { width: 100%; }
+
+/* 2. MAIN POPUP CONTAINER */
+::ng-deep body .p-datepicker {
+    background-color: #ffffff !important;
+    border: 1px solid var(--popup-border) !important;
+    /* Deep shadow for floating effect */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0,0,0,0.1) !important;
+    border-radius: 16px !important;
+    opacity: 1 !important;
+    min-width: 320px;
+    z-index: 10000 !important;
+    font-family: 'Inter', sans-serif;
+    padding: 0 !important; /* Remove default padding */
+}
+
+/* ---------------------------------------------------------
+   3. HEADER STYLING (The Teal Bar)
+   --------------------------------------------------------- */
+::ng-deep body .p-datepicker .p-datepicker-header {
+    background-color: var(--primary) !important;
+    color: #ffffff !important;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Month/Year Title Text (The Clickable Part) */
+::ng-deep body .p-datepicker .p-datepicker-title {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+::ng-deep body .p-datepicker .p-datepicker-title:hover {
+    background-color: rgba(255,255,255,0.15); /* Visual feedback on hover */
+}
+
+/* Navigation Arrows (< >) */
+::ng-deep body .p-datepicker .p-datepicker-prev,
+::ng-deep body .p-datepicker .p-datepicker-next {
+    color: #ffffff !important;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+}
+
+::ng-deep body .p-datepicker .p-datepicker-prev:hover,
+::ng-deep body .p-datepicker .p-datepicker-next:hover {
+    background-color: #ffffff !important;
+    color: var(--primary) !important; /* Invert colors on hover */
+    transform: scale(1.05);
+}
+
+/* Fix Icon Centering inside arrows */
+::ng-deep body .p-datepicker .p-datepicker-prev span,
+::ng-deep body .p-datepicker .p-datepicker-next span {
+    display: block;
+    font-size: 1rem;
+}
+
+/* ---------------------------------------------------------
+   4. CALENDAR TABLE (The Days)
+   --------------------------------------------------------- */
+::ng-deep body .p-datepicker table {
+    margin: 0.8rem 0;
+    background: #fff;
+}
+
+/* Day Headers (Mo, Tu, We) */
+::ng-deep body .p-datepicker table th {
+    color: var(--text-sub);
+    font-weight: 700;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border: none;
+}
+
+/* Day Cells */
+::ng-deep body .p-datepicker table td {
+    padding: 0.2rem;
+}
+
+::ng-deep body .p-datepicker table td > span {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: var(--text-dark);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent; /* Prevent jumping when border added */
+}
+
+/* Hover State for Days */
+::ng-deep body .p-datepicker table td > span:hover:not(.p-highlight):not(.p-disabled) {
+    background-color: var(--bg-gray) !important;
+    border-color: var(--border);
+    color: var(--primary);
+}
+
+/* Selected Day (The "Wrong" looking part fixed) */
+::ng-deep body .p-datepicker table td > span.p-highlight {
+    background-color: var(--accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(38, 166, 154, 0.4); /* Glow effect */
+    border-color: var(--accent);
+}
+
+/* Today's Day (Outline) */
+::ng-deep body .p-datepicker table td > span.p-datepicker-today {
+    border: 2px solid var(--primary) !important;
+    color: var(--primary) !important;
+    background: transparent !important;
+    font-weight: 800;
+}
+
+/* Fix conflict: If Today is Selected */
+::ng-deep body .p-datepicker table td > span.p-highlight.p-datepicker-today {
+    background-color: var(--accent) !important;
+    color: white !important;
+    border-color: var(--accent) !important;
+}
+
+/* ---------------------------------------------------------
+   5. MONTH & YEAR PICKER (The View Switch)
+   --------------------------------------------------------- */
+/* The container for the months list */
+::ng-deep body .p-monthpicker {
+    margin: 1rem 0;
+}
+
+/* Individual Month Items */
+::ng-deep body .p-monthpicker .p-monthpicker-month {
+    padding: 0.8rem;
+    border-radius: 8px;
+    transition: 0.2s;
+    color: var(--text-main);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Hover Month */
+::ng-deep body .p-monthpicker .p-monthpicker-month:hover {
+    background-color: var(--bg-gray) !important;
+    color: var(--primary);
+}
+
+/* Selected Month */
+::ng-deep body .p-monthpicker .p-monthpicker-month.p-highlight {
+    background-color: var(--accent) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(38, 166, 154, 0.3);
+}
+
+
+/* ---------------------------------------------------------
+   6. TIME PICKER SECTION
+   --------------------------------------------------------- */
+::ng-deep body .p-timepicker {
+    border-top: 1px solid var(--border) !important;
+    padding: 1rem 0.5rem;
+    background: #fff !important;
+}
+
+::ng-deep body .p-timepicker span {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+/* Time buttons (+/-) */
+::ng-deep body .p-timepicker button {
+    width: 2rem; height: 2rem;
+    border-radius: 50%;
+    color: var(--text-sub);
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+::ng-deep body .p-timepicker button:hover {
+    background-color: var(--bg-gray) !important;
+    color: var(--primary) !important;
+    border-color: var(--border);
+}

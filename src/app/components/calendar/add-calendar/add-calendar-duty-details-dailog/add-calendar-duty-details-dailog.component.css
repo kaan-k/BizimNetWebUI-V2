@@ -1,42 +1,94 @@
-.custom-input {
-  padding: 14px 16px;
-  font-size: 1.1rem;
-  border-radius: 10px;
+/* --- THEME VARS --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8f9fa;
+    --border: #dee2e6;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
 }
 
+/* LAYOUT */
+.dialog-container {
+    display: flex; flex-direction: column; height: 100%; max-height: 100%;
+    background: white; overflow: hidden;
+}
+
+/* HEADER */
+.dialog-header {
+    background-color: var(--primary); padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    color: white; flex-shrink: 0;
+}
+.title { margin: 0; font-weight: 600; font-size: 1.15rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; font-family: monospace; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { background: rgba(255,255,255,0.2); }
+
+/* BODY */
+.dialog-body { padding: 1.5rem; overflow-y: auto; flex: 1; min-height: 0; }
+
+/* --- STATUS DASHBOARD --- */
+.status-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.status-card .label { display: block; font-size: 0.75rem; color: var(--text-gray); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.status-card .value { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
+
+/* --- INPUT STYLING (Read Only Theme) --- */
 .form-label {
-  font-weight: 600;
-  font-size: 1rem;
-    display: block;
-  margin: auto;
+    font-size: 0.8rem; font-weight: 700; color: #495057;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
 }
 
-.container {
-  max-width: 900px; /* centers content nicely */
+.form-control {
+    height: 42px; border-radius: 6px; border: 1px solid var(--border);
+    font-size: 0.95rem; color: var(--text-dark); background-color: #fff;
 }
-/* Makes buttons completely round like a pill */
-.btn-pill {
-  border-radius: 50px;
-  font-weight: 600; /* Semi-bold text */
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+/* Read Only Specifics */
+.form-control.read-only {
+    background-color: #f1f5f9; /* Light gray background */
+    border-color: #e2e8f0;
+    color: #475569; /* Slightly lighter text */
+    cursor: default;
+}
+.form-control.read-only:focus {
+    box-shadow: none; border-color: #e2e8f0;
+}
+textarea.form-control { height: auto; min-height: 80px; resize: none; }
+
+.input-wrapper { position: relative; }
+.input-icon {
+    position: absolute; top: 50%; left: 15px; transform: translateY(-50%);
+    color: #94a3b8;
+}
+.ps-5 { padding-left: 2.5rem !important; }
+
+/* --- SIGNATURE --- */
+.signature-box {
+    background: #fff; border: 1px dashed var(--border); border-radius: 8px; padding: 1rem;
+}
+.signature-viewer {
+    margin-top: 1rem; text-align: center; background: #fdfdfd; border: 1px solid var(--border);
+    border-radius: 6px; padding: 1rem;
+}
+.signature-viewer img { max-height: 150px; object-fit: contain; }
+.signature-footer { margin-top: 1rem; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; }
+
+/* --- FOOTER --- */
+.dialog-footer {
+    padding: 1rem 1.5rem; border-top: 1px solid var(--border); background: #fff;
+    display: flex; justify-content: flex-end; gap: 1rem; flex-shrink: 0;
 }
 
-/* The "Lift" effect on hover */
-.btn-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important; /* Stronger shadow on hover */
+.btn-dark-teal {
+    background-color: var(--primary); color: white; font-weight: 600;
+    padding: 0.6rem 2rem; border-radius: 6px; transition: 0.2s;
 }
-
-/* Optional: Soften the standard bootstrap green */
-.btn-success {
-  background-color: #2ecc71;
-  border-color: #2ecc71;
-}
-
-/* Optional: Make the close button look cleaner as an outline until hovered */
-.btn-outline-danger {
-  border-width: 2px;
-}
+.btn-dark-teal:hover { background-color: #162a33; transform: translateY(-1px); }

@@ -1,17 +1,40 @@
-<div class="container-fluid" style="padding-left: 20px;padding-right: 20px;">
-    <app-navbar-duty></app-navbar-duty>
-        <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;" (click)="resetParameters()">
-        <i class="fa-solid fa-arrows-rotate me-1"></i>
-        Görünümü Sıfırla
-    </button>
-    <ag-grid-angular id="datatable" style="width: 100%;height: 83vh;font-size: 10px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
-        [defaultColDef]="defaultColDef" [rowSelection]="'multiple'" [enableCellTextSelection]="true"
-        [cacheBlockSize]="cacheBlockSize" [cacheOverflowSize]="cacheOverflowSize"
+<div class="container-fluid">
+    
+    <div class="mb-2">
+        <app-navbar-duty></app-navbar-duty>
+    </div>
+
+    <div class="toolbar-row">
+        <h4 class="m-0 toolbar-title">Görev Listesi</h4>
+        
+        <button class="btn-reset" (click)="resetParameters()" title="Varsayılan görünüme dön">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Sıfırla</span>
+        </button>
+    </div>
+
+    <ag-grid-angular 
+        id="datatable" 
+        style="width: 100%; height: calc(100vh - 200px);"
+        class="ag-theme-alpine" 
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef" 
+        [rowSelection]="'multiple'" 
+        [enableCellTextSelection]="true"
+        [cacheBlockSize]="cacheBlockSize" 
+        [cacheOverflowSize]="cacheOverflowSize"
         [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-        [infiniteInitialRowCount]="infiniteInitialRowCount" [enableBrowserTooltips]="true"
-        [overlayNoRowsTemplate]="noRowsTemplate" [maxBlocksInCache]="maxBlocksInCache" [rowData]="rowData"
-        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
-        [suppressScrollOnNewData]="true"></ag-grid-angular>
+        [infiniteInitialRowCount]="infiniteInitialRowCount" 
+        [enableBrowserTooltips]="true"
+        [overlayNoRowsTemplate]="noRowsTemplate" 
+        [maxBlocksInCache]="maxBlocksInCache" 
+        [rowData]="rowData"
+        [gridOptions]="gridOptions" 
+        (gridReady)="onGridReady($event)"
+        [suppressScrollOnNewData]="true">
+    </ag-grid-angular>
+
 </div> 
+
 <app-add-duty (dutyEvent)="getAllDuty()"></app-add-duty>
 <app-update-duty (dutyEvent)="getAllDuty()" [duty]="duty"></app-update-duty>
