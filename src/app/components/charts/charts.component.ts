@@ -66,7 +66,7 @@ export class ChartsComponent implements OnInit {
         
         duties.forEach(duty => {
             if (duty.status === 'Tamamlandı' && duty.assignedEmployeeId) {
-                const name = duty.assignedToName || duty.assignedEmployeeId.substring(0, 5); 
+                const name = duty.assignedToName || duty.assignedEmployeeId.substring(0, 10); 
                 contributionMap.set(name, (contributionMap.get(name) || 0) + 1);
             }
         });
