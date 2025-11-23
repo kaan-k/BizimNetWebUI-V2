@@ -1,1 +1,459 @@
-<h1>YAPIM AŞAMASINDA</h1>
+<div class="container-fluid settings-container">
+    
+    <!-- HEADER -->
+    <div class="page-header mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="icon-box-lg">
+                <i class="fa-solid fa-sliders"></i>
+            </div>
+            <div>
+                <h3 class="page-title">Ayarlar</h3>
+                <p class="text-muted small mb-0">Profilinizi ve sistem tercihlerinizi buradan yönetin.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        
+        <!-- 1. SETTINGS NAVIGATION (Left Sidebar) -->
+        <div class="col-lg-3 col-md-4">
+            <div class="settings-nav-card">
+                
+                <!-- GROUP: ACCOUNT -->
+                <h6 class="nav-label">HESAP</h6>
+                
+                <button class="nav-item" [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span>Profil Bilgileri</span>
+                    <i class="fa-solid fa-chevron-right ms-auto arrow"></i>
+                </button>
+                
+                <button class="nav-item" [class.active]="activeTab === 'security'" (click)="setActiveTab('security')">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Güvenlik & Giriş</span>
+                </button>
+
+                <button class="nav-item" [class.active]="activeTab === 'notifications'" (click)="setActiveTab('notifications')">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Bildirimler</span>
+                </button>
+
+                <!-- GROUP: APP -->
+                <h6 class="nav-label mt-4">UYGULAMA</h6>
+
+                <button class="nav-item" [class.active]="activeTab === 'display'" (click)="setActiveTab('display')">
+                    <i class="fa-solid fa-swatchbook"></i>
+                    <span>Görünüm & Tema</span>
+                </button>
+                
+                <button class="nav-item" [class.active]="activeTab === 'regional'" (click)="setActiveTab('regional')">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Bölge & Dil</span>
+                </button>
+
+                <button class="nav-item" [class.active]="activeTab === 'workflow'" (click)="setActiveTab('workflow')">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>İş Akışı</span>
+                </button>
+                
+                <!-- GROUP: SYSTEM -->
+                <h6 class="nav-label mt-4">SİSTEM</h6>
+
+                <button class="nav-item" [class.active]="activeTab === 'system'" (click)="setActiveTab('system')">
+                    <i class="fa-solid fa-server"></i>
+                    <span>Veri & Bakım</span>
+                </button>
+
+            </div>
+            
+            <!-- STICKY SAVE BUTTON -->
+            <div class="mt-4 sticky-save">
+                <button class="btn-prism w-100" (click)="saveSettings()">
+                    <div class="sheen"></div>
+                    <i class="fa-solid fa-floppy-disk me-2"></i> Değişiklikleri Kaydet
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. CONTENT AREA (Right Side) -->
+        <div class="col-lg-9 col-md-8">
+            
+            <!-- === TAB 1: PROFILE === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'profile'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Profil Bilgileri</h5>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <!-- Avatar -->
+                    <div class="d-flex align-items-center gap-4 mb-4 border-bottom pb-4">
+                        <div class="avatar-upload">
+                            <img [src]="userProfile.avatarUrl" alt="Avatar">
+                            <button class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></button>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Profil Fotoğrafı</h6>
+                            <p class="text-muted small mb-2">PNG veya JPG, max 5MB.</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary">Yükle</button>
+                                <button class="btn btn-sm btn-outline-danger">Kaldır</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" class="form-control" [(ngModel)]="userProfile.name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ünvan</label>
+                            <input type="text" class="form-control" [(ngModel)]="userProfile.title">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">E-Posta</label>
+                            <input type="email" class="form-control bg-light" [(ngModel)]="userProfile.email" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Telefon</label>
+                            <input type="tel" class="form-control" [(ngModel)]="userProfile.phone">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Biyografi</label>
+                            <textarea class="form-control" rows="3" [(ngModel)]="userProfile.bio"></textarea>
+                            <div class="form-text">Profilinizde görünecek kısa bir açıklama.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === TAB 2: SECURITY === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'security'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Güvenlik</h5>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <div class="alert-box info mb-4">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <strong>Hesap Güvenliği</strong>
+                            <p class="mb-0 small">Son şifre değişikliği: 3 ay önce. Hesabınız güvende.</p>
+                        </div>
+                    </div>
+
+                    <h6 class="settings-section-title">ŞİFRE DEĞİŞTİR</h6>
+                    <div class="row g-3 max-w-600 mb-4">
+                        <div class="col-12">
+                            <label class="form-label">Mevcut Şifre</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Yeni Şifre</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Yeni Şifre (Tekrar)</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn btn-dark btn-sm">Şifreyi Güncelle</button>
+                        </div>
+                    </div>
+
+                    <h6 class="settings-section-title border-top pt-4">İKİ ADIMLI DOĞRULAMA (2FA)</h6>
+                    <div class="setting-row border-0">
+                        <div>
+                            <label class="fw-bold">2FA Etkinleştir</label>
+                            <p class="text-muted small mb-0">Giriş yaparken SMS veya Authenticator kodu iste.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" [(ngModel)]="security.twoFactor"><span class="slider round"></span></label>
+                    </div>
+
+                    <h6 class="settings-section-title border-top pt-4">OTURUM YÖNETİMİ</h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <label class="fw-bold">Aktif Oturumlar</label>
+                            <p class="text-muted small mb-0">Windows 11 - Chrome (Şu an)</p>
+                        </div>
+                        <button class="btn btn-outline-danger btn-sm">Tüm Oturumları Kapat</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === TAB 3: DISPLAY (Theme) === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'display'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Görünüm Ayarları</h5>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <h6 class="settings-section-title">TEMA</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-4">
+                            <label class="theme-card" [class.selected]="display.theme === 'light'">
+                                <input type="radio" name="theme" value="light" [(ngModel)]="display.theme">
+                                <div class="theme-preview light"></div>
+                                <span>Aydınlık</span>
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <label class="theme-card" [class.selected]="display.theme === 'dark'">
+                                <input type="radio" name="theme" value="dark" [(ngModel)]="display.theme">
+                                <div class="theme-preview dark"></div>
+                                <span>Karanlık</span>
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <label class="theme-card" [class.selected]="display.theme === 'auto'">
+                                <input type="radio" name="theme" value="auto" [(ngModel)]="display.theme">
+                                <div class="theme-preview auto"></div>
+                                <span>Sistem</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <h6 class="settings-section-title mt-4">ARAYÜZ</h6>
+                    <div class="setting-row">
+                        <div>
+                            <label class="fw-bold">Menü Yerleşimi</label>
+                            <p class="text-muted small mb-0">Sidebar davranışını seçin.</p>
+                        </div>
+                        <select class="form-select w-auto" [(ngModel)]="display.sidebarMode">
+                            <option value="fixed">Sabit</option>
+                            <option value="collapsed">Daraltılmış</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <label class="fw-bold">Veri Yoğunluğu</label>
+                            <p class="text-muted small mb-0">Tablo satır yüksekliği.</p>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="density" id="d1" value="comfortable" [(ngModel)]="display.density">
+                            <label class="btn btn-outline-secondary btn-sm" for="d1">Rahat</label>
+                            <input type="radio" class="btn-check" name="density" id="d2" value="compact" [(ngModel)]="display.density">
+                            <label class="btn btn-outline-secondary btn-sm" for="d2">Sıkışık</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === TAB 4: REGIONAL === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'regional'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Bölge ve Formatlar</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Dil</label>
+                            <select class="form-select" [(ngModel)]="regional.language">
+                                <option value="tr">Türkçe (Türkiye)</option>
+                                <option value="en">English (US)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Para Birimi</label>
+                            <select class="form-select" [(ngModel)]="regional.currency">
+                                <option value="TRY">TRY (₺)</option>
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12"><hr class="divider"></div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Tarih Formatı</label>
+                            <select class="form-select" [(ngModel)]="regional.dateFormat">
+                                <option value="dd.MM.yyyy">31.12.2024</option>
+                                <option value="dd/MM/yyyy">31/12/2024</option>
+                                <option value="yyyy-MM-dd">2024-12-31</option>
+                            </select>
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label">Hafta Başlangıcı</label>
+                            <select class="form-select" [(ngModel)]="regional.firstDayOfWeek">
+                                <option value="1">Pazartesi</option>
+                                <option value="0">Pazar</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+             <!-- === TAB 5: NOTIFICATIONS === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'notifications'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Bildirimler</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6 class="setting-title">E-Posta Özeti</h6>
+                            <p class="setting-desc">Günlük aktivite özeti al.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" [(ngModel)]="notifications.emailDigest"><span class="slider round"></span></label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6 class="setting-title">Yeni Görev Ataması</h6>
+                            <p class="setting-desc">Bana bir görev atandığında bildir.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" [(ngModel)]="notifications.taskAssignments"><span class="slider round"></span></label>
+                    </div>
+                    <div class="setting-item border-0">
+                        <div class="setting-info">
+                            <h6 class="setting-title">Sistem Güncellemeleri</h6>
+                            <p class="setting-desc">Bakım ve güncelleme haberlerini al.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" [(ngModel)]="notifications.systemUpdates"><span class="slider round"></span></label>
+                    </div>
+                </div>
+            </div>
+
+             <!-- === TAB 6: SYSTEM (New!) === -->
+            <div class="settings-content-card" *ngIf="activeTab === 'system'">
+                <div class="card-header-custom">
+                    <h5 class="m-0">Sistem Yönetimi</h5>
+                </div>
+                <div class="card-body p-4">
+                    <h6 class="settings-section-title">VERİ YÖNETİMİ</h6>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <label class="fw-bold">Önbelleği Temizle</label>
+                            <p class="text-muted small mb-0">Uygulamanın yerel verilerini siler ve yeniden başlatır.</p>
+                        </div>
+                        <button class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-broom me-1"></i> Temizle</button>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <label class="fw-bold">Veri Dışa Aktar</label>
+                            <p class="text-muted small mb-0">Kişisel verilerinizi JSON formatında indirin.</p>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-download me-1"></i> İndir</button>
+                    </div>
+
+                    <hr class="divider my-4">
+
+                    <h6 class="settings-section-title text-danger">TEHLİKELİ BÖLGE</h6>
+                    <div class="alert-box danger">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div>
+                            <strong>Hesabı Sil</strong>
+                            <p class="mb-0 small">Bu işlem geri alınamaz. Tüm verileriniz silinecektir.</p>
+                        </div>
+                        <button class="btn btn-danger btn-sm ms-auto">Hesabı Sil</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === TAB: WORKFLOW === -->
+<div class="settings-content-card" *ngIf="activeTab === 'workflow'">
+    <div class="card-header-custom">
+        <h5 class="m-0">İş Akışı ve Otomasyon</h5>
+    </div>
+    <div class="card-body p-4">
+        
+        <!-- 1. AUTO SAVE SECTION -->
+        <h6 class="settings-section-title">VERİ GÜVENLİĞİ</h6>
+        
+        <div class="setting-row">
+            <div>
+                <label class="fw-bold">Otomatik Taslak Kaydı</label>
+                <p class="text-muted small mb-0">Form verilerini yazarken arka planda kaydet.</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" [(ngModel)]="workflow.autoSave">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <!-- Conditional: Show only if AutoSave is ON -->
+        <div class="setting-row bg-light rounded px-3 my-2" *ngIf="workflow.autoSave">
+            <div class="d-flex align-items-center w-100 justify-content-between">
+                <label class="fw-bold text-muted small"><i class="fa-solid fa-clock-rotate-left me-1"></i> Kayıt Sıklığı</label>
+                <select class="form-select w-auto form-control-sm border-0 bg-transparent fw-bold text-end" [(ngModel)]="workflow.autoSaveInterval">
+                    <option [value]="30">Her 30 saniyede</option>
+                    <option [value]="60">Her 1 dakikada</option>
+                    <option [value]="300">Her 5 dakikada</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <label class="fw-bold">Kritik İşlem Onayı</label>
+                <p class="text-muted small mb-0">Silme ve arşivleme işlemlerinde "Emin misiniz?" sorusu sor.</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" [(ngModel)]="workflow.confirmDelete">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="col-12"><hr class="divider my-4"></div>
+
+        <!-- 2. DEFAULTS SECTION -->
+        <h6 class="settings-section-title">VARSAYILAN DEĞERLER</h6>
+        
+        <div class="setting-row flex-column align-items-start gap-3">
+            <div>
+                <label class="fw-bold">Varsayılan Görev Önceliği</label>
+                <p class="text-muted small mb-0">Yeni bir görev oluşturulurken seçili gelecek öncelik düzeyi.</p>
+            </div>
+            
+            <div class="priority-selector w-100">
+                <label class="p-radio low flex-fill text-center" [class.active]="workflow.defaultPriority === 'Düşük'">
+                    <input type="radio" name="defPrio" value="Düşük" [(ngModel)]="workflow.defaultPriority">
+                    <i class="fa-solid fa-leaf me-1"></i> Düşük
+                </label>
+                <label class="p-radio medium flex-fill text-center" [class.active]="workflow.defaultPriority === 'Orta'">
+                    <input type="radio" name="defPrio" value="Orta" [(ngModel)]="workflow.defaultPriority">
+                    <i class="fa-solid fa-layer-group me-1"></i> Orta
+                </label>
+                <label class="p-radio high flex-fill text-center" [class.active]="workflow.defaultPriority === 'Yüksek'">
+                    <input type="radio" name="defPrio" value="Yüksek" [(ngModel)]="workflow.defaultPriority">
+                    <i class="fa-solid fa-bolt me-1"></i> Yüksek
+                </label>
+            </div>
+        </div>
+
+        <div class="col-12"><hr class="divider my-4"></div>
+
+        <!-- 3. PRODUCTIVITY -->
+        <h6 class="settings-section-title">ÜRETKENLİK</h6>
+
+        <div class="setting-row">
+            <div>
+                <label class="fw-bold">Klavye Kısayolları</label>
+                <p class="text-muted small mb-0">CTRL+S (Kaydet), CTRL+N (Yeni Görev) gibi kısayolları etkinleştir.</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" [(ngModel)]="workflow.enableShortcuts">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        
+        <div class="setting-row border-0">
+            <div>
+                <label class="fw-bold">Listeleri Yeni Sekmede Aç</label>
+                <p class="text-muted small mb-0">Detaylara tıklanıldığında mevcut sayfayı koru.</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" [(ngModel)]="workflow.openInNewTab">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+    </div>
+</div>
+
+        </div>
+    </div>
+</div>
