@@ -1,62 +1,113 @@
-<div class="modal fade" id="userAddModal" tabindex="-1" aria-labelledby="userAddModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-6" id="userAddModalLabel"> <i class="fa-solid fa-user-plus"></i> {{lang.addNewUser}}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="userAddForm"> 
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                            {{lang.email}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="email"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-key"></i>
-                            {{lang.password}}</label>
-                          <input type="password" class="modal-input addClass" class="form-control" formControlName="password"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                            {{lang.firstName}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="firstName"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                            {{lang.lastName}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="lastName"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                            {{lang.title}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="title"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
-                          <label class="chooseLabel"><i class="fa-solid fa-phone"></i>
-                            {{lang.phonenumber}}</label>
-                          <input type="tel" class="modal-input addClass" class="form-control" formControlName="phoneNumber" placeholder="örn: 123 456 78 90"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6">
-                          <label class="chooseLabel mb-3">{{lang.status}}</label><br>
-                          <label class="switch">
-                            <input type="checkbox" formControlName="status">
-                            <span class="slider round"></span>
-                          </label>
-                        </div>
-                    </div>                    
-                </form>
-                <div class="btn-location mt-5">
-                    <button class="button-37" (click)="addUser()"  data-bs-dismiss="modal"><i class="fa-solid fa-user-plus"></i> {{lang.addNewUser}}</button>
-                </div>
-            </div>
+<div class="dialog-layout">
+    
+    <!-- HEADER -->
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">Yeni Kullanıcı Ekle</h5>
+            <p class="subtitle">Sisteme yeni bir personel kaydı yapın.</p>
         </div>
+        <button class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- BODY -->
+    <div class="dialog-body custom-scroll">
+        <form [formGroup]="userAddForm"> 
+            <div class="row g-4">
+                
+                <!-- Section 1: Credentials -->
+                <div class="col-12">
+                    <h6 class="section-label">GİRİŞ BİLGİLERİ</h6>
+                </div>
+                
+                <!-- Email -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-envelope me-1"></i> {{lang.email}} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="email" class="form-control ps-5" formControlName="email" placeholder="kullanici@ary.com">
+                        <i class="fa-solid fa-at input-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- Password -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-key me-1"></i> {{lang.password}} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-control ps-5" formControlName="password" placeholder="Şifre (min 6 karakter)">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- Separator -->
+                <div class="col-12"><hr class="divider"></div>
+
+                <!-- Section 2: Personal & Contact -->
+                <div class="col-12">
+                    <h6 class="section-label">PERSONEL DETAYLARI</h6>
+                </div>
+
+                <!-- First Name -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-user-tag me-1"></i> {{lang.firstName}} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control ps-5" formControlName="firstName" placeholder="Örn: Ahmet">
+                        <i class="fa-solid fa-id-badge input-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-user-tag me-1"></i> {{lang.lastName}} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control ps-5" formControlName="lastName" placeholder="Örn: Yılmaz">
+                        <i class="fa-solid fa-id-card input-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- Title -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-tag me-1"></i> {{lang.title}} <span class="text-danger">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control ps-5" formControlName="title" placeholder="Pozisyon/Ünvan">
+                        <i class="fa-solid fa-briefcase input-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- Phone Number -->
+                <div class="col-lg-6">
+                    <label class="form-label"><i class="fa-solid fa-phone me-1"></i> {{lang.phoneNumber}}</label>
+                    <div class="input-wrapper">
+                        <input type="tel" class="form-control ps-5" formControlName="phoneNumber" placeholder="örn: 555 123 45 67">
+                        <i class="fa-solid fa-mobile-alt input-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- Status Toggle -->
+                <div class="col-12">
+                    <label class="form-label mb-3"><i class="fa-solid fa-circle-check me-1"></i> {{lang.status}} (Aktiflik)</label>
+                    <label class="switch">
+                        <input type="checkbox" formControlName="status">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="dialog-footer">
+        <button class="btn-ghost" (click)="close()">
+            {{ lang.cancel }}
+        </button>
+        <button class="btn-prism-save" (click)="addUser()" [disabled]="userAddForm.invalid || isLoading">
+            <ng-container *ngIf="!isLoading">
+                <i class="fa-solid fa-user-plus me-2"></i> {{ lang.addNewUser }}
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+                <i class="fa-solid fa-circle-notch fa-spin me-2"></i> Kaydediliyor...
+            </ng-container>
+        </button>
     </div>
 </div>

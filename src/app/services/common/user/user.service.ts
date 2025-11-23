@@ -10,6 +10,7 @@ import { ChangePassword } from '../../../models/changePassword';
 import BizimNetHttpClientService from '../../bizimNetHttpClient/bizim-net-http-client.service';
 import { LoginModel } from '../../../models/loginModel';
 import { UserTokenModel } from '../../../models/user/userTokenModel';
+import { UserResetPassword } from '../../../models/user/userResetPassword';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class UserService extends BizimNetHttpClientService {
     const observable = this.post<ResponseModel | User>({ controller: this._controller, action: "Update" }, user) as Observable<ResponseModel>
     return observable
   }
-  changePassword(changePassword: ChangePassword) {
-    const observable = this.post<ResponseModel | ChangePassword>({ controller: this._controller, action: "ChangePassword" }, changePassword) as Observable<ResponseModel>
+  changePassword(changePassword: UserResetPassword) {
+    const observable = this.post<ResponseModel | UserResetPassword>({ controller: this._controller, action: "ResetPassword" }, changePassword) as Observable<ResponseModel>
     return observable
   }
   deleteUser(id: string) {

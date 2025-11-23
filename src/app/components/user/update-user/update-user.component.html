@@ -1,45 +1,87 @@
-<!-- <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-6" id="updateModalLabel"><i class="fa-regular fa-pen-to-square"></i> {{lang.updateUser}}</h1>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="userUpdateForm" *ngIf="userUpdateForm">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                            {{lang.email}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="email"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                            {{lang.firstName}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="firstName"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                            {{lang.lastName}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="lastName"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                          <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                            {{lang.title}}</label>
-                          <input type="text" class="modal-input addClass" class="form-control" formControlName="title"
-                            style="margin-bottom: 0px !important;">
-                        </div>
-                       
-                       
-                    </div>                    
-                </form>
-                <div class="btn-location mt-4">
-                  <button type="button" class="button-4" data-bs-dismiss="modal">{{lang.cancel}}</button>
-                  <a (click)="updateUser()" class="button-20" data-bs-dismiss="modal"><i class="fa-regular fa-pen-to-square"></i> {{lang.updateUser}} </a>
+<div class="dialog-layout">
+    
+    <!-- HEADER -->
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">Personel Şifresini Sıfırla</h5>
+            <p class="subtitle">Yeni şifre belirleyin.</p>
+        </div>
+        <button class="btn-close-white" (click)="dialogRef.close(false)">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- BODY -->
+    <div class="dialog-body">
+        <form [formGroup]="resetForm">
+            
+            <h6 class="section-label">HEDEF KULLANICI</h6>
+            
+            <!-- Target User Selection -->
+            <div class="form-group mb-4">
+                <label class="form-label">Personel Seçimi <span class="text-danger">*</span></label>
+                
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user-tag input-icon" style="z-index: 10;"></i> 
+                    
+                    <ng-select [items]="users"
+                               bindLabel="email"     
+                               bindValue="email"     
+                               formControlName="email"
+                               placeholder=""
+                               class="modern-select user-select"
+                               appendTo="body">
+                           
+                        <ng-template ng-option-tmp let-item="item">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-id-card-clip text-muted"></i>
+                                <span class="fw-bold text-dark">{{ item.firstName }} {{ item.lastName }}</span>
+                                <span class="text-muted small ms-auto">{{ item.email }}</span>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template ng-label-tmp let-item="item">
+                             <span class="fw-bold text-dark">{{ item.firstName }} {{ item.lastName }}</span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                
+                <div *ngIf="resetForm.get('email')?.invalid && resetForm.get('email')?.touched" class="text-danger small mt-1">
+                    Lütfen bir personel seçin.
                 </div>
             </div>
-        </div>
+            
+            <h6 class="section-label">YENİ ŞİFRE</h6>
+
+            <!-- New Password Input -->
+            <div class="form-group mb-4">
+                <label class="form-label">Yeni Şifre <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" class="form-control ps-5" formControlName="password" placeholder="En az 6 karakter">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                </div>
+                <div *ngIf="resetForm.get('password')?.hasError('minlength') && resetForm.get('password')?.touched" class="text-danger small mt-1">
+                    Şifre en az 6 karakter olmalıdır.
+                </div>
+            </div>
+
+        </form>
     </div>
-</div> -->
+
+    <!-- FOOTER -->
+    <div class="dialog-footer">
+        <button class="btn-ghost" (click)="dialogRef.close(false)">
+            İptal
+        </button>
+        
+        <!-- FIXED: Button only disables on LOADING, not INVALID. Allows click to show errors. -->
+        <button class="btn-prism-save" (click)="resetPassword()" [disabled]="isLoading">
+            <ng-container *ngIf="!isLoading">
+                <i class="fa-solid fa-key me-2"></i> Şifreyi Sıfırla
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+                <i class="fa-solid fa-circle-notch fa-spin me-2"></i> İşleniyor...
+            </ng-container>
+        </button>
+    </div>
+</div>

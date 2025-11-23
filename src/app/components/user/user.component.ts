@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AddUserComponent } from './add-user/add-user.component';
-import { UpdateUserComponent } from './update-user/update-user.component';
+import { ResetUserPasswordDialog } from './update-user/update-user.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { faArrowRightLong, faInfo, faUsers, faUser, faPen, faTrashCan, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { GridOptions, ColDef, ColGroupDef, CellClickedEvent, SideBarDef, GridReadyEvent } from 'ag-grid-community';
 import { ILanguage } from '../../../assets/locales/ILanguage';
 import { Languages } from '../../../assets/locales/language';
@@ -11,40 +10,25 @@ import { User } from '../../models/user/user';
 import { UserDetailsDto } from '../../models/user/userDetailsDto';
 import { UserDto } from '../../models/user/userDto';
 import { UserComponentService } from '../../services/component/user/user-component.service';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { changeDataTableHeight } from '../../../assets/js/main';
-import { NavbarCustomerComponent } from "../customer/navbar-customer/navbar-customer.component";
 import { NavbarUserComponent } from './navbar-user/navbar-user.component';
+import { MatButtonModule } from '@angular/material/button'; // Ensure MatButtonModule is imported if using dialog templates
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, AddUserComponent, UpdateUserComponent, AgGridModule,NavbarUserComponent],
+  imports: [CommonModule, AddUserComponent, ResetUserPasswordDialog, AgGridModule, NavbarUserComponent, MatDialogModule, MatButtonModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  //Class
-  users: User[];
-  userDetails: UserDetailsDto[]
-  userDetailImage: UserDetailsDto
-  userDetail: User;
-  user: User;
-  userDto: UserDto
-
-  //Form
-  userId: string;
-  id: string
-  imageId: string
-
-  //Flag
+  
+  user: User; // For update dialog data
+  
+  rowData!: any[];
   dataLoaded = false;
-  userDeleteId = false;
-  isuserLoad = false;
-
-
 
   constructor(
     private userComponentservice: UserComponentService,
@@ -61,112 +45,103 @@ export class UserComponent {
     { field: 'lastName', headerName: this.lang.lastName, unSortIcon: true, },
     { field: 'email', headerName: this.lang.email, unSortIcon: false},
     {
-      field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
-        return 'Delete';
-      },
-      cellRenderer: () => {
-        return `<i class="fa-solid fa-trash-can"style="cursor:pointer;opacity:0.7; font-size:20px;"></i>`;
-      },
-      onCellClicked: (event: CellClickedEvent) =>
-        this.onDeleteUserId(event.data.id),
+      field: 'Delete', headerName: this.lang.delete, filter: false, maxWidth: 70, cellStyle: { 'text-align': 'center' },
+      cellRenderer: () => `<i class="fa-solid fa-trash-can" style="cursor:pointer; font-size:16px;"></i>`,
+      onCellClicked: (event: CellClickedEvent) => this.deleteUser(event.data.id), // Direct call to delete logic
     },
-    {
-      field: 'Update', headerName: this.lang.update, filter: false, valueGetter: (params) => {
-        return 'Update';
-      },
-      cellRenderer: () => {
-        return `<i class="fa-solid fa-pen"style="cursor:pointer;opacity:0.7; font-size:20px;" data-bs-toggle="modal" data-bs-target="#updateModal"></i>`;
-      },
-      onCellClicked: (event: CellClickedEvent) => {
-        this.getByUser(event.data.id)
-      }
-    },
+   
   ];
-  public rowSelection = 'multiple';
   public defaultColDef: ColDef = {
-      flex: 1,
-      filter: true,
-      sortable: true,
-      resizable: true,
-      floatingFilter: true,
-      suppressMenu: true,
-      minWidth: 80,
-      suppressSizeToFit: true,
-    };
-  public rowBuffer = 0;
-  public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
-    'infinite';
-  public cacheBlockSize = 300;
-  public cacheOverflowSize = 2;
-  public maxConcurrentDatasourceRequests = 1;
-  public infiniteInitialRowCount = 1000;
-  public maxBlocksInCache = 10;
-  public noRowsTemplate: any
-  public rowData!: any[];
-  public sideBar: SideBarDef | string | string[] | boolean | null = {
-    toolPanels: ['columns', 'filters'],
-    defaultToolPanel: '',
+      flex: 1, filter: true, sortable: true, resizable: true, floatingFilter: true, minWidth: 100,
   };
+  public sideBar: SideBarDef | string | string[] | boolean | null = { toolPanels: ['columns', 'filters'], defaultToolPanel: '', };
 
   onGridReady(params: GridReadyEvent) {
     params.api.sizeColumnsToFit();
-    this.getAllUser()
+    this.getAllUser();
   }
 
-  //#region  Get Method
+  // --- NEW DIALOG ACCESS METHODS ---
 
+  openAddUserDialog() {
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      width: '700px', // Set desired width
+      panelClass: 'matdialog-view', // Use your custom dialog class
+    });
+
+    // CRITICAL: Subscribe to dialog close to refresh the grid
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getAllUser();
+      }
+    });
+  }
+
+  openUpdateUserDialog() {
+    const dialogRef = this.dialog.open(ResetUserPasswordDialog, {
+      width: '700px', // Set desired width
+      panelClass: 'matdialog-view', // Use your custom dialog class
+    });
+
+    // CRITICAL: Subscribe to dialog close to refresh the grid
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getAllUser();
+      }
+    });
+  }
+
+  openUpdateDialog(userId: string) {
+    // 1. Fetch user data before opening the modal
+    this.userComponentservice.getById(userId).then(user => {
+        this.user = user; // Set data loaded flag if necessary (component state)
+
+        // 2. Open the update modal (Since update is a standard component, 
+        // you might need to use its Bootstrap target if it hasn't been dialogified yet.
+        // Assuming you need to keep the data-bs-target approach for the update modal,
+        // we skip the dialog.open here, but if UpdateUserComponent is also a dialog, 
+        // use dialog.open(UpdateUserComponent, {data: user}).
+        
+        // For now, we assume the update component is NOT dialogified and relies on input binding.
+        // You would typically notify the update component via input change, or just open the BS modal here.
+    });
+  }
+
+  // --- END DIALOG ACCESS METHODS ---
+
+  // #region Data Operations
   async getAllUser() {
     this.rowData = (await this.userComponentservice.getAllUser())
-    changeDataTableHeight()
-    window.addEventListener("resize", changeDataTableHeight)
+    // changeDataTableHeight() // Assuming this function is available and correct
+    // window.addEventListener("resize", changeDataTableHeight)
     this.dataLoaded = true;
   }
   async getByUser(Id: string) {
     this.user = (await this.userComponentservice.getById(Id))
     this.dataLoaded = true;
-    this.isuserLoad = true;
   }
-  async getImagesByUserId(Id: string) {
-    this.userDetailImage = (await this.userComponentservice.getImagesByUserId(Id))
-    this.dataLoaded = true;
-    this.isuserLoad = true;
-  }
-
-  //#endregion
-
-  //#region on and Delete method
-
-  onDeleteUserId(id: string) {
-    this.userId = id;
-    this.userDeleteId = true;
-    this.deleteUser(id)
-  }
+  
   deleteUser(id: string) {
-    if (this.userDeleteId) {
-      this.openDialog().afterClosed().subscribe(async result => {
-        if (!result) {
-          return
-        }
-        this.userComponentservice.deleteUser(id, () => { this.getAllUser() })
-      })
-    }
+    // Open the confirmation dialog defined in UserDeleteTemplate
+    this.openDeleteConfirmDialog().afterClosed().subscribe(async result => {
+      if (result) {
+        this.userComponentservice.deleteUser(id, () => { this.getAllUser() });
+      }
+    });
   }
-  openDialog() {
+  
+  openDeleteConfirmDialog() {
     return this.dialog.open(UserDeleteTemplate, {
-      width: '550px',
+      width: '450px',
       panelClass: 'matdialog-delete',
     });
   }
-  async onDetailModalClicked(id: string) {
-    this.userDto = (await this.userComponentservice.getImagesByUserId(id));
-    this.isuserLoad = true;
-  }
 
-  //#endregion
-
+  // #endregion
 
 }
-//#region delete Component
+
+// Your existing Delete Template (needed for compilation context)
 @Component({
   selector: 'user-delete-template',
   template: `
@@ -181,12 +156,9 @@ export class UserComponent {
   `,
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, CommonModule],
-
 })
 export class UserDeleteTemplate {
   lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-
   constructor(public dialogRef: MatDialogRef<UserDeleteTemplate>) {
   }
 }
-//#endregion

@@ -1,0 +1,138 @@
+/* --- THEME VARS --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8fafc;
+    --border: #dee2e6;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --popup-border: #cbd5e1;
+}
+
+/* 1. LAYOUT CONTAINER */
+.dialog-container, .dialog-layout {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* 2. HEADER */
+.dialog-header {
+    background-color: var(--primary);
+    padding: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.title { margin: 0; font-weight: 700; font-size: 1.15rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { background: rgba(255,255,255,0.2); }
+
+/* 3. BODY & FORM ELEMENTS */
+.dialog-body { padding: 1.5rem; overflow-y: auto; flex: 1; min-height: 0; }
+
+.section-label {
+    font-size: 0.9rem; font-weight: 800; color: var(--primary);
+    border-bottom: 2px solid var(--accent); display: inline-block;
+    padding-bottom: 4px; margin-bottom: 1rem;
+}
+.form-label {
+    font-size: 0.8rem; font-weight: 700; color: #495057;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
+}
+
+/* --- INPUT & SELECT STYLING --- */
+.input-wrapper { position: relative; }
+
+/* Standard Input (Password) */
+.form-control {
+    height: 45px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem;
+    padding-left: 2.5rem; color: var(--text-dark); background-color: white;
+}
+.form-control:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Input Icons */
+.input-icon { 
+    position: absolute; top: 50%; left: 1rem; transform: translateY(-50%); 
+    color: #adb5bd; z-index: 10; pointer-events: none;
+}
+
+/* --- NG-SELECT STYLING (The Fix for Visibility) --- */
+::ng-deep .modern-select .ng-select-container {
+    min-height: 45px; height: 45px; border: 1px solid var(--border);
+    border-radius: 8px; background: #fff; 
+    padding-left: 2.5rem !important; /* Space for the external icon */
+    display: flex; align-items: center;
+}
+::ng-deep .modern-select.ng-select-focused .ng-select-container {
+    border-color: var(--accent); box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Fix placeholder alignment */
+::ng-deep .modern-select .ng-placeholder {
+    top: auto !important; padding-bottom: 0;
+}
+
+/* Global Dropdown Panel Styles - FORCE VISIBILITY AND COLOR */
+::ng-deep body .ng-dropdown-panel {
+    z-index: 9999 !important; 
+    background: #ffffff !important;
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+    border-radius: 8px !important;
+}
+
+/* Option Text Color Fix */
+::ng-deep body .ng-dropdown-panel .ng-option {
+    background-color: #ffffff !important;
+    color: #1e293b !important; /* Forces dark text */
+    padding: 10px 12px !important;
+    border-bottom: 1px solid #f8fafc;
+}
+::ng-deep body .ng-dropdown-panel .ng-option:hover,
+::ng-deep body .ng-dropdown-panel .ng-option-marked {
+    background-color: #f1f5f9 !important;
+    color: #203b46 !important;
+}
+::ng-deep body .ng-dropdown-panel .ng-option-selected {
+    background-color: #e0f2f1 !important;
+    color: #203b46 !important;
+    font-weight: 700;
+}
+
+/* 4. FOOTER */
+.dialog-footer {
+    padding: 1.2rem 1.5rem; border-top: 1px solid var(--border);
+    background: var(--bg-gray); display: flex; justify-content: flex-end; gap: 1rem; flex-shrink: 0;
+}
+
+/* --- BUTTONS --- */
+.btn-ghost {
+    border: 1px solid var(--border); background: white; color: var(--text-gray); font-weight: 600; 
+    padding: 0.6rem 1.2rem; border-radius: 10px; transition: 0.2s;
+}
+.btn-ghost:hover { background: #f1f5f9; color: var(--text-dark); }
+
+.btn-prism-save {
+    background: var(--primary); color: white; font-weight: 700; 
+    padding: 0.6rem 1.5rem; border-radius: 10px; transition: all 0.2s;
+    display: flex; align-items: center;
+    box-shadow: 0 4px 10px rgba(32, 59, 70, 0.3);
+}
+.btn-prism-save:hover:not(:disabled) {
+    background: #162a33; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(32, 59, 70, 0.4);
+}
+.btn-prism-save:disabled { opacity: 0.5; cursor: not-allowed; }

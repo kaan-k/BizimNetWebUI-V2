@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../../models/user/user';
 import { ChangePassword } from '../../../models/changePassword';
 import { LoginModel } from '../../../models/loginModel';
+import { UserResetPassword } from '../../../models/user/userResetPassword';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,7 @@ export class UserComponentService {
       callBackError&&callBackError(error)
     })
   }
-  async changePassword(changePassword: ChangePassword, callBackfunction?: () => void,callBackError ?:(err)=>void) {
+  async changePassword(changePassword: UserResetPassword, callBackfunction?: () => void,callBackError ?:(err)=>void) {
     const observable = await this.userService.changePassword(changePassword)
     const promiseData = firstValueFrom(observable)
     promiseData.then(response => {
