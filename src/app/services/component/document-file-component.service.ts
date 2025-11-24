@@ -16,6 +16,11 @@ export class DocumentFileComponentService {
     const response = await firstValueFrom(observable)
     return response.data
   }
+  async getFileBlob(id: string): Promise<Blob> {
+    // We reuse the download endpoint but return the Blob directly to the component
+    // instead of creating an anchor tag to download it.
+    return await firstValueFrom(this.documentFileService.downloadDocument(id));
+  }
     async getAllDocumentFileDetails() {
     const observable = this.documentFileService.getAllDetails()
     const response = await firstValueFrom(observable)

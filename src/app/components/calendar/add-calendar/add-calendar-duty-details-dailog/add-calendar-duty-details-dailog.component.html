@@ -1,5 +1,4 @@
 <div class="dialog-container">
-    
     <div class="dialog-header">
         <div class="header-content">
             <h5 class="title">Görev Detayı</h5>
@@ -11,10 +10,8 @@
     </div>
 
     <div class="dialog-body custom-scroll">
-        
         <div class="status-card mb-4">
             <div class="row g-0 text-center">
-                
                 <div class="col-4 border-end">
                     <span class="label">Durum</span>
                     <div class="value" [class.text-success]="data.status === 'Tamamlandı'" [class.text-danger]="data.status !== 'Tamamlandı'">
@@ -22,12 +19,10 @@
                         {{ data.status }}
                     </div>
                 </div>
-
                 <div class="col-4 border-end">
                     <span class="label">Öncelik</span>
                     <div class="value fw-bold">{{ data.priority }}</div>
                 </div>
-
                 <div class="col-4">
                     <span class="label">
                         {{ data.status === 'Tamamlandı' ? 'Tamamlanma' : 'Başlangıç' }}
@@ -51,7 +46,15 @@
             <div class="form-group mb-3">
                 <label class="form-label">Açıklama</label>
                 <div class="input-wrapper">
-                    <textarea class="form-control read-only" rows="3" readonly>{{ data.description || 'Açıklama yok.' }}</textarea>
+                    <textarea 
+                        class="form-control"
+                        [class.read-only]="data.status === 'Tamamlandı'"
+                        [readonly]="data.status === 'Tamamlandı'"
+                        rows="3" 
+                        [(ngModel)]="data.description" 
+                        name="desc"
+                        placeholder="Açıklama giriniz...">
+                    </textarea>
                 </div>
             </div>
 
@@ -71,29 +74,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Başlangıç Zamanı</label>
-                    <div class="input-wrapper">
-                        <i class="fa-regular fa-calendar input-icon"></i>
-                        <input type="text" class="form-control read-only ps-5" [value]="data.beginsAt | date:'dd MMMM yyyy HH:mm'" readonly>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">
-                        {{ data.status === 'Tamamlandı' ? 'Tamamlanma Zamanı' : 'Planlanan Bitiş' }}
-                    </label>
-                    <div class="input-wrapper">
-                        <i class="fa-regular fa-clock input-icon" [class.text-success]="data.status === 'Tamamlandı'"></i>
-                        <input type="text" class="form-control read-only ps-5" 
-                               [class.text-success]="data.status === 'Tamamlandı'"
-                               [value]="(data.status === 'Tamamlandı' ? data.completedAt : data.endsAt) | date:'dd MMMM yyyy HH:mm'" 
-                               readonly 
-                               placeholder="-">
-                    </div>
-                </div>
-            </div> -->
 
             <div class="signature-box mt-4" *ngIf="data.signatureBase64">
                 <div class="d-flex justify-content-between align-items-center mb-2">
