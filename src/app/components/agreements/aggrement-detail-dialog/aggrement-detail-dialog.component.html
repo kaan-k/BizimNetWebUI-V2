@@ -1,0 +1,180 @@
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">Sözleşme Yönetimi</h5>
+            <p class="subtitle">#{{ agreementId }}</p>
+        </div>
+        <button class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="dialog-body custom-scroll">
+        
+        <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Veriler getiriliyor...</p>
+        </div>
+
+        <div *ngIf="!isLoading && agreementDetails" class="row h-100 g-4">
+            
+            <div class="col-md-4 d-flex flex-column gap-3">
+                
+                <div class="card border-0 shadow-sm bg-light">
+                    <div class="card-body">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.75rem;">Özet Bilgiler</h6>
+                        
+                        <div class="mb-3">
+                            <span class="d-block text-secondary small">Müşteri</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-building text-primary opacity-50"></i>
+                                <span class="fw-bold text-dark d-block text-truncate" [title]="customerName">
+                                    {{ customerName || 'Yükleniyor...' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <span class="d-block text-secondary small">Sözleşme</span>
+                            <span class="fw-bold text-dark d-block text-truncate" [title]="agreementDetails.aggrementTitle">
+                                {{ agreementDetails.aggrementTitle }}
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary small">Toplam Tutar:</span>
+                            <span class="fw-bold text-dark">{{ agreementDetails.agreedAmount | number:'1.2-2' }} ₺</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary small">Tahsil Edilen:</span>
+                            <span class="fw-bold text-success">{{ agreementDetails.paidAmount | number:'1.2-2' }} ₺</span>
+                        </div>
+                        <hr class="my-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-secondary fw-bold">KALAN:</span>
+                            <span class="fs-5 fw-bolder" [class.text-danger]="remainingAmount > 0" [class.text-success]="remainingAmount <= 0">
+                                {{ remainingAmount | number:'1.2-2' }} ₺
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border border-success shadow-sm" style="background-color: #f0fdf4;">
+                    <div class="card-body">
+                        <h6 class="text-uppercase text-success fw-bold mb-3" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-wallet me-1"></i> Tahsilat Yap
+                        </h6>
+                        
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary mb-1">Ödeme Yöntemi</label>
+                            <select class="form-select form-select-sm fw-bold text-dark" [(ngModel)]="paymentMethod">
+                                <option *ngFor="let method of methods" [value]="method">{{ method }}</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label small fw-bold text-secondary mb-0">Ödeme Tutarı</label>
+                                <a href="javascript:void(0)" 
+                                   (click)="fillRemainingAmount()" 
+                                   class="small text-decoration-none fw-bold text-primary"
+                                   *ngIf="remainingAmount > 0">
+                                    Tümünü Öde
+                                </a>
+                            </div>
+                            
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 text-success">₺</span>
+                                <input type="number" 
+                                       class="form-control border-start-0 ps-0 fw-bold text-dark" 
+                                       [(ngModel)]="paymentAmount" 
+                                       placeholder="0.00"
+                                       min="0">
+                            </div>
+
+                            <div *ngIf="paymentAmount && paymentAmount > remainingAmount" class="mt-2 d-flex align-items-start gap-2 text-warning-dark">
+                                <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+                                <span class="small lh-sm">Dikkat: Girilen tutar kalan borçtan fazladır.</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100 fw-bold py-2" 
+                                (click)="submitPayment()"
+                                [disabled]="!paymentAmount || paymentAmount <= 0 || isProcessing">
+                            <span *ngIf="isProcessing">
+                                <i class="fa-solid fa-spinner fa-spin me-1"></i> İşleniyor...
+                            </span>
+                            <span *ngIf="!isProcessing">
+                                <i class="fa-solid fa-check me-1"></i> Tahsil Et
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="d-flex justify-content-between align-items-end mb-2">
+                    <h6 class="text-uppercase text-muted fw-bold mb-0 ps-1" style="font-size: 0.75rem;">
+                        <i class="fa-solid fa-clock-rotate-left me-1"></i> İşlem Geçmişi
+                    </h6>
+                    <span class="badge bg-secondary rounded-pill">{{ bills.length }} Kayıt</span>
+                </div>
+
+                <div class="table-responsive border rounded-3 bg-white h-100" style="max-height: 450px; overflow-y: auto;">
+                    <table class="table table-hover mb-0 align-middle" style="font-size: 0.9rem;">
+                        <thead class="bg-light sticky-top" style="z-index: 1;">
+                            <tr>
+                                <th class="border-0 py-3 ps-3">Tarih</th>
+                                <th class="border-0 py-3">Yöntem / Açıklama</th>
+                                <th class="border-0 py-3 text-end pe-3">Tutar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bill of bills">
+                                <td class="ps-3 text-muted" style="white-space: nowrap;">
+                                    {{ bill.billingDate ? (bill.billingDate | date:'dd.MM.yyyy') : '-' }}
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-bold text-dark" style="font-size: 0.85rem;">
+                                            {{ bill.billingMethod || 'Nakit' }}
+                                        </span>
+                                        <span *ngIf="bill.description" class="text-muted small text-truncate" style="max-width: 150px;">
+                                            {{ bill.description }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-end fw-bold text-dark pe-3">
+                                    <div class="d-flex align-items-center justify-content-end gap-3">
+                                        <span class="text-success">+{{ bill.amount | number:'1.2-2' }} ₺</span>
+                                        <button class="btn btn-sm btn-light border-0 text-danger p-1" 
+                                                (click)="deleteBill(bill.id)" 
+                                                title="Bu tahsilatı sil">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="bills.length === 0">
+                                <td colspan="3" class="text-center py-5 text-muted">
+                                    <div class="d-flex flex-column align-items-center opacity-50">
+                                        <i class="fa-solid fa-file-invoice-dollar fs-1 mb-3"></i>
+                                        <p class="mb-0 fw-semibold">Henüz tahsilat kaydı bulunmamaktadır.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="btn btn-secondary text-white" (click)="close()">Kapat</button>
+    </div>
+</div>

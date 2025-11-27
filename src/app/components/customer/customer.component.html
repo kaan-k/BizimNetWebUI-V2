@@ -1,19 +1,41 @@
-<div class="container-fluid" style="">
-    <app-navbar-customer></app-navbar-customer>
+<div class="container-fluid">
+    
+    <div class="mb-2">
+        <app-navbar-customer></app-navbar-customer>
+    </div>
 
-    <button class="btn button-4" style="margin-bottom: 1rem; margin-left: 1rem;" (click)="resetParameters()">
-        <i class="fa-solid fa-arrows-rotate me-1"></i>
-        Görünümü Sıfırla
-    </button>
+    <div class="toolbar-row">
+        <h4 class="m-0 toolbar-title">Müşteri Listesi</h4>
+        
+        <button class="btn-reset" (click)="resetParameters()" title="Varsayılan görünüme dön">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Sıfırla</span>
+        </button>
+    </div>
 
-    <ag-grid-angular id="datatable" style="width: 100%;height: 83vh;font-size: 10px;" class="ag-theme-alpine"
-        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowSelection]="'multiple'"
-        [enableCellTextSelection]="true" [cacheBlockSize]="cacheBlockSize" [cacheOverflowSize]="cacheOverflowSize"
+    <ag-grid-angular 
+        id="datatable" 
+        style="width: 100%; height: calc(100vh - 200px);"
+        class="ag-theme-alpine" 
+        [columnDefs]="columnDefs" 
+        [defaultColDef]="defaultColDef" 
+        [rowSelection]="'multiple'"
+        [enableCellTextSelection]="true" 
+        [cacheBlockSize]="cacheBlockSize" 
+        [cacheOverflowSize]="cacheOverflowSize"
         [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-        [infiniteInitialRowCount]="infiniteInitialRowCount" [enableBrowserTooltips]="true"
-        [overlayNoRowsTemplate]="noRowsTemplate" [maxBlocksInCache]="maxBlocksInCache" [rowData]="rowData"
-        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
-        [suppressScrollOnNewData]="true"></ag-grid-angular>
+        [infiniteInitialRowCount]="infiniteInitialRowCount" 
+        [enableBrowserTooltips]="true"
+        [overlayNoRowsTemplate]="noRowsTemplate" 
+        [maxBlocksInCache]="maxBlocksInCache" 
+        [rowData]="rowData"
+        [gridOptions]="gridOptions" 
+        (gridReady)="onGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        [suppressScrollOnNewData]="true">
+    </ag-grid-angular>
+
 </div>
+
 <app-add-customer (customerEvent)="getAllCustomer()"></app-add-customer>
 <app-update-customer (customerEvent)="getAllCustomer()" [customer]="customer"></app-update-customer>

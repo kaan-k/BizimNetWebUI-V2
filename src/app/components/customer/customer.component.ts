@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core'; // Keep HostListener import
+import { Component, HostListener } from '@angular/core'; 
 import { AgGridAngular } from 'ag-grid-angular';
 import { ILanguage } from '../../../assets/locales/ILanguage';
 import { Languages } from '../../../assets/locales/language';
@@ -13,10 +13,8 @@ import { NavbarCustomerComponent } from './navbar-customer/navbar-customer.compo
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { UpdateCustomerComponent } from './update-customer/update-customer.component';
 import { ViewCustomerComponent } from './viewCustomerComponent';
-import { FirstDataRenderedEvent } from 'ag-grid-community'; // 👈 NEW IMPORT
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { FirstDataRenderedEvent } from 'ag-grid-community'; 
 import { AgPersist } from '../../ag-persist';
-import { ResetConfirmDialog } from '../duty/duty.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -26,54 +24,51 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './customer.component.html',
     styleUrl: './customer.component.css'
 })
-
-
-
-
 export class CustomerComponent {
     customerDelete: boolean = false;
     customer: Customer
     lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
     dataLoaded: boolean = false;
-    constructor(private customerComponentService: CustomerComponentService,private toastrService: ToastrService, private dialog: MatDialog) { }
+    
+    constructor(private customerComponentService: CustomerComponentService, private toastrService: ToastrService, private dialog: MatDialog) { }
 
     gridApi: any;
+    
+    // Cleaned up Column Defs to use CSS classes instead of inline styles
     public columnDefs: (ColDef | ColGroupDef)[] = [
         { field: 'name', headerName: this.lang.customerName, unSortIcon: false, },
         { field: 'companyName', headerName: this.lang.companyName, unSortIcon: false, },
         { field: 'email', headerName: this.lang.email, unSortIcon: false },
         { field: 'phoneNumber', headerName: this.lang.phoneNumber, unSortIcon: false },
-        { field: 'address', headerName: this.lang.address, unSortIcon: false },
-        { field: 'country', headerName: this.lang.country, unSortIcon: false },
-        { field: 'taxid', headerName: this.lang.taxid, unSortIcon: false },
         { field: 'city', headerName: this.lang.city, unSortIcon: false },
-        { field: 'customerField', headerName: this.lang.customerFields, unSortIcon: false },
         { field: 'status', headerName: this.lang.status, unSortIcon: false },
-        { field: 'lastActionDate', headerName: this.lang.lastActionDate, unSortIcon: false },
         { field: 'createdAt', headerName: this.lang.createdAt, unSortIcon: false },
-        { field: 'updatedAt', headerName: this.lang.updatedAt, unSortIcon: false },
         {
-            field: 'Delete', headerName: this.lang.delete, filter: false, valueGetter: (params) => {
-                return 'Delete';
-            },
+            headerName: this.lang.delete, 
+            field: 'Delete', 
+            filter: false, 
+            width: 90,
             cellRenderer: () => {
-                return `<i class="fa-solid fa-trash-can"style="cursor:pointer;opacity:0.7; font-size:20px;"></i>`;
+                // No inline style needed, CSS handles .fa-trash-can
+                return `<div class="d-flex justify-content-center"><i class="fa-solid fa-trash-can" style="cursor:pointer;"></i></div>`;
             },
-            onCellClicked: (event: CellClickedEvent) =>
-                this.deleteCustomer(event.data.id),
+            onCellClicked: (event: CellClickedEvent) => this.deleteCustomer(event.data.id),
         },
         {
-            field: 'Update', headerName: this.lang.update, filter: false, valueGetter: (params) => {
-                return 'Update';
-            },
+            headerName: this.lang.update, 
+            field: 'Update', 
+            filter: false, 
+            width: 90,
             cellRenderer: () => {
-                return `<i class="fa-solid fa-pen"style="cursor:pointer;opacity:0.7; font-size:20px;" data-bs-toggle="modal" data-bs-target="#customerUpdateModal"></i>`;
+                // No inline style needed, CSS handles .fa-pen
+                return `<div class="d-flex justify-content-center"><i class="fa-solid fa-pen" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#customerUpdateModal"></i></div>`;
             },
             onCellClicked: (event: CellClickedEvent) => {
                 this.getById(event.data.id)
             }
         },
     ];
+
     public rowSelection = 'multiple';
     public defaultColDef: ColDef = {
         flex: 1,
@@ -86,8 +81,7 @@ export class CustomerComponent {
         suppressSizeToFit: true,
     };
     public rowBuffer = 0;
-    public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' =
-        'infinite';
+    public rowModelType: 'clientSide' | 'infinite' | 'viewport' | 'serverSide' = 'infinite';
     public cacheBlockSize = 300;
     public cacheOverflowSize = 2;
     public maxConcurrentDatasourceRequests = 1;
@@ -99,18 +93,20 @@ export class CustomerComponent {
         toolPanels: ['columns', 'filters'],
         defaultToolPanel: '',
     };
-    //AG PERSIST SETUP
+    
     private agPersist = new AgPersist('customerPersist');
     public gridOptions = this.agPersist.setup({
         pagination: true,
         paginationPageSize: 50,
+        rowHeight: 40, // Force compact row height
+        headerHeight: 40
     });
 
-    // 👈 Fix 1: Only store the API and load data here.
     onGridReady(params: GridReadyEvent) {
         this.gridApi = params.api;
         this.getAllCustomer();
     }
+
     resetParameters(): void {
         const dialogRef = this.dialog.open(CustomerResetConfirmDialog, {
             width: '450px',
@@ -122,28 +118,22 @@ export class CustomerComponent {
                 this.agPersist.resetGridSettings();
                 this.toastrService.success('Grid görünümü başarıyla sıfırlandı.', 'Sayfayı yeniden yükleyin.');
                 window.location.reload();
-
             }
         });
-
     }
 
-    // 👈 Fix 2: Implement onFirstDataRendered to resize AFTER data is loaded.
     onFirstDataRendered(params: FirstDataRenderedEvent) {
         if (this.gridApi) {
             this.gridApi.sizeColumnsToFit();
         }
     }
 
-    // Keep the HostListener for runtime responsiveness
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
         if (this.gridApi) {
             this.gridApi.sizeColumnsToFit();
         }
     }
-
-    //#region  Get Method
 
     async getAllCustomer() {
         this.rowData = (await this.customerComponentService.getAllCustomer())
@@ -152,19 +142,17 @@ export class CustomerComponent {
         this.dataLoaded = true;
     }
 
-    // ... rest of your methods (getById, deleteCustomer, openDialog, openViewDialog)
     async getById(id: string) {
         this.customer = await this.customerComponentService.getById(id);
     }
 
     deleteCustomer(id: string) {
         this.openDialog().afterClosed().subscribe(async result => {
-            if (!result) {
-                return
-            }
+            if (!result) return;
             this.customerComponentService.deleteCustomer(id, () => { this.getAllCustomer() })
         })
     }
+    
 
     openDialog() {
         return this.dialog.open(CustomerDeleteTemplate, {
@@ -179,22 +167,21 @@ export class CustomerComponent {
             panelClass: 'matdialog-view'
         });
     }
-
 }
 
-
+// ... Keep your existing DeleteTemplate and ResetConfirmDialog components below ...
 @Component({
     selector: 'customer-delete-template',
     template: `
-  <h5 mat-dialog-title>
-    {{lang.areYouSureYouWanttoDelete}}</h5>
-   <div mat-dialog-content>
-   </div>
-   <div mat-dialog-actions class="mat-mdc-dialog-actions">
-    <button class="button-4" mat-button [mat-dialog-close]=false><i class="fa-solid fa-circle-xmark"></i> {{lang.cancel}}</button>
-    <button class="button-24" mat-button [mat-dialog-close]=true cdkFocusInitial><i class="fa-solid fa-trash-can"></i> {{lang.delete}}</button>
-   </div>
-  `,
+  <h5 mat-dialog-title>
+    {{lang.areYouSureYouWanttoDelete}}</h5>
+   <div mat-dialog-content>
+   </div>
+   <div mat-dialog-actions class="mat-mdc-dialog-actions">
+    <button class="button-4" mat-button [mat-dialog-close]=false><i class="fa-solid fa-circle-xmark"></i> {{lang.cancel}}</button>
+    <button class="button-24" mat-button [mat-dialog-close]=true cdkFocusInitial><i class="fa-solid fa-trash-can"></i> {{lang.delete}}</button>
+   </div>
+  `,
     standalone: true,
     imports: [MatDialogModule, MatButtonModule, CommonModule],
 
@@ -206,28 +193,26 @@ export class CustomerDeleteTemplate {
     }
 }
 @Component({
-  selector: 'customer-reset-confirm-dialog',
-  template: `
-  <h5 mat-dialog-title>Görünümü Sıfırlama Onayı</h5>
-  <div mat-dialog-content>
-    <p>Kaydedilmiş tüm sütun genişlikleri, sıralama ve filtre ayarları silinecektir.</p>
+  selector: 'customer-reset-confirm-dialog',
+  template: `
+  <h5 mat-dialog-title>Görünümü Sıfırlama Onayı</h5>
+  <div mat-dialog-content>
+    <p>Kaydedilmiş tüm sütun genişlikleri, sıralama ve filtre ayarları silinecektir.</p>
     <p>Devam etmek istediğinizden emin misiniz?</p>
-  </div>
-  <div mat-dialog-actions class="mat-mdc-dialog-actions">
-    <button class="button-4" mat-button [mat-dialog-close]="false">
-      <i class="fa-solid fa-circle-xmark"></i> {{  'İptal' }}
-    </button>
-    <button class="button-24" mat-button [mat-dialog-close]="true" cdkFocusInitial>
-      <i class="fa-solid fa-check"></i> {{ 'Sıfırla' }}
-    </button>
-  </div>
-  `,
-  standalone: true,
-  imports: [MatDialogModule, MatButtonModule, CommonModule],
+  </div>
+  <div mat-dialog-actions class="mat-mdc-dialog-actions">
+    <button class="button-4" mat-button [mat-dialog-close]="false">
+      <i class="fa-solid fa-circle-xmark"></i> {{  'İptal' }}
+    </button>
+    <button class="button-24" mat-button [mat-dialog-close]="true" cdkFocusInitial>
+      <i class="fa-solid fa-check"></i> {{ 'Sıfırla' }}
+    </button>
+  </div>
+  `,
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule, CommonModule],
 })
 export class CustomerResetConfirmDialog {
-  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  constructor(public dialogRef: MatDialogRef<ResetConfirmDialog>) { }
+  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
+  constructor(public dialogRef: MatDialogRef<CustomerResetConfirmDialog>) { }
 }
-
-//#endregion

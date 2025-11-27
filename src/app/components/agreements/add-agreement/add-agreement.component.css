@@ -1,0 +1,124 @@
+/* --- THEME VARS --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8f9fa;
+    --border: #dee2e6;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --popup-border: #cbd5e1;
+}
+
+.dialog-container {
+    display: flex; flex-direction: column; height: 100%;
+    background: white; overflow: hidden;
+}
+
+/* --- HEADER --- */
+.dialog-header {
+    background-color: var(--primary); padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    color: white; flex-shrink: 0;
+}
+.title { margin: 0; font-weight: 600; font-size: 1.15rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { background: rgba(255,255,255,0.2); }
+
+/* --- BODY --- */
+.dialog-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+
+.form-label {
+    font-size: 0.8rem; font-weight: 700; color: #495057;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
+}
+
+/* --- INPUTS --- */
+.form-control {
+    min-height: 45px; /* Taller inputs */
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.95rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+.form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Input Icons */
+.input-wrapper { position: relative; }
+.input-icon {
+    position: absolute; top: 50%; left: 15px;
+    transform: translateY(-50%); color: #adb5bd; transition: 0.2s;
+}
+/* Special handling for Textarea Icon */
+.textarea-icon { top: 22px; } /* Anchor to top */
+
+.form-control:focus + .input-icon, 
+.form-control:focus ~ .input-icon { color: var(--accent); }
+
+.ps-5 { padding-left: 2.5rem !important; }
+
+/* --- NG-SELECT STYLING (MATCH INPUTS) --- */
+/* Target class is now .modern-select to match your new CSS */
+::ng-deep .modern-select .ng-select-container {
+    min-height: 45px; 
+    border: 1px solid var(--border);
+    border-radius: 8px; 
+    background: #fff; /* Fixes input transparency */
+    align-items: center;
+}
+::ng-deep .modern-select.ng-select-focused .ng-select-container {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.15);
+}
+
+/* Dropdown Panel - Fixes list transparency */
+::ng-deep body .ng-dropdown-panel {
+    z-index: 9999 !important;
+    background: #fff !important; /* Forces white background */
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+/* Items */
+::ng-deep body .ng-dropdown-panel .ng-option {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+    color: var(--text-dark); /* Ensure text is visible */
+}
+::ng-deep body .ng-dropdown-panel .ng-option-marked { background-color: #f1f5f9 !important; }
+::ng-deep body .ng-dropdown-panel .ng-option-selected { background-color: #e0f2f1 !important; }
+
+.customer-avatar {
+    width: 24px; height: 24px; background: #f1f5f9; color: var(--text-gray);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; border: 1px solid var(--border);
+}
+
+/* --- FOOTER --- */
+.dialog-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: #fff;
+    display: flex; justify-content: flex-end; gap: 1rem;
+    flex-shrink: 0;
+}
+
+.btn-dark-teal {
+    background-color: var(--primary); color: white;
+    font-weight: 600; padding: 0.6rem 2rem;
+    border-radius: 8px; transition: 0.2s;
+    border: none;
+}
+.btn-dark-teal:hover { background-color: #162a33; transform: translateY(-1px); }
