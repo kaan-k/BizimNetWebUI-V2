@@ -145,3 +145,37 @@
 .button-4:hover { background: #e2e8f0; color: #1e293b; }
 .button-24 { background: var(--accent); color: white; }
 .button-24:hover { background: #20887e; transform: translateY(-1px); }
+
+/* --- PRIMARY ACTION BUTTON (Yeni Ekle) --- */
+.btn-add-primary {
+    background-color: var(--primary); /* Uses your theme's dark teal */
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px; /* Smooth rounded corners */
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 6px rgba(32, 59, 70, 0.15); /* Soft shadow */
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.btn-add-primary:hover {
+    background-color: #162a33; /* Slightly darker on hover */
+    transform: translateY(-2px); /* Lifts up slightly */
+    box-shadow: 0 6px 12px rgba(32, 59, 70, 0.25);
+}
+
+.btn-add-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(32, 59, 70, 0.15);
+}
+
+.btn-add-primary i {
+    font-size: 1rem;
+}

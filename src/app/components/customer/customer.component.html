@@ -1,11 +1,14 @@
 <div class="container-fluid">
-    
-    <div class="mb-2">
-        <app-navbar-customer></app-navbar-customer>
-    </div>
+
 
     <div class="toolbar-row">
-        <h4 class="m-0 toolbar-title">Müşteri Listesi</h4>
+        <div class="d-flex align-items-center gap-3">
+            <h4 class="m-0 toolbar-title">Müşteri Listesi</h4>
+            
+            <button class="btn-add-primary" (click)="openAddDialog()">
+                <i class="fa-solid fa-plus me-1"></i> {{ lang.addNewCustomer || 'Yeni Ekle' }}
+            </button>
+        </div>
         
         <button class="btn-reset" (click)="resetParameters()" title="Varsayılan görünüme dön">
             <i class="fa-solid fa-arrows-rotate"></i>
@@ -36,6 +39,3 @@
     </ag-grid-angular>
 
 </div>
-
-<app-add-customer (customerEvent)="getAllCustomer()"></app-add-customer>
-<app-update-customer (customerEvent)="getAllCustomer()" [customer]="customer"></app-update-customer>

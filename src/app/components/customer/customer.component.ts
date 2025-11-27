@@ -6,21 +6,23 @@ import { Languages } from '../../../assets/locales/language';
 import { CustomerComponentService } from '../../services/component/customer-component.service';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { GridOptions, ColDef, ColGroupDef, CellClickedEvent, SideBarDef, GridReadyEvent } from 'ag-grid-community';
+import { GridOptions, ColDef, ColGroupDef, CellClickedEvent, SideBarDef, GridReadyEvent, FirstDataRenderedEvent } from 'ag-grid-community';
 import { changeDataTableHeight } from '../../../assets/js/main';
 import { Customer } from '../../models/customers/cusotmers';
 import { NavbarCustomerComponent } from './navbar-customer/navbar-customer.component';
+import { AgPersist } from '../../ag-persist';
+import { ToastrService } from 'ngx-toastr';
+
+// Import your Dialog Components
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { UpdateCustomerComponent } from './update-customer/update-customer.component';
 import { ViewCustomerComponent } from './viewCustomerComponent';
-import { FirstDataRenderedEvent } from 'ag-grid-community'; 
-import { AgPersist } from '../../ag-persist';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-customer',
     standalone: true,
-    imports: [CommonModule, AgGridAngular, NavbarCustomerComponent, AddCustomerComponent, UpdateCustomerComponent, ViewCustomerComponent, MatDialogModule, MatButtonModule],
+    // Imports are still needed for standalone, but we won't use them in HTML
+    imports: [CommonModule, AgGridAngular, NavbarCustomerComponent, MatDialogModule, MatButtonModule],
     templateUrl: './customer.component.html',
     styleUrl: './customer.component.css'
 })
@@ -30,11 +32,15 @@ export class CustomerComponent {
     lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
     dataLoaded: boolean = false;
     
-    constructor(private customerComponentService: CustomerComponentService, private toastrService: ToastrService, private dialog: MatDialog) { }
+    constructor(
+        private customerComponentService: CustomerComponentService, 
+        private toastrService: ToastrService, 
+        private dialog: MatDialog
+    ) { }
 
     gridApi: any;
     
-    // Cleaned up Column Defs to use CSS classes instead of inline styles
+    // --- COLUMN DEFINITIONS (Cleaned up) ---
     public columnDefs: (ColDef | ColGroupDef)[] = [
         { field: 'name', headerName: this.lang.customerName, unSortIcon: false, },
         { field: 'companyName', headerName: this.lang.companyName, unSortIcon: false, },
@@ -49,7 +55,7 @@ export class CustomerComponent {
             filter: false, 
             width: 90,
             cellRenderer: () => {
-                // No inline style needed, CSS handles .fa-trash-can
+
                 return `<div class="d-flex justify-content-center"><i class="fa-solid fa-trash-can" style="cursor:pointer;"></i></div>`;
             },
             onCellClicked: (event: CellClickedEvent) => this.deleteCustomer(event.data.id),
@@ -60,11 +66,12 @@ export class CustomerComponent {
             filter: false, 
             width: 90,
             cellRenderer: () => {
-                // No inline style needed, CSS handles .fa-pen
-                return `<div class="d-flex justify-content-center"><i class="fa-solid fa-pen" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#customerUpdateModal"></i></div>`;
+                // CSS Class handles the styling 
+                return `<div class="d-flex justify-content-center"><i class="fa-solid fa-pen" style="cursor:pointer;"></i></div>`;
             },
             onCellClicked: (event: CellClickedEvent) => {
-                this.getById(event.data.id)
+                // Open the Update Dialog directly
+                this.openUpdateDialog(event.data);
             }
         },
     ];
@@ -98,13 +105,91 @@ export class CustomerComponent {
     public gridOptions = this.agPersist.setup({
         pagination: true,
         paginationPageSize: 50,
-        rowHeight: 40, // Force compact row height
+        rowHeight: 40, 
         headerHeight: 40
     });
 
     onGridReady(params: GridReadyEvent) {
         this.gridApi = params.api;
         this.getAllCustomer();
+    }
+
+    onFirstDataRendered(params: FirstDataRenderedEvent) {
+        if (this.gridApi) {
+            this.gridApi.sizeColumnsToFit();
+        }
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        if (this.gridApi) {
+            this.gridApi.sizeColumnsToFit();
+        }
+    }
+
+    // --- DATA METHODS ---
+
+    async getAllCustomer() {
+        this.rowData = (await this.customerComponentService.getAllCustomer())
+        changeDataTableHeight()
+        window.addEventListener("resize", changeDataTableHeight)
+        this.dataLoaded = true;
+    }
+
+    async getById(id: string) {
+        return await this.customerComponentService.getById(id);
+    }
+
+
+    openAddDialog() {
+        const dialogRef = this.dialog.open(AddCustomerComponent, { 
+            width: '700px', 
+            panelClass: 'custom-dialog-container'
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.getAllCustomer();
+                this.toastrService.success( 'Başarılı');
+            }
+        });
+    }
+
+    // 2. Open UPDATE Dialog
+    openUpdateDialog(customer: Customer) {
+        const dialogRef = this.dialog.open(UpdateCustomerComponent, { 
+            width: '700px',
+            panelClass: 'custom-dialog-container',
+            data: customer
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.getAllCustomer();
+            }
+        });
+    }
+
+    deleteCustomer(id: string) {
+        this.openDeleteDialog().afterClosed().subscribe(async result => {
+            if (!result) return;
+            this.customerComponentService.deleteCustomer(id, () => { this.getAllCustomer() })
+        })
+    }
+
+    openDeleteDialog() {
+        return this.dialog.open(CustomerDeleteTemplate, {
+            width: '550px',
+            panelClass: 'matdialog-delete',
+        });
+    }
+
+    openViewDialog(customer: Customer) {
+        this.dialog.open(ViewCustomerComponent, {
+            width: '600px',
+            data: customer,
+            panelClass: 'matdialog-view'
+        });
     }
 
     resetParameters(): void {
@@ -121,62 +206,13 @@ export class CustomerComponent {
             }
         });
     }
-
-    onFirstDataRendered(params: FirstDataRenderedEvent) {
-        if (this.gridApi) {
-            this.gridApi.sizeColumnsToFit();
-        }
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        if (this.gridApi) {
-            this.gridApi.sizeColumnsToFit();
-        }
-    }
-
-    async getAllCustomer() {
-        this.rowData = (await this.customerComponentService.getAllCustomer())
-        changeDataTableHeight()
-        window.addEventListener("resize", changeDataTableHeight)
-        this.dataLoaded = true;
-    }
-
-    async getById(id: string) {
-        this.customer = await this.customerComponentService.getById(id);
-    }
-
-    deleteCustomer(id: string) {
-        this.openDialog().afterClosed().subscribe(async result => {
-            if (!result) return;
-            this.customerComponentService.deleteCustomer(id, () => { this.getAllCustomer() })
-        })
-    }
-    
-
-    openDialog() {
-        return this.dialog.open(CustomerDeleteTemplate, {
-            width: '550px',
-            panelClass: 'matdialog-delete',
-        });
-    }
-    openViewDialog(customer: Customer) {
-        this.dialog.open(ViewCustomerComponent, {
-            width: '600px',
-            data: customer,
-            panelClass: 'matdialog-view'
-        });
-    }
 }
 
-// ... Keep your existing DeleteTemplate and ResetConfirmDialog components below ...
 @Component({
     selector: 'customer-delete-template',
     template: `
-  <h5 mat-dialog-title>
-    {{lang.areYouSureYouWanttoDelete}}</h5>
-   <div mat-dialog-content>
-   </div>
+  <h5 mat-dialog-title>{{lang.areYouSureYouWanttoDelete}}</h5>
+   <div mat-dialog-content></div>
    <div mat-dialog-actions class="mat-mdc-dialog-actions">
     <button class="button-4" mat-button [mat-dialog-close]=false><i class="fa-solid fa-circle-xmark"></i> {{lang.cancel}}</button>
     <button class="button-24" mat-button [mat-dialog-close]=true cdkFocusInitial><i class="fa-solid fa-trash-can"></i> {{lang.delete}}</button>
@@ -184,14 +220,12 @@ export class CustomerComponent {
   `,
     standalone: true,
     imports: [MatDialogModule, MatButtonModule, CommonModule],
-
 })
 export class CustomerDeleteTemplate {
     lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-
-    constructor(public dialogRef: MatDialogRef<CustomerDeleteTemplate>) {
-    }
+    constructor(public dialogRef: MatDialogRef<CustomerDeleteTemplate>) {}
 }
+
 @Component({
   selector: 'customer-reset-confirm-dialog',
   template: `
