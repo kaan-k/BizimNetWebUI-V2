@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
       { link: '/document-file', icon: 'fa-solid fa-file', label: this.lang.documentFiles },
       //{ link: '/installation-request', icon: 'fa-solid fa-code-pull-request', label: this.lang.installationRequests },
       { link: '/customer', icon: 'fa-solid fa-building', label: this.lang.customers },
-      //{ link: '/device', icon: 'fa-solid fa-server', label: this.lang.devices },
+      { link: '/stocks', icon: 'fa-solid fa-server', label: "Stoklar" },
       //{ link: '/servicing', icon: 'fa-solid fa-screwdriver-wrench', label: this.lang.servicings },
       { link: '/agreements', icon: 'fa-solid fa-handshake', label: 'Anlaşmalar' },
       { link: '/settings', icon: 'fa-solid fa-gear', label: 'Ayarlar' },
