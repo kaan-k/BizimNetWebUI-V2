@@ -1,87 +1,118 @@
-<div class="modal fade" id="customerAddModal" tabindex="-1" aria-labelledby="customerAddModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-6" id="customerAddModalLabel"> <i class="fa-solid fa-user-plus"></i>
-                    {{lang.addNewCustomer}}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="customerForm">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                                {{lang.email}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control" formControlName="email"
-                                style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                                {{lang.customerName}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control" formControlName="name"
-                                style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                                {{lang.companyName}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="companyName" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-user-tag"></i>
-                                {{lang.address}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="address" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                                {{lang.country}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="country" style="margin-bottom: 0px !important;">
-                        </div>
-                         <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-envelope"></i>
-                                {{lang.taxid}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control" formControlName="taxid"
-                                style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                                {{lang.city}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control" formControlName="city"
-                                style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
-                            <label class="chooseLabel"><i class="fa-solid fa-phone"></i>
-                                {{lang.phoneNumber}}</label>
-                            <input type="tel" class="modal-input addClass" class="form-control"
-                                formControlName="phoneNumber" placeholder="örn: 123 456 78 90"
-                                style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xl-6 mb-2">
-                            <label class="chooseLabel"><i class="fa-solid fa-tag"></i>
-                                {{lang.customerFields}}</label>
-                            <input type="text" class="modal-input addClass" class="form-control"
-                                formControlName="customerField" style="margin-bottom: 0px !important;">
-                        </div>
-                        <div class="mb-3 custom-select-wrapper modalSelect">
-                            <label class="chooseLabel"> <i class="fa-solid fa-code-branch"></i>
-                                {{lang.status}}</label>
-                            <select class="form-select chooseSelect" aria-label="Default select example"
-                                formControlName="status" style="font: small-caption !important;">
-                                <option value="" disabled selected>{{lang.chooseStatus}}</option>
-                                <option value="Potential"> Potansiyel Müşteri</option>
-                                <option value="Active"> Aktif Müşteri</option>
-                                <option value="Inactive"> Pasif Müşteri</option>
-                            </select>
-                        </div>
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">
+                <i class="fa-solid fa-user-plus me-2"></i>{{lang.addNewCustomer}}
+            </h5>
+        </div>
+        <button class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="dialog-body custom-scroll">
+        <form [formGroup]="customerForm">
+            
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.customerName}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="name" [placeholder]="lang.customerName">
                     </div>
-                </form>
-                <div class="btn-location mt-5">
-                    <button class="button-37" (click)="addCustomer()" data-bs-dismiss="modal"><i
-                            class="fa-solid fa-user-plus"></i> {{lang.addNewCustomer}}</button>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.companyName}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-building input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="companyName" [placeholder]="lang.companyName">
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.email}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" class="form-control ps-5" formControlName="email" placeholder="mail@example.com">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.phoneNumber}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone input-icon"></i>
+                        <input type="tel" class="form-control ps-5" formControlName="phoneNumber" placeholder="0555 555 55 55">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.taxid}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-file-invoice input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="taxid">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.customerFields}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-tag input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="customerField">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.country}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-globe input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="country">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{lang.city}}</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-city input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="city">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">{{lang.address}}</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-map-pin input-icon textarea-icon"></i>
+                    <textarea class="form-control ps-5" formControlName="address" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">{{lang.status}}</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-toggle-on input-icon"></i>
+                    <select class="form-control ps-5" formControlName="status" style="appearance: auto;">
+                        <option value="" disabled selected>{{lang.chooseStatus}}</option>
+                        <option value="Potential">Potansiyel Müşteri</option>
+                        <option value="Active">Aktif Müşteri</option>
+                        <option value="Inactive">Pasif Müşteri</option>
+                    </select>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="button-4" (click)="close()">
+            {{lang.cancel || 'Vazgeç'}}
+        </button>
+        
+        <button class="button-24" (click)="addCustomer()" [disabled]="customerForm.invalid">
+            <i class="fa-solid fa-check me-2"></i> {{lang.addNewCustomer}}
+        </button>
     </div>
 </div>

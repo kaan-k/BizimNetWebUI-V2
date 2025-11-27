@@ -1,1 +1,100 @@
-<p>add-agreement works!</p>
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">Yeni Sözleşme Oluştur</h5>
+            <p class="subtitle">Sözleşme detaylarını giriniz</p>
+        </div>
+        <button class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="dialog-body custom-scroll">
+        
+        <form [formGroup]="addForm">
+            
+            <div class="form-group mb-3">
+                <label class="form-label">Sözleşme Başlığı</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-heading input-icon"></i>
+                    <input type="text" class="form-control ps-5" formControlName="aggrementTitle" placeholder="Örn: 2025 Yılı Yazılım Bakım Anlaşması">
+                </div>
+                <div *ngIf="addForm.get('aggrementTitle')?.invalid && addForm.get('aggrementTitle')?.touched" class="text-danger mt-1 small">
+                    Başlık zorunludur.
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Müşteri</label>
+                    
+                    <ng-select [items]="customers" 
+                               bindLabel="companyName" 
+                               bindValue="id" 
+                               placeholder=""
+                               formControlName="customerId"
+                               class="modern-select">
+                        
+                        <ng-template ng-option-tmp let-item="item">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="customer-avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <span>{{ item.companyName }}</span>
+                            </div>
+                        </ng-template>
+
+                    </ng-select>
+
+                    <div *ngIf="addForm.get('customerId')?.invalid && addForm.get('customerId')?.touched" class="text-danger mt-1 small">
+                        Müşteri seçimi zorunludur.
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label">Sözleşme Tipi</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-file-signature input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="aggrementType" placeholder="Örn: Bakım / Lisans">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Anlaşılan Tutar (₺)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-money-bill-wave input-icon text-success"></i>
+                    <input type="number" class="form-control ps-5 fw-bold" formControlName="agreedAmount">
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="form-label">Bitiş Tarihi (Opsiyonel)</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar-xmark input-icon"></i>
+                    <input type="date" class="form-control ps-5" formControlName="expirationDate">
+                </div>
+            </div>
+
+            <div class="status-card bg-light border-0">
+                <div class="d-flex align-items-center gap-3 px-3">
+                    <i class="fa-solid fa-circle-info text-primary fs-4"></i>
+                    <div>
+                        <span class="d-block fw-bold text-dark" style="font-size: 0.85rem;">Bilgilendirme</span>
+                        <span class="text-muted" style="font-size: 0.75rem;">Sözleşme oluşturulduğunda "Aktif" olarak işaretlenecek ve ödeme tutarı 0 ₺ olarak başlayacaktır.</span>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="btn btn-light border" (click)="close()">Vazgeç</button>
+        
+        <button class="btn btn-dark-teal" (click)="save()" [disabled]="addForm.invalid">
+            <i class="fa-solid fa-check me-2"></i> Kaydet
+        </button>
+    </div>
+</div>

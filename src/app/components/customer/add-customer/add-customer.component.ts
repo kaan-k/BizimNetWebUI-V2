@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog'; // Import MatDialog stuff
 import { ILanguage } from '../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../assets/locales/language';
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
@@ -9,16 +10,21 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-customer',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule],
   templateUrl: './add-customer.component.html',
   styleUrl: './add-customer.component.css'
 })
-export class AddCustomerComponent {
-  lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  customerForm:FormGroup;
-  @Output() customerEvent = new EventEmitter<any>();
+export class AddCustomerComponent implements OnInit {
+  
+  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
+  customerForm: FormGroup;
 
-  constructor(private customerComponentService:CustomerComponentService,private formBuilder:FormBuilder,private toastrService:ToastrService){}
+  constructor(
+    private customerComponentService: CustomerComponentService,
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService,
+    public dialogRef: MatDialogRef<AddCustomerComponent> // Inject DialogRef
+  ) {}
 
   ngOnInit() {
     this.createCustomerForm();
@@ -26,40 +32,38 @@ export class AddCustomerComponent {
 
   createCustomerForm() {
     this.customerForm = this.formBuilder.group({
-      name: [''],
+      name: ['', Validators.required], // Added validators based on your logic
       companyName: [''],
       email: [''],
       phoneNumber: [''],
       address: [''],
       country: ['Türkiye'],
-      taxid:[''],
+      taxid: [''],
       city: [''],
       customerField: [''],
-      status: [''],
-      createdAt:[new Date()],
-      updatedAt:[new Date()],
-      lastActionDate:[new Date()],
-      lastAction:['']
+      status: ['Active'], // Default to active usually looks better
+      createdAt: [new Date()],
+      updatedAt: [new Date()],
+      lastActionDate: [new Date()],
+      lastAction: ['']
     });
   }
 
-  addCustomer(){
+  addCustomer() {
     if (this.customerForm.valid) {
-      const model = Object.assign({}, this.customerForm.value)
-      model.phoneNumber = model.phoneNumber.toString()
-      console.log(model);
+      const model = Object.assign({}, this.customerForm.value);
+      model.phoneNumber = model.phoneNumber ? model.phoneNumber.toString() : '';
       
-      // if (model.email.trim() == '') {
-      //   this.toastrService.error(this.lang.pleaseFillİnformation)
-      //   return
-      // }
       this.customerComponentService.addCustomer(model, () => {
-        this.customerEvent.emit(true)
-        this.createCustomerForm()
-      })
+        // Close dialog and return 'true' to signal refresh
+        this.dialogRef.close(true);
+      });
     } else {
-      this.toastrService.info(this.lang.pleaseFillİnformation, this.lang.error)
+      this.toastrService.info(this.lang.pleaseFillİnformation, this.lang.error);
     }
   }
 
+  close() {
+    this.dialogRef.close(false);
+  }
 }

@@ -1,0 +1,48 @@
+/* Inherit your existing theme vars */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --border: #dee2e6;
+}
+
+.dialog-container {
+    display: flex; flex-direction: column; height: 100%; max-height: 80vh; 
+    background: white; overflow: hidden;
+}
+
+.dialog-header {
+    background-color: var(--primary); padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    color: white; flex-shrink: 0;
+}
+.title { margin: 0; font-weight: 600; font-size: 1.15rem; }
+.subtitle { margin: 0; font-size: 0.8rem; opacity: 0.8; font-family: monospace; }
+
+.btn-close-white {
+    background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer;
+}
+
+.dialog-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+
+.dialog-footer {
+    padding: 1rem 1.5rem; border-top: 1px solid var(--border); background: #fff;
+    display: flex; justify-content: flex-end;
+}
+
+.btn-dark-teal {
+    background-color: var(--primary); color: white; font-weight: 600;
+    padding: 0.5rem 1.5rem; border-radius: 6px; border:none;
+}
+
+/* Table Tweaks */
+.table thead th {
+    font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700;
+}
+.text-warning-dark {
+    color: #92400e; /* Darker orange/brown for readability */
+    background-color: #fef3c7;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #fcd34d;
+}
