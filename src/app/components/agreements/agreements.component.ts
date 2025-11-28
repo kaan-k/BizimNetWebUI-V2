@@ -7,7 +7,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 // Services & Models
 import { AggrementComponentService } from '../../services/component/aggrement-component.service';
 import { Aggrement } from '../../models/aggrements/aggrement';
-
 // Dialog Components
 import { AddAgreementComponent } from './add-agreement/add-agreement.component';
 import { AgreementDetailDialogComponent } from './aggrement-detail-dialog/aggrement-detail-dialog.component';
@@ -134,6 +133,14 @@ export class AgreementsComponent implements OnInit {
   async getAllAgreement() {
     this.rowData = await this.agreementService.getAllAggrement();
   }
+//   openOfferDialog() {
+//     this.dialog.open(AddOfferComponent, {
+//         width: '1000px', // Wider because of the table
+//         height: '80vh',
+//         panelClass: 'custom-dialog-container',
+//         autoFocus: false
+//     });
+// }
 
   openAddDialog() {
     const dialogRef = this.dialog.open(AddAgreementComponent, { width: '500px' });

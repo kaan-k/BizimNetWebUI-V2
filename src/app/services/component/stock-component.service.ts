@@ -50,4 +50,13 @@ export class StockComponentService {
       this.toastrService.error(error.error)
     })
   }
+
+
+  async getAll() {
+    const observable = this.stockService.getAll();
+    // Assuming your base HttpClient returns the full response object, 
+    // and you extract .data property
+    const response = await firstValueFrom(observable);
+    return response.data;
+  }
 }

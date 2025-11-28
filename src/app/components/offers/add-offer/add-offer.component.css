@@ -1,0 +1,232 @@
+/* --- THEME VARIABLES --- */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-gray: #f8f9fa;
+    --border: #e2e8f0;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.05);
+    --focus-ring: 0 0 0 3px rgba(38, 166, 154, 0.15);
+}
+
+.dialog-container { 
+    display: flex; flex-direction: column; height: 100%; 
+    background: white; overflow: hidden;
+}
+
+/* --- HEADER --- */
+.dialog-header { 
+    background-color: var(--primary); 
+    padding: 1.25rem 1.5rem; 
+    display: flex; justify-content: space-between; align-items: center;
+    color: white; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+.title { 
+    margin: 0; font-weight: 700; font-size: 1.15rem; 
+    display: flex; align-items: center; letter-spacing: 0.3px;
+}
+.btn-close-white { 
+    background: rgba(255,255,255,0.1); border: none; color: white; 
+    width: 32px; height: 32px; border-radius: 50%; 
+    cursor: pointer; transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-close-white:hover { 
+    background: rgba(255,255,255,0.25); transform: rotate(90deg);
+}
+
+/* --- BODY --- */
+.dialog-body { 
+    padding: 1.5rem 2rem; 
+    overflow-y: auto; flex: 1; 
+    background-color: #ffffff;
+}
+
+/* --- FORM ELEMENTS --- */
+.form-label { 
+    font-size: 0.75rem; font-weight: 700; color: var(--text-gray); 
+    text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px;
+}
+
+.form-control { 
+    border-radius: 8px; font-size: 0.95rem; 
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+    color: var(--text-dark);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control:focus {
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: none;
+}
+
+/* --- ITEMS TABLE SECTION --- */
+.items-section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.items-header {
+    background: #f8fafc;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #fff;
+    color: var(--text-gray);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+.table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Table Inputs */
+.form-control-sm {
+    height: 34px;
+    font-size: 0.9rem;
+    border-color: #e2e8f0;
+}
+.input-group-sm .input-group-text {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: var(--text-gray);
+    font-size: 0.85rem;
+}
+
+/* --- NG-SELECT OVERRIDES --- */
+
+/* 1. Main Select (Customer) */
+::ng-deep .modern-select .ng-select-container {
+    min-height: 42px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: #fff !important;
+    transition: all 0.2s;
+}
+::ng-deep .modern-select.ng-select-focused .ng-select-container {
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+}
+
+/* 2. Table Selects (Compact) */
+::ng-deep .table-select .ng-select-container {
+    min-height: 34px !important;
+    height: 34px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    font-size: 0.9rem;
+    background-color: #fff !important;
+}
+::ng-deep .table-select.ng-select-focused .ng-select-container {
+    border-color: var(--accent) !important;
+    box-shadow: var(--focus-ring) !important;
+}
+
+/* Dropdown Panel Animation */
+::ng-deep body .ng-dropdown-panel {
+    background-color: #fff !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 9999 !important;
+    animation: fadeInDropdown 0.15s ease-out;
+}
+
+@keyframes fadeInDropdown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dropdown Items */
+::ng-deep body .ng-dropdown-panel .ng-option {
+    padding: 10px 12px;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f8f9fa;
+    transition: background 0.1s;
+}
+::ng-deep body .ng-dropdown-panel .ng-option.ng-option-marked {
+    background-color: #f1f5f9 !important;
+}
+::ng-deep body .ng-dropdown-panel .ng-option.ng-option-selected {
+    background-color: #e0f2f1 !important;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* --- FOOTER & BUTTONS --- */
+.dialog-footer { 
+    padding: 1.25rem 2rem; 
+    border-top: 1px solid var(--border); 
+    background: #fff; 
+    display: flex; justify-content: flex-end; gap: 1rem; 
+    flex-shrink: 0;
+}
+
+.button-4 { 
+    background: #f1f5f9; color: var(--text-gray); 
+    padding: 0.7rem 1.5rem; border-radius: 8px; border: 1px solid transparent; 
+    font-weight: 600; font-size: 0.9rem; transition: all 0.2s; 
+}
+.button-4:hover { 
+    background: #e2e8f0; color: var(--text-dark); 
+}
+
+.button-24 { 
+    background: var(--accent); color: white; 
+    padding: 0.7rem 2rem; border-radius: 8px; border: none; 
+    font-weight: 600; font-size: 0.9rem; transition: all 0.2s; 
+    box-shadow: 0 4px 6px rgba(38, 166, 154, 0.2);
+}
+.button-24:hover { 
+    background: #20887e; transform: translateY(-2px); 
+    box-shadow: 0 6px 12px rgba(38, 166, 154, 0.3);
+}
+.button-24:disabled { 
+    background: #a5d6d1; cursor: not-allowed; 
+    transform: none; box-shadow: none; 
+}
+
+/* Small Action Button (Add Row) */
+.btn-sm-action {
+    font-size: 0.8rem; font-weight: 600; 
+    color: var(--accent); border: 1px solid var(--accent);
+    background: transparent; padding: 0.4rem 0.8rem; 
+    border-radius: 6px; transition: all 0.2s;
+}
+.btn-sm-action:hover {
+    background: var(--accent); color: white;
+}

@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    
+    <div class="mb-2">
+        </div>
+
+    <div class="toolbar-row">
+        <div class="d-flex align-items-center gap-3">
+            <h4 class="m-0 toolbar-title">Teklif Listesi</h4>
+            
+            <button class="btn-add-primary" (click)="openAddDialog()">
+                <i class="fa-solid fa-plus me-1"></i> Yeni Teklif
+            </button>
+        </div>
+        
+        <button class="btn-reset" (click)="resetParameters()" title="Varsayılan görünüme dön">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Sıfırla</span>
+        </button>
+    </div>
+
+    <ag-grid-angular 
+        id="datatable" 
+        style="width: 100%; height: calc(100vh - 200px);"
+        class="ag-theme-alpine" 
+        [columnDefs]="columnDefs" 
+        [defaultColDef]="defaultColDef" 
+        [rowData]="rowData"
+        [gridOptions]="gridOptions" 
+        (gridReady)="onGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        (cellClicked)="onCellClicked($event)"
+        [suppressScrollOnNewData]="true">
+    </ag-grid-angular>
+
+</div>

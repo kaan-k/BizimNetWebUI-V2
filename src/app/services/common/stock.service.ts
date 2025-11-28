@@ -36,4 +36,11 @@ export class StockService extends BizimNetHttpClientService {
       queryString: `deviceType=${deviceType}` 
     })
   }
+
+  getAll() {
+    return this.get<ListResponseModel<Stock>>({ 
+      controller: this._controller, 
+      action: "GetAll" 
+    });
+  }
 }

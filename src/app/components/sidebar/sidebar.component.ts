@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit {
       { link: '/', icon: 'fa-solid fa-table-columns', label: this.lang.dashboard },
       { link: '/charts', icon: 'fa-solid fa-chart-pie', label: 'Tablolar' },
       { link: '/user', icon: 'fa-solid fa-users', label: this.lang.users },
-      //{ link: '/offer', icon: 'fa-solid fa-envelope', label: this.lang.offers },
+      { link: '/offers', icon: 'fa-solid fa-envelope', label: this.lang.offers },
       { link: '/duty', icon: 'fa-solid fa-list-check', label: this.lang.duties },
       { link: '/document-file', icon: 'fa-solid fa-file', label: this.lang.documentFiles },
       //{ link: '/installation-request', icon: 'fa-solid fa-code-pull-request', label: this.lang.installationRequests },

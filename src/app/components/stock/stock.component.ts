@@ -33,12 +33,19 @@ export class StockComponent {
         private dialog: MatDialog
     ) { }
 
+
+    private deviceTypeMap: { [key: number]: string } = {
+        0: 'Yazıcı',
+        1: 'Sunucu',
+        2: 'İstemci / PC',
+        3: 'Yazılım'
+    };
     // --- COLUMN DEFINITIONS ---
     public columnDefs: (ColDef | ColGroupDef)[] = [
         { field: 'id', headerName: 'ID', hide: true },
         { field: 'name', headerName: 'Stok Adı', flex: 2, unSortIcon: false },
         { 
-            field: 'quantity', 
+            field: 'count', 
             headerName: 'Miktar', 
             flex: 1,
             cellStyle: { fontWeight: 'bold', color: '#26a69a' } // Teal for numbers
@@ -47,6 +54,10 @@ export class StockComponent {
             field: 'deviceType', 
             headerName: 'Cihaz Tipi', 
             flex: 1,
+            valueFormatter: (params) => {
+                // Returns the mapped name or the original value if not found
+                return this.deviceTypeMap[params.value] || '-';
+            }
             // You might want a valueFormatter here if it's an Enum (e.g. 0 -> 'Laptop')
         },
         { 
@@ -120,6 +131,8 @@ export class StockComponent {
         }
     }
 
+    
+
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
         if (this.gridApi) {
@@ -140,15 +153,11 @@ export class StockComponent {
     // --- DATA METHODS ---
 
     async getAllStocks() {
-        // Assuming your service has getAll() returning ListResponseModel
-        // Or if you only have 'GetByDeviceType', you might need a general GetAll in backend.
-        // For now, let's assume standard getAll pattern:
-        // this.rowData = (await this.stockComponentService.getAll()).data; 
-        
-        // Placeholder until you confirm backend GetAll exists:
-        console.warn("Ensure StockService has GetAll method");
-        changeDataTableHeight();
-    }
+    // This line will now successfully fetch all data from backend
+    this.rowData = await this.stockComponentService.getAll();
+    changeDataTableHeight();
+    this.dataLoaded = true;
+}
 
     deleteStock(id: string) {
         if(confirm('Bu stoğu silmek istediğinize emin misiniz?')) {

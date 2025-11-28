@@ -5,9 +5,9 @@ import { LayoutComponent } from './components/layout/layout.component';
 
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { OfferComponent } from './components/offer/offer.component';
+//import { OfferComponent } from './components/offer/offer.component';
 import { DocumentFileComponent } from './components/document-file/document-file.component';
-import { InstallationRequestComponent } from './components/installation-request/installation-request.component';
+//import { InstallationRequestComponent } from './components/installation-request/installation-request.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DeviceComponent } from './components/device/device.component';
 import { ServicingComponent } from './components/servicing/servicing.component';
@@ -24,6 +24,7 @@ import { AgreementsComponent } from './components/agreements/agreements.componen
 import { SettingsComponent } from './components/settings/settings.component';
 import { ChartsComponent } from './components/charts/charts.component';
 import { StockComponent } from './components/stock/stock.component';
+import { OffersComponent } from './components/offers/offers.component';
 
 // === Locale bootstrap for breadcrumbs (kept as in your file)
 let lang: ILanguage | undefined = Languages.lngs.get(localStorage.getItem('lng'));
@@ -52,11 +53,13 @@ const dashboardRoutes = [
 const humanRoutes = [
   { path: 'charts', component: ChartsComponent, canActivate: [loginGuard], data: { breadcrumb: "lang?.users" } },
   { path: 'stocks', component: StockComponent, canActivate: [loginGuard], data: { breadcrumb: "Stok" } },
+  { path: 'offers', component: OffersComponent, canActivate: [loginGuard], data: { breadcrumb: "Teklif" } },
+
   { path: 'user', component: UserComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.users } },
   { path: 'customer', component: CustomerComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.customers } },
-  { path: 'offer', component: OfferComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.offers } },
+  //{ path: 'offer', component: OfferComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.offers } },
   { path: 'document-file', component: DocumentFileComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.documentFiles } },
-  { path: 'installation-request', component: InstallationRequestComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.installationRequests } },
+  //{ path: 'installation-request', component: InstallationRequestComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.installationRequests } },
   { path: 'device', component: DeviceComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.devices } },
   { path: 'servicing', component: ServicingComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
   { path: 'duty', component: DutyComponent, canActivate: [loginGuard], data: { breadcrumb: lang?.servicings } },
