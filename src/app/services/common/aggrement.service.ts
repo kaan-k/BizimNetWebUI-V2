@@ -27,6 +27,15 @@ export class AggrementService extends BizimNetHttpClientService {
     return observable
   }
 
+createFromOffer(id: string) {
+    const observable = this.post<ResponseModel>({
+        controller: this._controller,
+        action: "CreateFromOffer", 
+        queryString: `offerId=${id}`
+    }, {});
+    return observable;
+  }
+
   async deleteAggrement(id: string) {
     const observable = this.get<ResponseModel>({ controller: this._controller, action: "Delete", queryString: `id=${id}` })
     return observable

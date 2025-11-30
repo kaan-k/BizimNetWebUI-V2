@@ -1,6 +1,5 @@
 <div class="container-fluid">
 
-
     <div class="toolbar-row">
         <div class="d-flex align-items-center gap-3">
             <h4 class="m-0 toolbar-title">Müşteri Listesi</h4>
@@ -23,6 +22,7 @@
         [columnDefs]="columnDefs" 
         [defaultColDef]="defaultColDef" 
         [rowSelection]="'multiple'"
+        [preventDefaultOnContextMenu]="true"
         [enableCellTextSelection]="true" 
         [cacheBlockSize]="cacheBlockSize" 
         [cacheOverflowSize]="cacheOverflowSize"
@@ -35,7 +35,43 @@
         [gridOptions]="gridOptions" 
         (gridReady)="onGridReady($event)"
         (firstDataRendered)="onFirstDataRendered($event)"
-        [suppressScrollOnNewData]="true">
+        [suppressScrollOnNewData]="true"
+        (cellContextMenu)="onCellContextMenu($event)">
     </ag-grid-angular>
+
+    <div 
+        style="visibility: hidden; position: fixed;" 
+        [style.left]="contextMenuPosition.x" 
+        [style.top]="contextMenuPosition.y" 
+        [matMenuTriggerFor]="contextMenu">
+    </div>
+
+    <mat-menu #contextMenu="matMenu">
+        <button mat-menu-item (click)="onContextMenuAction('cari-islemler')">
+            <i class="fa-solid fa-file-invoice-dollar me-2 text-primary"></i>
+            <span>Cari İşlemler</span>
+        </button>
+
+        <button mat-menu-item (click)="onContextMenuAction('cari-hareketler')">
+            <i class="fa-solid fa-list-check me-2 text-secondary"></i>
+            <span>Cari Hareketler</span>
+        </button>
+                <button mat-menu-item (click)="onContextMenuAction('update')">
+            <i class="fa-solid fa-list-check me-2 text-secondary"></i>
+            <span>Düzenle</span>
+        </button>
+
+        <button mat-menu-item (click)="onContextMenuAction('delete')">
+                <i class="fa-solid fa-trash-can"></i> 
+            <span>Sil</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-menu-item (click)="onContextMenuAction('view')">
+            <i class="fa-solid fa-eye me-2"></i>
+            <span>Görüntüle</span>
+        </button>
+    </mat-menu>
 
 </div>

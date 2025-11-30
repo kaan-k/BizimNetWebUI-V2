@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ILanguage } from '../../../../assets/locales/ILanguage';
 import { Languages } from '../../../../assets/locales/language';
 import { Department } from '../../../models/departments/department';
-import { Offer } from '../../../models/offers/offer';
 import { DepartmentComponentService } from '../../../services/component/department-component.service';
 import { DocumentFileComponentService } from '../../../services/component/document-file-component.service';
 import { OfferComponentService } from '../../../services/component/offer-component.service';
@@ -22,13 +21,11 @@ export class UpdateDocumentFileComponent {
   documentFileForm:FormGroup
   @Output() documentEvent = new EventEmitter<any>();
   departments:Department[]
-  offers:Offer[]
   @Input() set documentFile(value: any) {
     if (value == null) {
       return;
     }
     this.getallDepartments();
-    this.getallOffers();
     this.createDocumentFileForm(value);
   }
 
@@ -46,9 +43,7 @@ export class UpdateDocumentFileComponent {
   async getallDepartments() {
     this.departments = await this.departmentComponentService.getAllDepartment();
   }
-  async getallOffers() {
-    this.offers = await this.offerComponentService.getAllOffer();
-  }
+ 
 
   onSubmit() {  
     const model = Object.assign({}, this.documentFileForm.value) 

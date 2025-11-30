@@ -1,0 +1,84 @@
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title">
+                <i class="fa-solid fa-boxes-stacked me-2"></i> Yeni Stok Ekle
+            </h5>
+        </div>
+        <button class="btn-close-white" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="dialog-body custom-scroll">
+        <form [formGroup]="stockForm">
+            
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Stok / Cihaz Adı</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-tag input-icon"></i>
+                        <input type="text" class="form-control ps-5" formControlName="name" placeholder="Örn: Dell XPS 15">
+                    </div>
+                    <div *ngIf="stockForm.get('name')?.invalid && stockForm.get('name')?.touched" class="invalid-feedback d-block">
+                        Stok adı gereklidir.
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label">Cihaz Tipi</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-laptop input-icon"></i>
+                        <select class="form-select ps-5" formControlName="deviceType" style="height: 45px;">
+                            <option [ngValue]="null" disabled selected>Tip Seçiniz</option>
+                            <option *ngFor="let type of deviceTypes" [value]="type.id">{{ type.name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Miktar</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-layer-group input-icon text-accent"></i>
+                        <input type="number" class="form-control ps-5 fw-bold" formControlName="count" min="1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Satın Alma Tarihi</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-calendar input-icon"></i>
+                        <input type="date" class="form-control ps-5" formControlName="purchaseDate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Seri Numarası (Opsiyonel)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-barcode input-icon"></i>
+                    <input type="text" class="form-control ps-5" formControlName="serialNumber" placeholder="S/N: 123456789">
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Açıklama</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-align-left input-icon textarea-icon"></i>
+                    <textarea class="form-control ps-5" formControlName="description" rows="3" placeholder="Ek özellikler, notlar..."></textarea>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="button-4" (click)="close()">Vazgeç</button>
+        
+        <button class="button-24" (click)="save()">
+            <i class="fa-solid fa-check me-2"></i> Kaydet
+        </button>
+    </div>
+</div>

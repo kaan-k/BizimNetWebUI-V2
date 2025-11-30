@@ -1,7 +1,8 @@
 <div class="container-fluid">
     
     <div class="mb-2">
-        </div>
+        <!-- Optional Breadcrumb or spacer -->
+    </div>
 
     <div class="toolbar-row">
         <div class="d-flex align-items-center gap-3">
@@ -12,6 +13,12 @@
             <button class="btn-reset" (click)="resetParameters()" title="Varsayılan görünüme dön">
                 <i class="fa-solid fa-arrows-rotate"></i>
                 <span>Sıfırla</span>
+            </button>
+
+            <!-- NEW BUTTON: Import from Offer -->
+            <button class="btn-add-secondary" style="background-color: #64748b; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; display: flex; align-items: center; gap: 8px; font-weight: 500;" (click)="openOfferSelector()">
+                <i class="fa-solid fa-file-import"></i>
+                <span>Tekliften Oluştur</span>
             </button>
 
             <button class="btn-add-primary" (click)="openAddDialog()">
@@ -28,7 +35,8 @@
         [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef" 
         [rowData]="rowData"
-        [gridOptions]="gridOptions" 
+        [pagination]="true"
+        [paginationPageSize]="paginationPageSize"
         (gridReady)="onGridReady($event)">
     </ag-grid-angular>
 

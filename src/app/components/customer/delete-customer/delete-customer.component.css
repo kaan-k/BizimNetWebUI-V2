@@ -1,0 +1,122 @@
+:host {
+    display: block;
+    /* Ensures the rounded corners of the card are respected by the dialog container */
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.confirmation-card {
+    background: #fff;
+    padding: 24px;
+    min-width: 420px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- Header & Icon --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.icon-badge-soft {
+    width: 48px;
+    height: 48px;
+    background-color: #fee2e2;
+    /* Soft Red matching your theme's danger tone */
+    color: #dc2626;
+    border-radius: 12px;
+    /* Slightly squarer than a circle, modern look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.btn-close-custom {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.btn-close-custom:hover {
+    color: #1f2937;
+}
+
+/* --- Typography --- */
+.card-body {
+    margin-bottom: 32px;
+}
+
+.title {
+    font-size: 1.25rem;
+    /* ~20px */
+    color: #111827;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.025em;
+}
+
+.subtitle {
+    color: #6b7280;
+    /* Muted gray */
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --- Footer & Buttons --- */
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+    /* Subtle separator */
+}
+
+/* Styling the Ghost Button (Cancel) */
+.btn-ghost {
+    background-color: transparent;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    /* Rounded-2/3 equivalent */
+}
+
+.btn-ghost:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+}
+
+/* Styling the Delete Button */
+.btn-delete {
+    background-color: #dc2626;
+    /* Strong Red */
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);
+    /* Soft red shadow */
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(220, 38, 38, 0.3);
+}
+
+.ms-2 {
+    margin-left: 0.5rem;
+}

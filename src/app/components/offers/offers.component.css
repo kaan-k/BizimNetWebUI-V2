@@ -1,0 +1,58 @@
+/* Inherit Global Theme */
+:host {
+    --primary: #203b46;
+    --accent: #26a69a;
+    --bg-app: #f0f2f5;
+    --border: #e2e8f0;
+}
+
+.container-fluid {
+    background-color: var(--bg-app);
+    min-height: 100vh;
+    padding: 1rem 1.5rem !important; 
+    display: flex; flex-direction: column; gap: 0.8rem;
+}
+
+.toolbar-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: white; padding: 0.6rem 1.2rem; 
+    border-radius: 12px; border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.toolbar-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+
+/* Buttons */
+.btn-add-primary {
+    background-color: #f59e0b; /* Amber for Offers to distinguish from Agreements */
+    color: white; border: none; padding: 0.6rem 1.5rem;
+    border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.2s ease; cursor: pointer;
+    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+}
+.btn-add-primary:hover { background-color: #d97706; transform: translateY(-2px); }
+
+.btn-reset {
+    background: transparent; border: 1px solid var(--border);
+    color: #64748b; padding: 0.4rem 1rem; border-radius: 30px;
+    font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 8px;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-reset:hover { border-color: var(--primary); color: var(--primary); background: white; }
+.btn-reset:hover i { transform: rotate(-180deg); }
+
+/* Grid Badges */
+::ng-deep .badge {
+    padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+}
+::ng-deep .badge-warning { background-color: #fffbeb; color: #b45309; border: 1px solid #fcd34d; }
+::ng-deep .badge-success { background-color: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
+::ng-deep .badge-danger { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+/* Grid Theme */
+.ag-theme-alpine {
+    border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border); overflow: hidden;
+    --ag-header-height: 40px; --ag-row-height: 48px;
+}
+::ng-deep .ag-header-cell-text { font-weight: 700; color: #64748b; font-size: 0.75rem; }

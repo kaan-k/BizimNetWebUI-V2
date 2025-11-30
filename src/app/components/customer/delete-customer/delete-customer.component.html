@@ -1,0 +1,30 @@
+  <div class="confirmation-card">
+      
+      <div class="card-header">
+        <div class="icon-badge-soft">
+          <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <button class="btn-close-custom" (click)="dialogRef.close(false)">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="card-body">
+        <h4 class="title fw-bold">{{"Silmek istediğine emin misin?" }}</h4>
+        <p class="subtitle">
+          {{ 'Bu işlem geri alınamaz ve ilgili tüm veriler silinecektir.' }}
+        </p>
+      </div>
+
+      <div class="card-footer">
+        <button class="button-4 btn-ghost" (click)="dialogRef.close(false)">
+          {{ "İptal" }}
+        </button>
+        
+        <button class="button-24 btn-delete" (click)="dialogRef.close(true)" cdkFocusInitial>
+          <span class="btn-label">{{ "Sil" }}</span>
+          <i class="fa-solid fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+
+    </div>

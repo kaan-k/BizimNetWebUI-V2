@@ -1,0 +1,115 @@
+<div class="dialog-container">
+    <div class="dialog-header">
+        <div class="header-content">
+            <h5 class="title"><i class="fa-solid fa-file-invoice-dollar me-2"></i> Yeni Teklif Oluştur</h5>
+        </div>
+        <button class="btn-close-white" (click)="close()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="dialog-body custom-scroll">
+        <form [formGroup]="offerForm">
+            
+            <div class="row g-3 mb-4">
+                <div class="col-md-8">
+                    <label class="form-label">Teklif Başlığı</label>
+                    <input type="text" class="form-control" formControlName="title" placeholder="Örn: 2025 Q1 Donanım Teklifi">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Geçerlilik Tarihi</label>
+                    <input type="date" class="form-control" formControlName="expirationDate">
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Müşteri</label>
+                    <ng-select [items]="customers" 
+                               bindLabel="name" 
+                               bindValue="id" 
+                               placeholder="" 
+                               formControlName="customerId" 
+                               class="modern-select">
+                    </ng-select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Açıklama</label>
+                    <textarea class="form-control" formControlName="description" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="items-section border rounded-3 overflow-hidden mb-3">
+                <div class="bg-light p-2 px-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 fw-bold text-secondary" style="font-size: 0.85rem;">ÜRÜN / HİZMET LİSTESİ</h6>
+                    <button class="btn-sm-action" (click)="addItem()">
+                        <i class="fa-solid fa-plus me-1"></i> Satır Ekle
+                    </button>
+                </div>
+                
+                <div class="p-0">
+                    <table class="table table-borderless mb-0 align-middle" style="font-size: 0.9rem;">
+                        <thead class="text-secondary small border-bottom">
+                            <tr>
+                                <th class="ps-3" style="width: 40%">Ürün (Stok)</th>
+                                <th style="width: 15%">Miktar</th>
+                                <th style="width: 20%">Birim Fiyat</th>
+                                <th style="width: 20%" class="text-end">Toplam</th>
+                                <th style="width: 5%"></th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="items">
+                            <tr *ngFor="let item of itemControls; let i = index" [formGroupName]="i" class="border-bottom">
+                                <td class="ps-3">
+                                    <ng-select [items]="stocks" 
+                                               bindLabel="name" 
+                                               bindValue="id" 
+                                               [clearable]="false" 
+                                               class="table-select"
+                                               formControlName="stockId" 
+                                               placeholder=""
+                                               appendTo="body"
+                                               (change)="onStockSelect($event, i)">
+                                    </ng-select>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm text-center" formControlName="quantity" min="1">
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control text-end" formControlName="unitPrice">
+                                        <span class="input-group-text">₺</span>
+                                    </div>
+                                </td>
+                                <td class="text-end fw-bold text-dark pe-3">
+                                    {{ item.get('totalPrice')?.value | number:'1.2-2' }} ₺
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm text-danger" (click)="removeItem(i)" *ngIf="itemControls.length > 1">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center gap-3">
+                <span class="text-secondary fw-bold">GENEL TOPLAM:</span>
+                <span class="fs-4 fw-bolder text-success">{{ grandTotal | number:'1.2-2' }} ₺</span>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="button-4" (click)="close()">Vazgeç</button>
+        
+        <!-- NEW PDF BUTTON -->
+        <button class="button-24 bg-secondary border-0 me-2" style="background-color: #64748B !important;" 
+                (click)="downloadPdf()" [disabled]="offerForm.invalid || isGeneratingPdf">
+            <i class="fa-solid" [ngClass]="isGeneratingPdf ? 'fa-spinner fa-spin' : 'fa-file-pdf'"></i> 
+            {{ isGeneratingPdf ? ' Hazırlanıyor...' : ' PDF Oluştur(Daha sonra oluşturulamaz!)' }}
+        </button>
+
+        <button class="button-24" (click)="save()" [disabled]="offerForm.invalid">
+            <i class="fa-solid fa-check me-2"></i> Teklifi Oluştur
+        </button>
+    </div>
+</div>

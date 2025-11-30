@@ -1,12 +1,12 @@
-<div class="modal fade" id="offerAddModal" tabindex="-1" aria-labelledby="offerAddModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="offerUpdateModal" tabindex="-1" aria-labelledby="offerUpdateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-6" id="offerAddModalLabel"> <i class="fa-solid fa-user-plus"></i>
+                <h1 class="modal-title fs-6" id="offerUpdateModalLabel"> <i class="fa-solid fa-user-plus"></i>
                     {{lang.addNewOffer}}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" *ngIf="offerForm">
                 <form [formGroup]="offerForm">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-xl-6 custom-select-wrapper modalSelect">
@@ -63,10 +63,10 @@
                     </div>
                 </form>
                 <div class="btn-location mt-5">
-                    <button class="button-37" (click)="addOffer()" data-bs-dismiss="modal"><i
+                    <button class="button-37" (click)="updateOffer()" data-bs-dismiss="modal"><i
                             class="fa-solid fa-user-plus"></i> {{lang.addNewOffer}}</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> -->

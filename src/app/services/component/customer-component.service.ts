@@ -24,6 +24,10 @@ export class CustomerComponentService {
     const observable = this.customerService.getByAllById(id)
     return (await firstValueFrom(observable)).data
   }
+     async getBranchByHqId(id: string) {
+    const observable = this.customerService.getBranchByHqId(id)
+    return (await firstValueFrom(observable)).data
+  }
   async deleteCustomer(id: string, callBackfunction?: () => void) {
     const observable = await this.customerService.deleteCustomer(id)
     const promiseData = firstValueFrom(observable)

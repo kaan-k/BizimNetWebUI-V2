@@ -1,4 +1,4 @@
-<!-- MOBILE HAMBURGER BUTTON (only visible on mobile via CSS) -->
+<!-- MOBILE HAMBURGER -->
 <button class="mobile-menu-button" (click)="toggleMobileMenu()" aria-label="Menüyü aç">
     <i class="fa-solid fa-bars"></i>
 </button>
@@ -10,23 +10,60 @@
             <span class="brand-text">Ary Yazılım</span>
         </div>
     </div>
+    
     <div class="nicescroll-bar custom-scrollbar">
         <div class="navbar-nav-wrap">
             <span class="menu-header">Menü</span>
+            
             <ul class="navbar-nav flex-column">
-                @for (item of menuItems; track item.link) {
+                @for (item of menuItems; track item.label) {
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: item.link === '/'}" (click)="closeMobileMenu()">
-                        <span class="feather-icon"><i [class]="item.icon"></i></span>
-                        <span class="nav-link-text">{{ item.label }}</span>
-                        <div class="hover-effect"></div>
-                    </a>
+                    
+                    <!-- CASE 1: Standard Link (No Children) -->
+                    @if (!item.children) {
+                        <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{exact: item.link === '/'}" (click)="closeMobileMenu()">
+                            <span class="feather-icon"><i [class]="item.icon"></i></span>
+                            <span class="nav-link-text">{{ item.label }}</span>
+                            <div class="hover-effect"></div>
+                        </a>
+                    }
+                    
+                    <!-- CASE 2: Parent Item (Has Children) -->
+                    @if (item.children) {
+                        <a class="nav-link has-dropdown" 
+                           [class.active]="isParentActive(item)"
+                           [class.expanded]="item.expanded"
+                           (click)="toggleSubMenu(item)">
+                            <div class="d-flex align-items-center flex-grow-1">
+                                <span class="feather-icon"><i [class]="item.icon"></i></span>
+                                <span class="nav-link-text">{{ item.label }}</span>
+                            </div>
+                            <!-- Arrow Icon rotates based on expansion -->
+                            <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                        </a>
+
+                        <!-- Sub Menu -->
+                        <div class="sub-menu-wrapper" [class.show]="item.expanded">
+                            <ul class="sub-menu">
+                                @for (child of item.children; track child.link) {
+                                    <li>
+                                        <a class="sub-link" [routerLink]="[child.link]" routerLinkActive="active" (click)="closeMobileMenu()">
+                                            <i class="fa-solid fa-circle-dot dot-icon"></i>
+                                            {{ child.label }}
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
                 </li>
                 }
             </ul>
         </div>
     </div>
+    
     <div class="nav-footer">
         <div class="user-mini">
             <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=203b46&color=fff&size=128&bold=true'"
@@ -42,49 +79,5 @@
     </div>
 </nav>
 
-<!-- Keep the offcanvas markup you already had (no change) -->
-<div class="offcanvas offcanvas-start canvas-style" tabindex="-1" id="offcanvasExample">
-    <div class="offcanvas-header">
-        <div class="brand-logo">
-            <span class="brand-text">Panel</span>
-        </div>
-        <button type="button" class="btn-close-custom" data-bs-dismiss="offcanvas">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-
-    <div class="offcanvas-body custom-scrollbar">
-        <div class="mobile-user-block mb-4 p-3 rounded">
-            <div class="d-flex align-items-center gap-3 mb-3">
-                <img [src]="'https://ui-avatars.com/api/?name=' + (userName || 'User') + '&background=26a69a&color=fff&size=128&bold=true'"
-                    class="avatar-circle" alt="User Avatar">
-                <div>
-                    <div class="text-white fw-bold">{{ userName }}</div>
-                    <small class="text-muted">Kullanıcı</small>
-                </div>
-            </div>
-            <!--             
-            <div class="mobile-utility-toggle mb-3">
-                <button class="btn btn-sm w-100 btn-toggle-desktop" (click)="toggleDesktopSidebar()">
-                    <i class="fa-solid fa-desktop me-2"></i> Masaüstü Menüsünü Gizle
-                </button>
-            </div> -->
-
-            <button class="btn btn-sm w-100" style="background: #ef4444; color: white;" (click)="Logout()">
-                <i class="fa-solid fa-power-off me-2"></i> Çıkış Yap
-            </button>
-        </div>
-
-        <ul class="navbar-nav flex-column">
-            @for (item of menuItems; track item.link) {
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: item.link === '/'}" (click)="closeMobileMenu()">
-                    <span class="feather-icon"><i [class]="item.icon"></i></span>
-                    <span class="nav-link-text">{{ item.label }}</span>
-                </a>
-            </li>
-            }
-        </ul>
-    </div>
-</div>
+<!-- Mobile Overlay (Optional UX improvement) -->
+<div *ngIf="isMobileMenuOpen" class="mobile-overlay" (click)="closeMobileMenu()"></div>

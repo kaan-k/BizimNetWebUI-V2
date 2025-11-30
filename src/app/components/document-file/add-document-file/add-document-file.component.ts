@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DepartmentComponentService } from '../../../services/component/department-component.service';
 import { Department } from '../../../models/departments/department';
 import { OfferComponentService } from '../../../services/component/offer-component.service';
-import { Offer } from '../../../models/offers/offer';
+import { OfferDto } from '../../../models/offers/offer';
 
 @Component({
   selector: 'app-add-document-file',
@@ -22,13 +22,11 @@ export class AddDocumentFileComponent {
   documentFileForm:FormGroup
   @Output() documentEvent = new EventEmitter<any>();
   departments:Department[]
-  offers:Offer[]
 
   constructor(private documentFileComponentService:DocumentFileComponentService,private offerComponentService:OfferComponentService,private toastrService:ToastrService,private formBuilder:FormBuilder,private departmentComponentService:DepartmentComponentService){}
 
   ngOnInit() {
     this.getallDepartments();
-    this.getallOffers();
     this.createDocumentFileForm();
   }
   createDocumentFileForm() {
@@ -41,9 +39,7 @@ export class AddDocumentFileComponent {
   async getallDepartments() {
     this.departments = await this.departmentComponentService.getAllDepartment();
   }
-  async getallOffers() {
-    this.offers = await this.offerComponentService.getAllOffer();
-  }
+
 
   onSubmit() {  
     const model = Object.assign({}, this.documentFileForm.value) 

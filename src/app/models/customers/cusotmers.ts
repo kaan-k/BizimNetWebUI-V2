@@ -1,5 +1,8 @@
 export interface Customer {
     id:string
+    parentCustomerId:string
+    isHeadquarters:boolean
+    branchName:string
     name:string
     companyName:string
     email:string
@@ -15,3 +18,4 @@ export interface Customer {
     createdAt:Date
     updatedAt:Date
 }
+
