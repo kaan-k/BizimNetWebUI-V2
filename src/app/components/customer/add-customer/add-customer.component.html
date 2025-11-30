@@ -44,12 +44,12 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label class="form-label">
-                        {{ isBranchMode ? 'Şube Adı' : lang.customerName }} <span class="text-danger">*</span>
+                        {{ lang.customerName }} <span class="text-danger">*</span>
                     </label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-user input-icon"></i>
                         <input type="text" class="form-control ps-5" formControlName="name" 
-                               [placeholder]="isBranchMode ? 'Örn: Kadıköy Şubesi' : lang.customerName">
+                               [placeholder]="lang.customerName">
                     </div>
                 </div>
                 <div class="col-md-6">
