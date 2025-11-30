@@ -51,18 +51,19 @@
             </div>
 
             <div class="items-container">
-                <h6 class="section-title">Ürün / Hizmet Listesi</h6>
-                
-                <table class="table table-borderless mb-0 align-middle">
-                    <thead>
-                        <tr>
-                            <th class="ps-3" style="width: 40%">Ürün Adı</th>
-                            <th class="text-center" style="width: 20%">Miktar</th>
-                            <th class="text-end" style="width: 20%">Birim Fiyat</th>
-                            <th class="text-end pe-3" style="width: 20%">Toplam</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <h6 class="section-title">Ürün / Hizmet Listesi</h6>
+    
+    <div class="table-scroll-wrapper custom-scroll">
+        <table class="table table-borderless mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th class="ps-3" style="width: 40%">Ürün Adı</th>
+                    <th class="text-center" style="width: 20%">Miktar</th>
+                    <th class="text-end" style="width: 20%">Birim Fiyat</th>
+                    <th class="text-end pe-3" style="width: 20%">Toplam</th>
+                </tr>
+            </thead>
+              <tbody>
                         <tr *ngFor="let item of offer.items" class="border-bottom">
                             <td class="ps-3">
                                 <div class="fw-bold text-dark">{{ item.stockName }}</div>
@@ -79,8 +80,9 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
-            </div>
+        </table>
+    </div>
+    </div>
 
             <div class="total-section mt-3">
                 <div class="d-flex justify-content-end align-items-center gap-3">

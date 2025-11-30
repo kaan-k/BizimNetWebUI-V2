@@ -3,6 +3,7 @@ export interface Aggrement {
     aggrementTitle: string;
     customerId: string;
     aggrementType: string;
+    offerId:string;
     agreedAmount: number;
     paidAmount: number;
     billings: string[];

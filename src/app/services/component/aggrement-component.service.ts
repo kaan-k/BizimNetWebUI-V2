@@ -34,6 +34,19 @@ export class AggrementComponentService {
     })
   }
 
+    async createFromOffer(offerId: string, successCallBack?: () => void) {
+    const observable = this.aggrementService.createFromOffer(offerId);
+    const promiseData = firstValueFrom(observable);
+
+    promiseData.then(response => {
+      this.toastrService.success(response.message || "Sözleşme başarıyla oluşturuldu.", "Başarılı");
+      successCallBack && successCallBack();
+    }).catch(error => {
+      console.error("Agreement Create Error:", error);
+      this.toastrService.error(error.error?.message || "Sözleşme oluşturulurken bir hata oluştu.", "Hata");
+    });
+  }
+
   async addAggrement(aggrement: AggrementDto, callBackfunction?: () => void) {
     const observable = await this.aggrementService.addAggrement(aggrement)
     const promiseData = firstValueFrom(observable)

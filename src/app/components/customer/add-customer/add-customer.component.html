@@ -3,7 +3,9 @@
     <div class="dialog-header">
         <div class="header-content">
             <h5 class="title">
-                <i class="fa-solid fa-user-plus me-2"></i>{{lang.addNewCustomer}}
+                <!-- Change Icon based on mode -->
+                <i class="fa-solid me-2" [ngClass]="isBranchMode ? 'fa-store' : 'fa-user-plus'"></i>
+                {{ isBranchMode ? 'Yeni Şube Ekle' : lang.addNewCustomer }}
             </h5>
         </div>
         <button class="btn-close-white" (click)="close()">
@@ -14,19 +16,50 @@
     <div class="dialog-body custom-scroll">
         <form [formGroup]="customerForm">
             
+            <!-- NEW: Parent Company Selection -->
+            <div class="row g-3 mb-3">
+                <div class="col-12">
+                    <label class="form-label">
+                        {{ isBranchMode ? 'Bağlı Olduğu Merkez' : 'Bağlı Olduğu Firma (Şube ise)' }}
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-sitemap input-icon"></i>
+                        
+                        <!-- Case A: Locked to specific Parent -->
+                        <div *ngIf="isBranchMode" class="form-control ps-5 bg-light d-flex align-items-center">
+                             <strong>{{ data.parentName || 'Merkez Firma' }}</strong>
+                        </div>
+
+                        <!-- Case B: Dropdown Selection -->
+                        <select *ngIf="!isBranchMode" class="form-control ps-5" formControlName="parentCustomerId" style="appearance: auto;">
+                            <option [ngValue]="null" selected>-- Merkez Yok (Ana Firma) --</option>
+                            <option *ngFor="let hq of headquarters" [value]="hq.id">
+                                {{ hq.companyName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">{{lang.customerName}}</label>
+                    <label class="form-label">
+                        {{ isBranchMode ? 'Şube Adı' : lang.customerName }} <span class="text-danger">*</span>
+                    </label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-user input-icon"></i>
-                        <input type="text" class="form-control ps-5" formControlName="name" [placeholder]="lang.customerName">
+                        <input type="text" class="form-control ps-5" formControlName="name" 
+                               [placeholder]="isBranchMode ? 'Örn: Kadıköy Şubesi' : lang.customerName">
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">{{lang.companyName}}</label>
+                    <label class="form-label">
+                        {{ lang.companyName }} <span class="text-danger">*</span>
+                    </label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-building input-icon"></i>
-                        <input type="text" class="form-control ps-5" formControlName="companyName" [placeholder]="lang.companyName">
+                        <input type="text" class="form-control ps-5" formControlName="companyName" 
+                               [placeholder]="lang.companyName">
                     </div>
                 </div>
             </div>
@@ -95,9 +128,8 @@
                 <div class="input-wrapper">
                     <i class="fa-solid fa-toggle-on input-icon"></i>
                     <select class="form-control ps-5" formControlName="status" style="appearance: auto;">
-                        <option value="" disabled selected>{{lang.chooseStatus}}</option>
-                        <option value="Potential">Potansiyel Müşteri</option>
                         <option value="Active">Aktif Müşteri</option>
+                        <option value="Potential">Potansiyel Müşteri</option>
                         <option value="Inactive">Pasif Müşteri</option>
                     </select>
                 </div>
@@ -112,7 +144,7 @@
         </button>
         
         <button class="button-24" (click)="addCustomer()" [disabled]="customerForm.invalid">
-            <i class="fa-solid fa-check me-2"></i> {{lang.addNewCustomer}}
+            <i class="fa-solid fa-check me-2"></i> {{ isBranchMode ? 'Şubeyi Kaydet' : lang.addNewCustomer }}
         </button>
     </div>
 </div>

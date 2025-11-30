@@ -1,200 +1,311 @@
-/* --- VARIABLES --- */
+/* --- 1. VARIABLES (ORIGINAL THEME RESTORED) --- */
 :host {
-    --sidebar-width: 280px;
+    --sidebar-width: 280px; /* Back to standard size */
+    --header-height: 70px;
+    
+    /* Original Gradient Palette */
     --bg-gradient: linear-gradient(180deg, #203b46 0%, #152a33 100%);
-    --primary: #203b46;
-    --accent: #26a69a; 
-    --hover-bg: rgba(255, 255, 255, 0.05);
+    --bg-solid: #203b46;
+    --bg-darker: rgba(0, 0, 0, 0.2); /* For sub-menus */
+    
     --border-color: rgba(255, 255, 255, 0.08);
+    
     --text-main: #eceff1;
-    --text-muted: #90a4ae;
+    --text-muted: #b0bec5;
+    
+    /* Teal Accent */
+    --accent: #26a69a; 
+    --accent-glow: rgba(38, 166, 154, 0.25);
+    
+    /* Transitions */
+    --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* --- MAIN CONTAINER (Desktop) --- */
+/* --- 2. MAIN LAYOUT --- */
 .hk-nav {
     width: var(--sidebar-width);
-    position: fixed; top: 0; left: 0; height: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0; 
+    left: 0;
     background: var(--bg-gradient);
-    z-index: 100;
-    display: flex; flex-direction: column;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
-    border-right: 1px solid var(--border-color);
-    transition: all 0.4s ease;
-}
-
-/* --- HEADER --- */
-.nav-header-wrapper { padding: 1.5rem 2rem; flex-shrink: 0; }
-.brand-logo {
-    display: flex; align-items: center; gap: 12px;
-    color: var(--text-main); font-size: 1.4rem; font-weight: 800;
-    letter-spacing: 0.5px;
-}
-.logo-icon {
-    width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), #00897b);
-    border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(38, 166, 154, 0.3);
-}
-
-/* --- DESKTOP SCROLLABLE AREA --- */
-.nicescroll-bar {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    padding: 1rem 0;
-}
-.navbar-nav-wrap { padding: 0 1rem; }
-.menu-header {
-    display: block; padding: 0 1rem 0.8rem 1rem;
-    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-    color: var(--text-muted); letter-spacing: 1px; opacity: 0.6;
-}
-
-/* NAVIGATION LINKS */
-.nav-link {
-    position: relative; display: flex; align-items: center;
-    padding: 0.8rem 1.2rem; color: var(--text-muted);
-    border-radius: 12px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    text-decoration: none; font-weight: 500; overflow: hidden;
-}
-
-.feather-icon { min-width: 24px; margin-right: 12px; font-size: 1.1rem; transition: color 0.3s; display: flex; align-items: center; justify-content: center; }
-.nav-link-text { font-size: 0.95rem; letter-spacing: 0.3px; }
-
-/* HOVER STATE */
-.nav-link:hover {
-    color: var(--text-main); background: var(--hover-bg);
-    transform: translateX(4px);
-}
-.nav-link:hover .feather-icon { color: var(--accent); }
-
-/* ACTIVE STATE */
-.nav-link.active {
-    background: linear-gradient(90deg, rgba(38, 166, 154, 0.15) 0%, rgba(38, 166, 154, 0.05) 100%);
-    color: #ffffff;
-    box-shadow: inset 4px 0 0 var(--accent);
-    font-weight: 600;
-}
-.nav-link.active .feather-icon {
-    color: var(--accent);
-    filter: drop-shadow(0 0 8px rgba(38, 166, 154, 0.6));
-}
-
-/* --- FOOTER (User Profile) --- */
-.nav-footer {
-    padding: 1.2rem 1.5rem;
-    border-top: 1px solid var(--border-color);
-    background: rgba(0,0,0,0.2);
-    flex-shrink: 0;
-}
-
-.user-mini { display: flex; align-items: center; gap: 12px; width: 100%; }
-.avatar-circle { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
-.user-info { display: flex; flex-direction: column; overflow: hidden; }
-.user-info .name { color: var(--text-main); font-weight: 700; font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.user-info .role { color: var(--text-muted); font-size: 0.7rem; }
-
-.btn-logout {
-    background: rgba(255,255,255,0.05); color: #ef4444; width: 36px; height: 36px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;
-    margin-left: auto;
-}
-.btn-logout:hover { background: #ef4444; color: white; transform: translateX(2px); box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); }
-
-
-/* --- MOBILE OFFCANVAS FIXES --- */
-
-/* Fix: Ensures the content area is scrollable */
-.offcanvas-body {
-    flex-grow: 1; 
-    overflow-y: auto; 
-    padding-top: 0.5rem;
-    padding-right: 0;
-    padding-left: 0;
-}
-
-/* Offcanvas Panel Style */
-.canvas-style {
-    background: var(--bg-gradient);
-    width: 300px;
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ensures full height */
+    z-index: 1000;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.25);
+    transition: transform 0.3s var(--ease-out);
 }
 
-.offcanvas-header {
+/* --- 3. HEADER --- */
+.nav-header-wrapper {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
     flex-shrink: 0;
     border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem;
 }
 
-.btn-close-custom {
-    background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem;
-}
-
-/* --- CRITICAL VISIBILITY OVERRIDE (For when content is appended to body/root) --- */
-/* This is a high-specificity rule to ensure the offcanvas is visible when opened */
-:host ::ng-deep #offcanvasExample.show {
-    visibility: visible !important;
-    transform: none !important;
-}
-
-/* --- ========== MOBILE-SPECIFIC BEHAVIOR ========== --- */
-
-/* Hide the mobile hamburger by default; show on small screens */
-.mobile-menu-button {
-  display: none;
-}
-
-/* prevent body scroll when mobile menu is open */
-.no-scroll {
-  overflow: hidden;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  /* show hamburger */
-  .mobile-menu-button {
+.brand-logo {
     display: flex;
-    position: fixed;
-    top: 12px;
-    left: 12px;
-    z-index: 500;
-    background: var(--primary);
-    color: white;
-    border: none;
-    width: 44px;
-    height: 44px;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--accent), #00897b);
     border-radius: 10px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  }
-
-  /* hide desktop sidebar by default on mobile (completely off-screen) */
-  .hk-nav {
-    transform: translateX(-100%);
-    transition: transform 0.28s cubic-bezier(.25,.8,.25,1);
-    width: 260px; /* width when open */
-  }
-
-  /* when mobile-open class applied, bring it on-screen */
-  .hk-nav.mobile-open {
-    transform: translateX(0);
-    z-index: 490;
-  }
-
-  /* optional: subtle overlay when menu open (we keep it minimal) */
-  .hk-nav.mobile-open::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.2);
-    pointer-events: none;
-  }
-
-  /* ensure nav-footer stays at bottom inside the off-canvas */
-  .nav-footer {
-    position: relative;
-  }
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(38, 166, 154, 0.4); /* Glow effect */
 }
 
-/* end of file */
+.brand-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* --- 4. SCROLLABLE AREA --- */
+.nicescroll-bar {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5rem 1rem;
+}
+
+/* Custom Scrollbar */
+.nicescroll-bar::-webkit-scrollbar { width: 5px; }
+.nicescroll-bar::-webkit-scrollbar-track { background: transparent; }
+.nicescroll-bar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Section Headers */
+.menu-header {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    margin: 1.5rem 0 0.5rem 1rem;
+}
+.menu-header:first-child { margin-top: 0; }
+
+/* --- 5. NAV LINKS (The "Item") --- */
+.nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.feather-icon {
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    margin-right: 14px;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+/* Hover State */
+.nav-link:hover {
+    color: var(--text-main);
+    background: rgba(255,255,255,0.05);
+}
+.nav-link:hover .feather-icon {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+
+/* ACTIVE STATE (The Glow) */
+.nav-link.active {
+    background: linear-gradient(90deg, rgba(38, 166, 154, 0.15) 0%, rgba(38, 166, 154, 0.02) 100%);
+    color: #ffffff;
+    box-shadow: inset 4px 0 0 var(--accent); /* Left Border Accent */
+    font-weight: 600;
+}
+
+.nav-link.active .feather-icon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px var(--accent-glow)); /* Icon Glow */
+}
+
+/* Arrow for Accordion */
+.arrow-icon {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    transition: transform 0.3s ease;
+}
+.nav-link.expanded { 
+    background: rgba(255,255,255,0.03); 
+    color: var(--text-main);
+}
+.nav-link.expanded .arrow-icon { 
+    transform: rotate(90deg); 
+    opacity: 1; 
+}
+
+/* --- 6. SUB MENU --- */
+.sub-menu-wrapper {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s var(--ease-out), opacity 0.4s;
+    opacity: 0;
+}
+
+.sub-menu-wrapper.show {
+    max-height: 500px; /* Enough for content */
+    opacity: 1;
+}
+
+.sub-menu {
+    list-style: none;
+    padding: 5px 0 10px 0;
+    margin: 0;
+    background: var(--bg-darker); /* Darker background for nested items */
+    border-radius: 0 0 12px 12px; /* Bottom rounded corners */
+}
+
+.sub-link {
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1rem 0.7rem 3.2rem; /* Indented deeply */
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.sub-link:hover {
+    color: var(--text-main);
+    background: rgba(255,255,255,0.03);
+}
+
+.sub-link.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Custom bullet point for sub-items */
+.sub-link::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+    transition: all 0.2s;
+}
+
+.sub-link:hover::before { opacity: 0.8; }
+.sub-link.active::before { 
+    opacity: 1; 
+    box-shadow: 0 0 6px var(--accent); 
+}
+
+
+/* --- 7. FOOTER --- */
+.nav-footer {
+    padding: 1.5rem;
+    background: rgba(0,0,0,0.2);
+    border-top: 1px solid var(--border-color);
+}
+
+.user-mini {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    padding: 2px; /* Gap between border and image */
+    background: transparent;
+}
+
+.user-info { flex: 1; overflow: hidden; }
+.user-info .name { display: block; color: var(--text-main); font-weight: 700; font-size: 0.9rem; }
+.user-info .role { display: block; color: var(--text-muted); font-size: 0.75rem; }
+
+.btn-logout {
+    background: rgba(255,255,255,0.05);
+    border: none;
+    color: #ef4444;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-logout:hover {
+    background: #ef4444; color: white;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+}
+
+/* --- 8. RESPONSIVE --- */
+
+/* Mobile & Tablet (< 992px) */
+@media (max-width: 992px) {
+    .hk-nav {
+        transform: translateX(-100%);
+    }
+    .hk-nav.mobile-open {
+        transform: translateX(0);
+    }
+}
+
+/* Mobile Toggle Button */
+.mobile-menu-button {
+    display: none;
+    position: fixed; top: 15px; left: 15px; z-index: 2000;
+    background: var(--bg-solid);
+    color: white;
+    border: none;
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
+}
+
+@media (max-width: 992px) { .mobile-menu-button { display: flex; } }

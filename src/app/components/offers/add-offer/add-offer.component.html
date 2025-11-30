@@ -38,8 +38,8 @@
                 <div class="bg-light p-2 px-3 border-bottom d-flex justify-content-between align-items-center">
                     <h6 class="m-0 fw-bold text-secondary" style="font-size: 0.85rem;">ÜRÜN / HİZMET LİSTESİ</h6>
                     <button class="btn-sm-action" (click)="addItem()">
-    <i class="fa-solid fa-plus me-1"></i> Satır Ekle
-</button>
+                        <i class="fa-solid fa-plus me-1"></i> Satır Ekle
+                    </button>
                 </div>
                 
                 <div class="p-0">
@@ -100,6 +100,14 @@
 
     <div class="dialog-footer">
         <button class="button-4" (click)="close()">Vazgeç</button>
+        
+        <!-- NEW PDF BUTTON -->
+        <button class="button-24 bg-secondary border-0 me-2" style="background-color: #64748B !important;" 
+                (click)="downloadPdf()" [disabled]="offerForm.invalid || isGeneratingPdf">
+            <i class="fa-solid" [ngClass]="isGeneratingPdf ? 'fa-spinner fa-spin' : 'fa-file-pdf'"></i> 
+            {{ isGeneratingPdf ? ' Hazırlanıyor...' : ' PDF Oluştur(Daha sonra oluşturulamaz!)' }}
+        </button>
+
         <button class="button-24" (click)="save()" [disabled]="offerForm.invalid">
             <i class="fa-solid fa-check me-2"></i> Teklifi Oluştur
         </button>

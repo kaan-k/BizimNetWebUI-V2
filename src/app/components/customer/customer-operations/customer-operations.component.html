@@ -1,0 +1,151 @@
+<div class="dialog-container">
+    
+    <div class="dialog-header">
+        <div class="header-content">
+            <div class="icon-badge">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <div>
+                <h5 class="title">Cari Hareketler</h5>
+                <small class="text-muted">{{ data.companyName }}</small>
+            </div>
+        </div>
+        <button class="btn-close-custom" mat-dialog-close>
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div mat-dialog-content class="p-0">
+        <mat-tab-group animationDuration="0ms" class="custom-tabs">
+            
+            <!-- TAB 1: OFFERS -->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa-solid fa-file-invoice-dollar me-2"></i> Teklifler
+                    <span class="badge-count" *ngIf="offers.length > 0">{{ offers.length }}</span>
+                </ng-template>
+                
+                <div class="tab-body custom-scroll">
+                    <div *ngIf="isLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+
+                    <div *ngIf="!isLoading && offers.length === 0" class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <p>Kayıtlı teklif bulunamadı.</p>
+                    </div>
+
+                    <div *ngIf="!isLoading && offers.length > 0" class="list-container">
+                        <div class="list-item" *ngFor="let item of offers">
+                            <div class="item-icon bg-light-blue">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-title">{{ item.offerTitle }}</div>
+                                <div class="item-meta">
+                                    <span>{{ item.expirationDate | date:'dd.MM.yyyy' }}</span> • 
+                                    <span class="fw-bold text-dark">{{ item.totalAmount | currency:'TRY':'symbol-narrow':'1.2-2' }}</span>
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <span class="status-pill" [ngClass]="getStatusClass(item.Status)">
+                                    {{ item.Status }}
+                                </span>
+                                <button class="btn-icon-action" (click)="viewOffer(item)">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- TAB 2: AGREEMENTS -->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa-solid fa-handshake me-2"></i> Anlaşmalar
+                    <span class="badge-count" *ngIf="agreements.length > 0">{{ agreements.length }}</span>
+                </ng-template>
+
+                <div class="tab-body custom-scroll">
+                    <div *ngIf="isLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+
+                    <div *ngIf="!isLoading && agreements.length === 0" class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <p>Kayıtlı sözleşme bulunamadı.</p>
+                    </div>
+                    
+                    <div *ngIf="!isLoading && agreements.length > 0" class="list-container">
+                        <div class="list-item" *ngFor="let item of agreements">
+                            <div class="item-icon bg-light-purple">
+                                <i class="fa-solid fa-signature"></i>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-title">{{ item.aggrementTitle }}</div>
+                                <div class="item-meta">
+                                    <span class="fw-bold text-dark">{{ item.agreedAmount | currency:'TRY':'symbol-narrow':'1.2-2' }}</span>
+                                     <br>
+                                    <span class="small text-muted">Bitiş: {{ item.expirationDate | date:'dd.MM.yyyy' }}</span>
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn-icon-action" (click)="viewAgreement(item)">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- TAB 3: BRANCHES (ŞUBELER) -->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="fa-solid fa-store me-2"></i> Şubeler
+                    <span class="badge-count" *ngIf="branches.length > 0">{{ branches.length }}</span>
+                </ng-template>
+
+                <div class="tab-body custom-scroll">
+                    <div *ngIf="isLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+
+                    <div *ngIf="!isLoading && branches.length === 0" class="empty-state">
+                        <i class="fa-solid fa-store-slash"></i>
+                        <p>Bağlı şube bulunamadı.</p>
+                        <!-- Optional: Quick Add Branch Button -->
+                        <button class="btn-sm btn-outline-primary mt-2" (click)="openAddBranchDialog()">
+                            <i class="fa-solid fa-plus me-1"></i> Şube Ekle
+                        </button>
+                    </div>
+
+                    <div *ngIf="!isLoading && branches.length > 0" class="list-container">
+                        <div class="list-item" *ngFor="let branch of branches">
+                            <!-- Store Icon with Orange Background -->
+                            <div class="item-icon bg-light-orange">
+                                <i class="fa-solid fa-shop"></i>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-title">{{ branch.companyName || branch.name }}</div>
+                                <div class="item-meta">
+                                    <i class="fa-solid fa-location-dot me-1 text-muted"></i>
+                                    {{ branch.city || '-' }} / {{ branch.country || '-' }}
+                                    <span class="mx-1">•</span> 
+                                    <span class="small text-muted">{{ branch.phoneNumber }}</span>
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn-icon-action" (click)="viewBranch(branch)">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

@@ -1,68 +1,84 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerComponentService } from '../../../services/component/customer-component.service';
 import { ToastrService } from 'ngx-toastr';
 import { ILanguage } from '../../../../assets/locales/ILanguage';
-import { Languages } from '../../../../assets/locales/language'; 
+import { Languages } from '../../../../assets/locales/language';
+// Material Imports
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-update-customer',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    MatDialogModule, 
+    MatButtonModule
+  ],
   templateUrl: './update-customer.component.html',
   styleUrl: './update-customer.component.css'
 })
-export class UpdateCustomerComponent {
-lang:ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
-  customerForm:FormGroup;
-  @Output() customerEvent = new EventEmitter<any>();
-  @Input() set customer(value: any) {
-    if(!value)return;
-    console.log(value);
-    
-    this.updateCustomerForm(value);
+export class UpdateCustomerComponent implements OnInit {
+  lang: ILanguage = Languages.lngs.get(localStorage.getItem("lng"));
+  customerForm: FormGroup;
+  isLoading: boolean = false;
+
+  constructor(
+    private customerComponentService: CustomerComponentService,
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService,
+    public dialogRef: MatDialogRef<UpdateCustomerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any // Receive data here
+  ) {}
+
+  ngOnInit(): void {
+    this.initForm();
   }
 
-  constructor(private customerComponentService:CustomerComponentService,private formBuilder:FormBuilder,private toastrService:ToastrService){}
-
-
-  updateCustomerForm(value?: any) {
+  initForm() {
+    // We use 'this.data' which is injected from the parent component
     this.customerForm = this.formBuilder.group({
-      id: [value.id],
-      name: [value.name],
-      companyName: [value.companyName],
-      email: [value.email],
-      phoneNumber: [value.phoneNumber],
-      address: [value.address],
-      country: [value.country],
-      city: [value.city],
-      customerField: [value.customerField],
-      taxid:[value.taxid],
-      status: [value.status],
-      createdAt:[value.createdAt],
-      updatedAt:[value.updatedAt],
-      lastActionDate:[value.lastActionDate],
-      lastAction:[value.lastAction]
+      id: [this.data.id],
+      name: [this.data.name, Validators.required],
+      companyName: [this.data.companyName, Validators.required],
+      email: [this.data.email,],
+      phoneNumber: [this.data.phoneNumber],
+      address: [this.data.address],
+      country: [this.data.country],
+      city: [this.data.city],
+      customerField: [this.data.customerField],
+      taxid: [this.data.taxid],
+      status: [this.data.status, Validators.required],
+      
+      // Hidden/System fields (kept for payload integrity, but not shown in HTML)
+      createdAt: [this.data.createdAt],
+      updatedAt: [this.data.updatedAt],
+      lastActionDate: [this.data.lastActionDate],
+      lastAction: [this.data.lastAction]
     });
   }
 
-  updateCustomer(){
-    if (this.customerForm.valid) {
-      const model = Object.assign({}, this.customerForm.value)
-      model.phoneNumber = model.phoneNumber.toString()
-      console.log(model);
-      
-      if (model.email.trim() == '') {
-        this.toastrService.error(this.lang.pleaseFillİnformation)
-        return
-      }
-      this.customerComponentService.updateCustomer(model, () => {
-        this.customerEvent.emit(true)
-        this.customerForm.reset();
-      })
-    } else {
-      this.toastrService.info(this.lang.pleaseFillİnformation, this.lang.error)
+  updateCustomer() {
+    if (this.customerForm.invalid) {
+      this.toastrService.warning(this.lang.pleaseFillİnformation || 'Lütfen gerekli alanları doldurunuz.');
+      this.customerForm.markAllAsTouched();
+      return;
     }
+
+    this.isLoading = true;
+    const model = { ...this.customerForm.value };
+    
+    // Clean up string fields
+    model.phoneNumber = model.phoneNumber?.toString();
+
+    this.customerComponentService.updateCustomer(model, () => {
+      this.isLoading = false;
+      // Close dialog and pass 'true' to indicate success
+      this.dialogRef.close(true); 
+      this.toastrService.success(this.lang.updateCustomer + ' ' + 'Güncelleme Başarılı');
+    });
   }
 }

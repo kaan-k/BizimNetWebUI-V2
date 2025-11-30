@@ -1,0 +1,65 @@
+<div class="action-container">
+    
+    <!-- Header -->
+    <div class="action-header">
+        <div class="header-info">
+            <h5 class="m-0 fw-bold">Cari İşlemler</h5>
+            <small class="text-muted">{{ data.companyName }}</small>
+        </div>
+        <button class="btn-close-custom" mat-dialog-close>
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- Action Grid -->
+    <div class="action-body">
+        
+        <!-- Card 1: New Offer -->
+        <div class="action-card" (click)="openNewOffer()">
+            <div class="icon-circle bg-blue">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <div class="card-text">
+                <h6>Yeni Teklif</h6>
+                <p>Bu müşteriye yeni bir satış teklifi oluştur.</p>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </div>
+
+        <!-- Card 2: New Agreement -->
+        <div class="action-card" (click)="openNewAgreement()">
+            <div class="icon-circle bg-purple">
+                <i class="fa-solid fa-handshake"></i>
+            </div>
+            <div class="card-text">
+                <h6>Yeni Sözleşme</h6>
+                <p>Teklifi sözleşmeye dönüştür veya yeni ekle.</p>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </div>
+
+        <!-- Card 3: Add Branch -->
+        <div class="action-card" (click)="openAddBranch()">
+            <div class="icon-circle bg-orange">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <div class="card-text">
+                <h6>Şube Tanımla</h6>
+                <p>Bu merkeze bağlı yeni bir şube ekle.</p>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </div>
+
+        <!-- Card 4: Add Collection (Future Proofing) -->
+        <div class="action-card disabled">
+            <div class="icon-circle bg-green">
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div class="card-text">
+                <h6>Tahsilat Ekle</h6>
+                <p>Yakında eklenecek...</p>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { firstValueFrom } from 'rxjs'; // Imported firstValueFrom
 
 // Services
 import { OfferComponentService } from '../../../services/component/offer-component.service';
@@ -12,7 +13,7 @@ import { StockComponentService } from '../../../services/component/stock-compone
 // Models
 import { Customer } from '../../../models/customers/cusotmers';
 import { Stock } from '../../../models/stock/stock'; 
-import { OfferDto } from '../../../models/offers/offer'; // Updated Import
+import { OfferDto } from '../../../models/offers/offer';
 
 @Component({
   selector: 'app-add-offer',
@@ -26,6 +27,7 @@ export class AddOfferComponent implements OnInit {
   offerForm: FormGroup;
   customers: Customer[] = [];
   stocks: Stock[] = []; 
+  isGeneratingPdf: boolean = false; // Loading state for PDF button
   
   get grandTotal(): number {
     const items = this.offerForm.get('items') as FormArray;
@@ -108,21 +110,17 @@ export class AddOfferComponent implements OnInit {
     }
   }
 
-  // --- SAVE (UPDATED) ---
-  save() {
-    if (this.offerForm.valid) {
+  // --- HELPER: Prepare DTO ---
+  private getOfferDtoFromForm(): OfferDto {
       const formVal = this.offerForm.value;
-      const currentUserId = localStorage.getItem("userId") || "65b2..."; 
+      const currentUserId = localStorage.getItem("userId"); 
 
-      const offerDto: OfferDto = {
-        // FIX: Map formVal.title (from FormGroup) to offerTitle (for DTO)
+      return {
         offerTitle: formVal.title, 
-        
         customerId: formVal.customerId,
         description: formVal.description,
         expirationDate: new Date(formVal.expirationDate),
         totalAmount: this.grandTotal,
-        
         items: formVal.items.map((i: any) => ({
             stockId: i.stockId,
             stockName: i.stockName,
@@ -130,13 +128,73 @@ export class AddOfferComponent implements OnInit {
             unitPrice: i.unitPrice,
             totalPrice: i.totalPrice
         })),
-
         Status: "Pending", 
         EmployeeId: currentUserId 
       };
+  }
+
+  // --- YOUR NEW METHOD ---
+   // --- YOUR NEW METHOD (FIXED) ---
+  async generateOfferReport(offerDto: OfferDto) {
+    // Fix 1: Removed firstValueFrom() because the service already returns a Promise
+    const response = await this.offerService.generateOfferReport(offerDto);
+    
+    // Fix 2: Cast to 'any' to access '.data' because TypeScript infers the wrong type
+    return (response as any).data;
+  }
+
+  // --- PDF BUTTON ACTION ---
+  async downloadPdf() {
+    if (this.offerForm.invalid) {
+        this.offerForm.markAllAsTouched();
+        return;
+    }
+
+    this.isGeneratingPdf = true;
+    try {
+        const dto = this.getOfferDtoFromForm();
+        const pdfBase64 = await this.generateOfferReport(dto);
+        
+        if (pdfBase64) {
+            this.savePdfFile(pdfBase64, `Teklif-${dto.offerTitle}.pdf`);
+        }
+    } catch (error) {
+        console.error("PDF oluşturulurken hata:", error);
+        // You might want to show a toastr/notification here
+    } finally {
+        this.isGeneratingPdf = false;
+    }
+  }
+
+ 
+
+
+
+  // Helper to convert Base64 to Blob and trigger download
+  private savePdfFile(base64Data: string, fileName: string) {
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+    window.URL.revokeObjectURL(link.href);
+  }
+
+  // --- SAVE ---
+  save() {
+    if (this.offerForm.valid) {
+      const offerDto = this.getOfferDtoFromForm();
 
       this.offerService.addOffer(offerDto, () => {
         this.dialogRef.close(true);
+        
       });
     } else {
         this.offerForm.markAllAsTouched();

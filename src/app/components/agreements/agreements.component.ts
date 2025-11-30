@@ -5,12 +5,17 @@ import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-commu
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; 
 
 // Services & Models
+// FIX: Import from the correct file we created
 import { AggrementComponentService } from '../../services/component/aggrement-component.service';
 import { Aggrement } from '../../models/aggrements/aggrement';
-// Dialog Components
+
+// Dialog Components (Ensure these exist or create placeholders)
 import { AddAgreementComponent } from './add-agreement/add-agreement.component';
 import { AgreementDetailDialogComponent } from './aggrement-detail-dialog/aggrement-detail-dialog.component';
 
+
+import { OfferComponentService } from '../../services/component/offer-component.service'; // You'll need to create this or import existing
+import { AddAgreementFromOfferDialogComponent } from './add-agreement-from-offer-dialog/add-agreement-from-offer-dialog.component'; // You need to create this dialog
 @Component({
   selector: 'app-agreements',
   standalone: true,
@@ -24,20 +29,16 @@ export class AgreementsComponent implements OnInit {
   private gridApi!: GridApi<Aggrement>;
 
   // Grid Config
-  cacheBlockSize = 100;
-  cacheOverflowSize = 2;
-  maxConcurrentDatasourceRequests = 1;
-  infiniteInitialRowCount = 100;
-  maxBlocksInCache = 10;
-  noRowsTemplate = `<span style="color: var(--text-sub);">Henüz bir sözleşme kaydı bulunmamaktadır.</span>`;
+  public paginationPageSize = 20;
+  public defaultColDef: ColDef = { sortable: true, filter: true, resizable: true };
 
   public columnDefs: ColDef[] = [
     { headerName: 'ID', field: 'id', hide: true },
     
-    // 1. CUSTOMER NAME COLUMN (Since backend maps Name to 'customerId' field)
+    // 1. CUSTOMER NAME COLUMN
     { 
       headerName: 'MÜŞTERİ', 
-      field: 'customerId', 
+      field: 'customerId', // Assuming backend maps this to Name, or use a valueGetter if it's an ID
       flex: 1,
       cellStyle: { fontWeight: '500', color: '#64748b' }
     },
@@ -82,7 +83,7 @@ export class AgreementsComponent implements OnInit {
     },
     {
       headerName: 'İŞLEMLER',
-      field: 'action',
+      field: 'action', // Dummy field
       width: 100, 
       pinned: 'right',
       sortable: false,
@@ -98,10 +99,6 @@ export class AgreementsComponent implements OnInit {
     }
   ];
 
-  public defaultColDef: ColDef = { sortable: true, filter: true, resizable: true };
-
-  public gridOptions: any = { rowHeight: 48, headerHeight: 40, pagination: true, paginationPageSize: 20 };
-
   constructor(
     private agreementService: AggrementComponentService,
     private dialog: MatDialog
@@ -111,14 +108,31 @@ export class AgreementsComponent implements OnInit {
     this.getAllAgreement();
   }
 
+  openOfferSelector() {
+    // Open a dialog that lists "Approved" offers
+    const dialogRef = this.dialog.open(AddAgreementFromOfferDialogComponent, {
+      width: '900px',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If an offer was selected and converted, refresh the list
+        this.getAllAgreement();
+      }
+    });
+  }
+
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+    
+    // Event delegation for custom cell renderer buttons
     params.api.addEventListener('cellClicked', (event: CellClickedEvent) => {
       const target = event.event?.target as HTMLElement;
-      if (target.classList.contains('action-btn-view')) {
+      if (target && target.classList.contains('action-btn-view')) {
         this.openDetailDialog(event.data.id); 
       } 
-      else if (target.classList.contains('action-btn-delete')) {
+      else if (target && target.classList.contains('action-btn-delete')) {
         this.deleteAgreement(event.data.id);
       }
     });
@@ -133,14 +147,6 @@ export class AgreementsComponent implements OnInit {
   async getAllAgreement() {
     this.rowData = await this.agreementService.getAllAggrement();
   }
-//   openOfferDialog() {
-//     this.dialog.open(AddOfferComponent, {
-//         width: '1000px', // Wider because of the table
-//         height: '80vh',
-//         panelClass: 'custom-dialog-container',
-//         autoFocus: false
-//     });
-// }
 
   openAddDialog() {
     const dialogRef = this.dialog.open(AddAgreementComponent, { width: '500px' });

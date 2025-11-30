@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router'; // Import NavigationEnd
+import { filter } from 'rxjs/operators';
 import { ILanguage } from '../../../assets/locales/ILanguage';
 import { Languages } from '../../../assets/locales/language';
 import { LanguageComponentService } from '../../services/component/language-component.service';
 import { UserComponentService } from '../../services/component/user/user-component.service';
-import { UserDetailsDto } from '../../models/user/userDetailsDto';
 import { User } from '../../models/user/user';
 
-// Define the structure for menu items
+// Updated Interface
 interface MenuItem {
-  link: string;
+  link?: string;      // Optional for parent items
   icon: string;
   label: string;
+  children?: MenuItem[]; // Nested items
+  expanded?: boolean;    // For UI toggle state
 }
 
 @Component({
@@ -28,13 +30,8 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [];
   user: User | null = null;
   userName: string = 'Yükleniyor...';
-  isUserAdmin: boolean = false;
   userRoleText: string = 'Kullanıcı';
-
-  // --- Minimal mobile-only state ---
   isMobileMenuOpen: boolean = false;
-
-  // Optional: keep track of viewport width so we can auto-close on resize to desktop
   viewportWidth: number = window.innerWidth;
 
   constructor(
@@ -46,49 +43,84 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.loadUserData();
 
+    // --- DEFINING THE MENU STRUCTURE ---
     this.menuItems = [
       { link: '/', icon: 'fa-solid fa-table-columns', label: this.lang.dashboard },
       { link: '/charts', icon: 'fa-solid fa-chart-pie', label: 'Tablolar' },
-      { link: '/user', icon: 'fa-solid fa-users', label: this.lang.users },
-      { link: '/offers', icon: 'fa-solid fa-envelope', label: this.lang.offers },
+      
+      // PARENT ITEM: Cariler
+      { 
+        label: this.lang.customers, // "Cariler"
+        icon: 'fa-solid fa-building',
+        expanded: false, // Default closed
+        children: [
+          { link: '/customer', icon: 'fa-solid fa-list', label: 'Müşteri Listesi' },
+          { link: '/offers', icon: 'fa-solid fa-file-invoice-dollar', label: this.lang.offers },
+          { link: '/agreements', icon: 'fa-solid fa-handshake', label: 'Sözleşmeler' }
+        ]
+      },
+
+      { link: '/stocks', icon: 'fa-solid fa-server', label: "Stoklar" },
       { link: '/duty', icon: 'fa-solid fa-list-check', label: this.lang.duties },
       { link: '/document-file', icon: 'fa-solid fa-file', label: this.lang.documentFiles },
-      //{ link: '/installation-request', icon: 'fa-solid fa-code-pull-request', label: this.lang.installationRequests },
-      { link: '/customer', icon: 'fa-solid fa-building', label: this.lang.customers },
-      { link: '/stocks', icon: 'fa-solid fa-server', label: "Stoklar" },
-      //{ link: '/servicing', icon: 'fa-solid fa-screwdriver-wrench', label: this.lang.servicings },
-      { link: '/agreements', icon: 'fa-solid fa-handshake', label: 'Anlaşmalar' },
+      { link: '/user', icon: 'fa-solid fa-users', label: this.lang.users },
       { link: '/settings', icon: 'fa-solid fa-gear', label: 'Ayarlar' },
     ];
+
+    // Check initial route to auto-expand menus if user refreshes page on a sub-route
+    this.checkActiveRoute(this.router.url);
+
+    // Listen to route changes to keep sidebar state in sync
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.checkActiveRoute(event.urlAfterRedirects);
+    });
+  }
+
+  // --- LOGIC ---
+
+  // Toggles the sub-menu visibility
+  toggleSubMenu(item: MenuItem) {
+    item.expanded = !item.expanded;
+  }
+
+  // Checks if a parent should be expanded based on current URL
+  checkActiveRoute(url: string) {
+    this.menuItems.forEach(item => {
+      if (item.children) {
+        // If any child link matches the current URL, expand the parent
+        const isActiveChild = item.children.some(child => url.includes(child.link!));
+        if (isActiveChild) {
+          item.expanded = true;
+        }
+      }
+    });
+  }
+
+  // Helper to check if a specific item is active (for styling parents)
+  isParentActive(item: MenuItem): boolean {
+    if (!item.children) return false;
+    return item.children.some(child => this.router.isActive(child.link!, false));
   }
 
   async loadUserData() {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      // Assuming getById returns the UserDetailsDto with name fields
       this.user = await this.userComponentService.getById(userId);
       if (this.user) {
-        // Prefer Name + Surname, fallback to Email
         this.userName = `${this.user.firstName || ''} ${this.user.lastName || ''}`.trim();
-        console.log(this.user.isAuthorised);
-        if (this.user.isAuthorised === true) {
-                this.userRoleText = 'Yönetici';
-            } else {
-                this.userRoleText = 'Kullanıcı';
-            }
+        this.userRoleText = this.user.isAuthorised === true ? 'Yönetici' : 'Kullanıcı';
       }
     }
   }
 
-  // Toggle only for mobile
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    // prevent body scroll when open
     if (this.isMobileMenuOpen) document.body.classList.add('no-scroll');
     else document.body.classList.remove('no-scroll');
   }
 
-  // Close mobile menu (useful when a nav link is clicked)
   closeMobileMenu() {
     if (this.isMobileMenuOpen) {
       this.isMobileMenuOpen = false;
@@ -101,13 +133,6 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/user-login']);
   }
 
-  changeLanguage(language: string) {
-    localStorage.setItem('lng', language);
-    this.languageComponentService.setLanguage(language);
-    window.location.reload();
-  }
-
-  // Auto-close mobile menu if viewport resized to desktop
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.viewportWidth = event.target.innerWidth;
