@@ -21,11 +21,17 @@
                 <div class="col-md-12">
                     <label class="form-label">Müşteri</label>
                     <ng-select [items]="customers" 
-                               bindLabel="name" 
+                               bindLabel="companyName" 
                                bindValue="id" 
-                               placeholder="" 
+                               placeholder="Müşteri Seçiniz" 
                                formControlName="customerId" 
                                class="modern-select">
+                        <ng-template ng-option-tmp let-item="item">
+                            <div>
+                                <span class="fw-bold">{{item.companyName}}</span>
+                                <small class="text-muted ms-2" *ngIf="item.name">({{item.name}})</small>
+                            </div>
+                        </ng-template>
                     </ng-select>
                 </div>
                 <div class="col-md-12">
@@ -105,7 +111,7 @@
         <button class="button-24 bg-secondary border-0 me-2" style="background-color: #64748B !important;" 
                 (click)="downloadPdf()" [disabled]="offerForm.invalid || isGeneratingPdf">
             <i class="fa-solid" [ngClass]="isGeneratingPdf ? 'fa-spinner fa-spin' : 'fa-file-pdf'"></i> 
-            {{ isGeneratingPdf ? ' Hazırlanıyor...' : ' PDF Oluştur(Daha sonra oluşturulamaz!)' }}
+            {{ isGeneratingPdf ? ' Hazırlanıyor...' : ' PDF Önizle' }}
         </button>
 
         <button class="button-24" (click)="save()" [disabled]="offerForm.invalid">

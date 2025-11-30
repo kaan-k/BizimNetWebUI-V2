@@ -25,8 +25,8 @@ export class OfferService extends BizimNetHttpClientService {
   getAll() {
     return this.get<ListResponseModel<OfferDto>>({ controller: this._controller, action: "GetAllDetails" })
   }
-    getAllByStatus(status:string) {
-    return this.get<ListResponseModel<OfferDto>>({ controller: this._controller, action: "GetByStatus" ,queryString: `status=${status}`})
+  getAllByStatus(status: string) {
+    return this.get<ListResponseModel<OfferDto>>({ controller: this._controller, action: "GetByStatus", queryString: `status=${status}` })
   }
   approve(id: string) {
     const observable = this.get<ResponseModel>({ controller: this._controller, action: "Approve", queryString: `id=${id}` })
