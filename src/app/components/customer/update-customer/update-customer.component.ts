@@ -42,8 +42,8 @@ export class UpdateCustomerComponent implements OnInit {
     // We use 'this.data' which is injected from the parent component
     this.customerForm = this.formBuilder.group({
       id: [this.data.id],
-      name: [this.data.name, Validators.required],
-      companyName: [this.data.companyName, Validators.required],
+      name: [this.data.name],
+      companyName: [this.data.companyName],
       email: [this.data.email,],
       phoneNumber: [this.data.phoneNumber],
       address: [this.data.address],
@@ -51,9 +51,8 @@ export class UpdateCustomerComponent implements OnInit {
       city: [this.data.city],
       customerField: [this.data.customerField],
       taxid: [this.data.taxid],
-      status: [this.data.status, Validators.required],
+      status: [this.data.status,],
       
-      // Hidden/System fields (kept for payload integrity, but not shown in HTML)
       createdAt: [this.data.createdAt],
       updatedAt: [this.data.updatedAt],
       lastActionDate: [this.data.lastActionDate],
